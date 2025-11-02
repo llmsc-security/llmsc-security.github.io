@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecurityScan Hub - Repository Security Scanner</title>
+<style>
+:root {
+  --bg: #0a0b14;
+  --bg-soft: #13151f;
+  --panel: #1a1d2e;
+  --ink: #e6e8f5;
+  --muted: #9ca3c9;
+  --border: #2a2d42;
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --success: #10b981;
+  --accent: #8b5cf6;
+  --glow: rgba(99, 102, 241, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--panel) 0%, var(--bg-soft) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 20px;
+}
+
+.logo-text h1 {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-text p {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.nav-links {
+  display: flex;
+  gap: 24px;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover {
+  color: var(--ink);
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
+  flex: 1;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.hero h2 {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--ink), var(--muted));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero p {
+  font-size: 18px;
+  color: var(--muted);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.stat-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+
+.stat-card .number {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary);
+}
+
+.stat-card .label {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.scan-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.mode-card {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  transition: all 0.3s;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.mode-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 8px 32px var(--glow);
+  transform: translateY(-4px);
+}
+
+.mode-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.mode-card:hover::before {
+  opacity: 1;
+}
+
+.mode-icon {
+  width: 60px;
+  height: 60px;
+  background: var(--glow);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.mode-card h3 {
+  font-size: 22px;
+  margin-bottom: 12px;
+}
+
+.mode-card p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.mode-card .features {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.feature-tag {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.mode-card .cta {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.mode-card .cta:hover {
+  background: var(--primary-hover);
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.modal.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--ink);
+}
+
+.modal h3 {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.form-group input::placeholder {
+  color: var(--muted);
+}
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.tools-section {
+  margin-top: 60px;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.tool-badge {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.2s;
+}
+
+.tool-badge:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.tool-badge .icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.tool-badge .name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.tool-badge .desc {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.oauth-section {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.oauth-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.oauth-btn {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s;
+}
+
+.oauth-btn:hover {
+  border-color: var(--primary);
+  background: var(--glow);
+}
+
+.cli-section {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.cli-code {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--success);
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.cli-code .prompt {
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 16px 20px;
+  }
+  
+  .container {
+    padding: 40px 20px;
+  }
+  
+  .hero h2 {
+    font-size: 32px;
+  }
+  
+  .scan-modes {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <div class="logo-icon">🛡️</div>
+    <div class="logo-text">
+      <h1>SecurityScan Hub</h1>
+      <p>Multi-Tool Vulnerability Scanner</p>
+    </div>
+  </div>
+  <nav class="nav-links">
+    <a href="#docs">Documentation</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#history">Scan History</a>
+    <a href="#settings">Settings</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="hero">
+    <h2>Scan Your Repositories</h2>
+    <p>Comprehensive security analysis powered by 5 industry-leading tools running in parallel</p>
+    
+    <div class="stats">
+      <div class="stat-card">
+        <div class="number">12,847</div>
+        <div class="label">Scans Completed</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">98.7%</div>
+        <div class="label">Accuracy Rate</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">45,892</div>
+        <div class="label">Vulnerabilities Found</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">&lt;3min</div>
+        <div class="label">Avg Scan Time</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scan-modes">
+    <div class="mode-card" onclick="openModal('github')">
+      <div class="mode-icon">🔗</div>
+      <h3>GitHub Repository</h3>
+      <p>Scan public or private GitHub repositories with OAuth integration</p>
+      <div class="features">
+        <span class="feature-tag">Public Repos</span>
+        <span class="feature-tag">Private Repos</span>
+        <span class="feature-tag">Organization</span>
+        <span class="feature-tag">Branch Selection</span>
+      </div>
+      <button class="cta">Connect GitHub</button>
+    </div>
+
+    <div class="mode-card" onclick="openModal('huggingface')">
+      <div class="mode-icon">🤗</div>
+      <h3>HuggingFace Model</h3>
+      <p>Scan ML models and datasets from HuggingFace repositories</p>
+      <div class="features">
+        <span class="feature-tag">Model Scan</span>
+        <span class="feature-tag">Dataset Scan</span>
+        <span class="feature-tag">Pipeline Check</span>
+        <span class="feature-tag">Pickle Analysis</span>
+      </div>
+      <button class="cta">Scan HuggingFace</button>
+    </div>
+
+    <div class="mode-card" onclick="openModal('cli')">
+      <div class="mode-icon">⚡</div>
+      <h3>CLI Integration</h3>
+      <p>Integrate scanning into your CI/CD pipeline with our command-line tool</p>
+      <div class="features">
+        <span class="feature-tag">CI/CD Ready</span>
+        <span class="feature-tag">Docker Support</span>
+        <span class="feature-tag">JSON Output</span>
+        <span class="feature-tag">Webhooks</span>
+      </div>
+      <button class="cta">View CLI Docs</button>
+    </div>
+  </div>
+
+  <div class="tools-section">
+    <h3 style="text-align: center; margin-bottom: 8px;">Powered by 5 Security Tools</h3>
+    <p style="text-align: center; color: var(--muted); margin-bottom: 24px;">All tools run in parallel for comprehensive coverage</p>
+    
+    <div class="tools-grid">
+      <div class="tool-badge">
+        <div class="icon">🔍</div>
+        <div class="name">OpenSCA</div>
+        <div class="desc">Software Composition Analysis</div>
+      </div>
+      <div class="tool-badge">
+        <div class="icon">🧪</div>
+        <div class="name">ModelScan</div>
+        <div class="desc">ML Model Security</div>
+      </div>
+      <div class="tool-badge">
+        <div class="icon">📦</div>
+        <div class="name">SBOM</div>
+        <div class="desc">Bill of Materials</div>
+      </div>
+      <div class="tool-badge">
+        <div class="icon">💻</div>
+        <div class="name">CodeScan</div>
+        <div class="desc">Static Code Analysis</div>
+      </div>
+      <div class="tool-badge">
+        <div class="icon">🛡️</div>
+        <div class="name">LvJun Scan</div>
+        <div class="desc">Advanced Threat Detection</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GitHub Modal -->
+<div id="modal-github" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('github')">×</button>
+    <h3>Scan GitHub Repository</h3>
+    
+    <div class="form-group">
+      <label>Repository URL</label>
+      <input type="text" placeholder="https://github.com/username/repo" id="github-url">
+    </div>
+    
+    <div class="form-group">
+      <label>Branch (optional)</label>
+      <input type="text" placeholder="main" value="main">
+    </div>
+    
+    <div class="oauth-section">
+      <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600;">Private Repository Access</label>
+      <p style="color: var(--muted); font-size: 13px; margin-bottom: 12px;">Connect your GitHub account to scan private repositories</p>
+      <div class="oauth-buttons">
+        <button class="oauth-btn">
+          <span>🔑</span>
+          <span>Connect GitHub</span>
+        </button>
+        <button class="oauth-btn">
+          <span>📋</span>
+          <span>Use Access Token</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="form-group" style="margin-top: 24px;">
+      <div class="checkbox-group">
+        <input type="checkbox" id="deep-scan" checked>
+        <label for="deep-scan" style="margin: 0;">Enable deep scanning (may take longer)</label>
+      </div>
+    </div>
+    
+    <button class="btn-primary" onclick="startScan('github')">Start Scan</button>
+  </div>
+</div>
+
+<!-- HuggingFace Modal -->
+<div id="modal-huggingface" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('huggingface')">×</button>
+    <h3>Scan HuggingFace Repository</h3>
+    
+    <div class="form-group">
+      <label>Repository / Model Name</label>
+      <input type="text" placeholder="username/model-name" id="hf-url">
+    </div>
+    
+    <div class="form-group">
+      <label>Type</label>
+      <select>
+        <option>Model</option>
+        <option>Dataset</option>
+        <option>Space</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label>Revision (optional)</label>
+      <input type="text" placeholder="main">
+    </div>
+    
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="pickle-scan" checked>
+        <label for="pickle-scan" style="margin: 0;">Scan for unsafe pickle operations</label>
+      </div>
+    </div>
+    
+    <button class="btn-primary" onclick="startScan('huggingface')">Start Scan</button>
+  </div>
+</div>
+
+<!-- CLI Modal -->
+<div id="modal-cli" class="modal">
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeModal('cli')">×</button>
+    <h3>CLI Integration</h3>
+    
+    <div class="cli-section">
+      <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600;">Installation</label>
+      <div class="cli-code">
+<span class="prompt">$</span> npm install -g security-scan-hub
+<span class="prompt">$</span> pip install security-scan-hub
+<span class="prompt">$</span> docker pull securityscanhub/scanner:latest
+      </div>
+    </div>
+    
+    <div class="cli-section">
+      <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600;">Basic Usage</label>
+      <div class="cli-code">
+<span class="prompt">$</span> ssh-scan scan --repo https://github.com/user/repo
+<span class="prompt">$</span> ssh-scan scan --local ./my-project
+<span class="prompt">$</span> ssh-scan scan --hf username/model --output report.json
+      </div>
+    </div>
+    
+    <div class="cli-section">
+      <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600;">CI/CD Integration</label>
+      <div class="cli-code">
+<span class="prompt">#</span> GitHub Actions
+<span class="prompt">$</span> ssh-scan scan --ci --fail-on critical,high
+
+<span class="prompt">#</span> With webhook notification
+<span class="prompt">$</span> ssh-scan scan --webhook https://your-webhook.com
+      </div>
+    </div>
+    
+    <div class="form-group" style="margin-top: 24px;">
+      <label>API Key</label>
+      <input type="text" placeholder="Enter your API key to enable CLI access" value="sk_test_4eC39HqLyjWDarjtT1zdp7dc">
+    </div>
+    
+    <button class="btn-primary" onclick="window.open('scan-progress.html', '_blank')">View Full Documentation</button>
+  </div>
+</div>
+
+<script>
+function openModal(type) {
+  document.getElementById('modal-' + type).classList.add('active');
+}
+
+function closeModal(type) {
+  document.getElementById('modal-' + type).classList.remove('active');
+}
+
+function startScan(type) {
+  let repoUrl;
+  if (type === 'github') {
+    repoUrl = document.getElementById('github-url').value;
+    if (!repoUrl) {
+      alert('Please enter a repository URL');
+      return;
+    }
+  } else if (type === 'huggingface') {
+    repoUrl = document.getElementById('hf-url').value;
+    if (!repoUrl) {
+      alert('Please enter a model name');
+      return;
+    }
+  }
+  
+  // Store scan info and redirect to progress page
+  sessionStorage.setItem('scanRepo', repoUrl);
+  sessionStorage.setItem('scanType', type);
+  window.location.href = 'scan-progress.html';
+}
+
+// Close modal when clicking outside
+document.querySelectorAll('.modal').forEach(modal => {
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.classList.remove('active');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
+

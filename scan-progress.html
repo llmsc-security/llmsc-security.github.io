@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecurityScan Hub - Scanning in Progress</title>
+<style>
+:root {
+  --bg: #0a0b14;
+  --bg-soft: #13151f;
+  --panel: #1a1d2e;
+  --ink: #e6e8f5;
+  --muted: #9ca3c9;
+  --border: #2a2d42;
+  --primary: #6366f1;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+.header {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.status-badge.scanning {
+  border-color: var(--info);
+  color: var(--info);
+}
+
+.status-badge.complete {
+  border-color: var(--success);
+  color: var(--success);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--info);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.scan-header {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.repo-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.repo-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+}
+
+.repo-details h1 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.repo-details p {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.progress-bar {
+  background: var(--bg-soft);
+  border-radius: 8px;
+  height: 8px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--primary), #8b5cf6);
+  height: 100%;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.progress-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tools-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.tool-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.tool-panel.collapsed .tool-body {
+  display: none;
+}
+
+.tool-panel.running {
+  border-color: var(--info);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.tool-panel.complete {
+  border-color: var(--success);
+}
+
+.tool-panel.warning {
+  border-color: var(--warning);
+}
+
+.tool-panel.error {
+  border-color: var(--danger);
+}
+
+.tool-header {
+  padding: 20px 24px;
+  background: var(--bg-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tool-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tool-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+}
+
+.tool-name h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.tool-name p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.tool-status {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tool-time {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: monospace;
+}
+
+.tool-badge {
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tool-badge.pending {
+  background: rgba(156, 163, 201, 0.15);
+  color: var(--muted);
+}
+
+.tool-badge.running {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--info);
+}
+
+.tool-badge.complete {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+}
+
+.tool-badge.warning {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+}
+
+.tool-badge.error {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+}
+
+.expand-icon {
+  transition: transform 0.3s;
+}
+
+.tool-panel:not(.collapsed) .expand-icon {
+  transform: rotate(180deg);
+}
+
+.tool-body {
+  padding: 24px;
+  border-top: 1px solid var(--border);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.summary-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.summary-card .number {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.summary-card.critical .number {
+  color: var(--danger);
+}
+
+.summary-card.high .number {
+  color: var(--warning);
+}
+
+.summary-card.medium .number {
+  color: #fbbf24;
+}
+
+.summary-card.low .number {
+  color: var(--info);
+}
+
+.summary-card .label {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.findings-preview {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.finding-item {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.finding-item:last-child {
+  border-bottom: none;
+}
+
+.finding-severity {
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.finding-severity.critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+}
+
+.finding-severity.high {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+}
+
+.finding-severity.medium {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+}
+
+.finding-severity.low {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--info);
+}
+
+.finding-content {
+  flex: 1;
+}
+
+.finding-content h4 {
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.finding-content p {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  background: #4f46e5;
+  transform: translateY(-1px);
+}
+
+.final-summary {
+  background: var(--panel);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-top: 24px;
+  display: none;
+}
+
+.final-summary.show {
+  display: block;
+  animation: slideIn 0.5s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.final-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.final-header h2 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.overall-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.overall-status.safe {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+  border: 2px solid var(--success);
+}
+
+.overall-status.attention {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+  border: 2px solid var(--warning);
+}
+
+.overall-status.critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+  border: 2px solid var(--danger);
+}
+
+.totals-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.total-card {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+}
+
+.total-card .icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.total-card .value {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.total-card .label {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+  }
+  
+  .scan-header {
+    padding: 20px;
+  }
+  
+  .progress-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <span>🛡️</span>
+    <span>SecurityScan Hub</span>
+  </div>
+  <div class="status-badge scanning" id="mainStatus">
+    <div class="spinner"></div>
+    <span>Scanning...</span>
+  </div>
+</header>
+
+<div class="container">
+  <div class="scan-header">
+    <div class="repo-info">
+      <div class="repo-icon">📦</div>
+      <div class="repo-details">
+        <h1 id="repoName">username/repository-name</h1>
+        <p id="repoDetails">GitHub Repository • Branch: main • Started: <span id="startTime"></span></p>
+      </div>
+    </div>
+    
+    <div class="progress-bar">
+      <div class="progress-fill" id="progressBar"></div>
+    </div>
+    
+    <div class="progress-stats">
+      <div class="stat">
+        <div class="stat-value" id="completedTools">0</div>
+        <div class="stat-label">Tools Completed</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="totalIssues">-</div>
+        <div class="stat-label">Total Issues</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="criticalCount">-</div>
+        <div class="stat-label">Critical</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="highCount">-</div>
+        <div class="stat-label">High</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value" id="elapsedTime">0:00</div>
+        <div class="stat-label">Elapsed Time</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tools-grid" id="toolsGrid">
+    <!-- Tools will be inserted here by JavaScript -->
+  </div>
+
+  <div class="final-summary" id="finalSummary">
+    <div class="final-header">
+      <h2>Scan Complete</h2>
+      <div class="overall-status safe" id="overallStatus">
+        <span>✓</span>
+        <span>Repository is Safe</span>
+      </div>
+    </div>
+
+    <div class="totals-grid">
+      <div class="total-card">
+        <div class="icon">🔍</div>
+        <div class="value" id="finalTotal">0</div>
+        <div class="label">Total Vulnerabilities</div>
+      </div>
+      <div class="total-card">
+        <div class="icon">🚨</div>
+        <div class="value" id="finalCritical">0</div>
+        <div class="label">Critical Issues</div>
+      </div>
+      <div class="total-card">
+        <div class="icon">⚠️</div>
+        <div class="value" id="finalHigh">0</div>
+        <div class="label">High Issues</div>
+      </div>
+      <div class="total-card">
+        <div class="icon">📊</div>
+        <div class="value" id="finalTools">5</div>
+        <div class="label">Tools Executed</div>
+      </div>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn" onclick="window.location.href='tool-detail.html'">View Detailed Report</button>
+      <button class="btn" style="background: var(--bg-soft); color: var(--ink);">Export Results</button>
+      <button class="btn" style="background: var(--bg-soft); color: var(--ink);">New Scan</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOOLS = [
+  {
+    id: 'opensca',
+    name: 'OpenSCA',
+    desc: 'Software Composition Analysis',
+    icon: '🔍',
+    duration: 3200,
+    findings: {
+      critical: 2,
+      high: 5,
+      medium: 12,
+      low: 8,
+      issues: [
+        { severity: 'critical', title: 'CVE-2024-1234 in lodash 4.17.15', desc: 'Prototype pollution vulnerability' },
+        { severity: 'high', title: 'Outdated Express.js version', desc: 'Using v4.16.0, current is v4.18.2' },
+        { severity: 'medium', title: 'Deprecated package: request', desc: 'Package has been deprecated' }
+      ]
+    }
+  },
+  {
+    id: 'modelscan',
+    name: 'ModelScan',
+    desc: 'ML Model Security Scanner',
+    icon: '🧪',
+    duration: 4500,
+    findings: {
+      critical: 1,
+      high: 2,
+      medium: 3,
+      low: 1,
+      issues: [
+        { severity: 'critical', title: 'Unsafe pickle deserialization', desc: 'Found in model.pt - arbitrary code execution risk' },
+        { severity: 'high', title: 'Unverified model weights', desc: 'Model lacks cryptographic signature' },
+        { severity: 'medium', title: 'Lambda layer in Keras model', desc: 'Custom code in model may pose risk' }
+      ]
+    }
+  },
+  {
+    id: 'sbom',
+    name: 'SBOM Generator',
+    desc: 'Software Bill of Materials',
+    icon: '📦',
+    duration: 2800,
+    findings: {
+      critical: 0,
+      high: 3,
+      medium: 8,
+      low: 15,
+      issues: [
+        { severity: 'high', title: 'Missing license information', desc: '12 dependencies lack proper licensing' },
+        { severity: 'medium', title: 'Transitive dependency risk', desc: 'Deep dependency tree detected' },
+        { severity: 'low', title: 'Version pinning recommended', desc: 'Some packages use wildcard versions' }
+      ]
+    }
+  },
+  {
+    id: 'codescan',
+    name: 'CodeScan',
+    desc: 'Static Code Analysis',
+    icon: '💻',
+    duration: 5200,
+    findings: {
+      critical: 3,
+      high: 8,
+      medium: 24,
+      low: 45,
+      issues: [
+        { severity: 'critical', title: 'SQL Injection vulnerability', desc: 'Unsanitized input in database query' },
+        { severity: 'critical', title: 'Hardcoded credentials', desc: 'API key found in config.js' },
+        { severity: 'high', title: 'Path traversal risk', desc: 'File path constructed from user input' }
+      ]
+    }
+  },
+  {
+    id: 'lvjun',
+    name: 'LvJun Scan',
+    desc: 'Advanced Threat Detection',
+    icon: '🛡️',
+    duration: 4100,
+    findings: {
+      critical: 1,
+      high: 4,
+      medium: 9,
+      low: 12,
+      issues: [
+        { severity: 'critical', title: 'Backdoor pattern detected', desc: 'Suspicious code in network module' },
+        { severity: 'high', title: 'Crypto-mining indicator', desc: 'Unusual CPU usage patterns found' },
+        { severity: 'medium', title: 'Data exfiltration risk', desc: 'External network calls without validation' }
+      ]
+    }
+  }
+];
+
+let startTimestamp = Date.now();
+let completedCount = 0;
+
+function initScan() {
+  const repoName = sessionStorage.getItem('scanRepo') || 'example/repository';
+  document.getElementById('repoName').textContent = repoName;
+  document.getElementById('startTime').textContent = new Date().toLocaleTimeString();
+  
+  const toolsGrid = document.getElementById('toolsGrid');
+  
+  TOOLS.forEach((tool, index) => {
+    const panel = createToolPanel(tool);
+    toolsGrid.appendChild(panel);
+    
+    // Start scan with random delay
+    setTimeout(() => {
+      startToolScan(tool.id);
+    }, Math.random() * 1000);
+  });
+  
+  updateElapsedTime();
+}
+
+function createToolPanel(tool) {
+  const panel = document.createElement('div');
+  panel.className = 'tool-panel collapsed';
+  panel.id = `tool-${tool.id}`;
+  
+  panel.innerHTML = `
+    <div class="tool-header" onclick="togglePanel('${tool.id}')">
+      <div class="tool-info">
+        <div class="tool-icon">${tool.icon}</div>
+        <div class="tool-name">
+          <h3>${tool.name}</h3>
+          <p>${tool.desc}</p>
+        </div>
+      </div>
+      <div class="tool-status">
+        <span class="tool-time" id="time-${tool.id}">--:--</span>
+        <span class="tool-badge pending" id="badge-${tool.id}">Pending</span>
+        <span class="expand-icon">▼</span>
+      </div>
+    </div>
+    <div class="tool-body" id="body-${tool.id}">
+      <div class="summary-grid">
+        <div class="summary-card critical">
+          <div class="number">${tool.findings.critical}</div>
+          <div class="label">Critical</div>
+        </div>
+        <div class="summary-card high">
+          <div class="number">${tool.findings.high}</div>
+          <div class="label">High</div>
+        </div>
+        <div class="summary-card medium">
+          <div class="number">${tool.findings.medium}</div>
+          <div class="label">Medium</div>
+        </div>
+        <div class="summary-card low">
+          <div class="number">${tool.findings.low}</div>
+          <div class="label">Low</div>
+        </div>
+      </div>
+      
+      <h4 style="margin-bottom: 12px; font-size: 14px;">Top Findings</h4>
+      <div class="findings-preview">
+        ${tool.findings.issues.map(issue => `
+          <div class="finding-item">
+            <span class="finding-severity ${issue.severity}">${issue.severity}</span>
+            <div class="finding-content">
+              <h4>${issue.title}</h4>
+              <p>${issue.desc}</p>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+      
+      <button class="btn" onclick="viewToolDetail('${tool.id}')">View Full Report →</button>
+    </div>
+  `;
+  
+  return panel;
+}
+
+function startToolScan(toolId) {
+  const tool = TOOLS.find(t => t.id === toolId);
+  const panel = document.getElementById(`tool-${toolId}`);
+  const badge = document.getElementById(`badge-${toolId}`);
+  const timeEl = document.getElementById(`time-${toolId}`);
+  
+  panel.classList.add('running');
+  badge.className = 'tool-badge running';
+  badge.textContent = 'Running...';
+  
+  const startTime = Date.now();
+  const timer = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    timeEl.textContent = formatTime(elapsed);
+  }, 100);
+  
+  setTimeout(() => {
+    clearInterval(timer);
+    completeToolScan(toolId, tool);
+  }, tool.duration);
+}
+
+function completeToolScan(toolId, tool) {
+  const panel = document.getElementById(`tool-${toolId}`);
+  const badge = document.getElementById(`badge-${toolId}`);
+  
+  panel.classList.remove('running', 'collapsed');
+  
+  const totalIssues = tool.findings.critical + tool.findings.high + tool.findings.medium + tool.findings.low;
+  
+  if (tool.findings.critical > 0) {
+    panel.classList.add('error');
+    badge.className = 'tool-badge error';
+    badge.textContent = `${totalIssues} Issues Found`;
+  } else if (tool.findings.high > 0) {
+    panel.classList.add('warning');
+    badge.className = 'tool-badge warning';
+    badge.textContent = `${totalIssues} Issues Found`;
+  } else {
+    panel.classList.add('complete');
+    badge.className = 'tool-badge complete';
+    badge.textContent = `${totalIssues} Issues Found`;
+  }
+  
+  completedCount++;
+  updateProgress();
+  
+  if (completedCount === TOOLS.length) {
+    showFinalSummary();
+  }
+}
+
+function updateProgress() {
+  const progress = (completedCount / TOOLS.length) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+  document.getElementById('completedTools').textContent = completedCount;
+  
+  let totalIssues = 0;
+  let criticalTotal = 0;
+  let highTotal = 0;
+  
+  TOOLS.forEach(tool => {
+    totalIssues += tool.findings.critical + tool.findings.high + tool.findings.medium + tool.findings.low;
+    criticalTotal += tool.findings.critical;
+    highTotal += tool.findings.high;
+  });
+  
+  document.getElementById('totalIssues').textContent = totalIssues;
+  document.getElementById('criticalCount').textContent = criticalTotal;
+  document.getElementById('highCount').textContent = highTotal;
+}
+
+function showFinalSummary() {
+  const mainStatus = document.getElementById('mainStatus');
+  mainStatus.classList.remove('scanning');
+  mainStatus.classList.add('complete');
+  mainStatus.innerHTML = '<span>✓</span><span>Scan Complete</span>';
+  
+  let totalIssues = 0;
+  let criticalTotal = 0;
+  let highTotal = 0;
+  
+  TOOLS.forEach(tool => {
+    totalIssues += tool.findings.critical + tool.findings.high + tool.findings.medium + tool.findings.low;
+    criticalTotal += tool.findings.critical;
+    highTotal += tool.findings.high;
+  });
+  
+  document.getElementById('finalTotal').textContent = totalIssues;
+  document.getElementById('finalCritical').textContent = criticalTotal;
+  document.getElementById('finalHigh').textContent = highTotal;
+  
+  const overallStatus = document.getElementById('overallStatus');
+  if (criticalTotal > 0) {
+    overallStatus.className = 'overall-status critical';
+    overallStatus.innerHTML = '<span>✕</span><span>Critical Issues Found</span>';
+  } else if (highTotal > 0) {
+    overallStatus.className = 'overall-status attention';
+    overallStatus.innerHTML = '<span>⚠</span><span>Attention Required</span>';
+  }
+  
+  document.getElementById('finalSummary').classList.add('show');
+}
+
+function togglePanel(toolId) {
+  const panel = document.getElementById(`tool-${toolId}`);
+  panel.classList.toggle('collapsed');
+}
+
+function viewToolDetail(toolId) {
+  sessionStorage.setItem('selectedTool', toolId);
+  window.location.href = 'tool-detail.html';
+}
+
+function formatTime(ms) {
+  const seconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+
+function updateElapsedTime() {
+  setInterval(() => {
+    const elapsed = Date.now() - startTimestamp;
+    document.getElementById('elapsedTime').textContent = formatTime(elapsed);
+  }, 1000);
+}
+
+// Initialize scan on page load
+initScan();
+</script>
+
+</body>
+</html>
+

