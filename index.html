@@ -679,16 +679,13 @@ body {
     <div class="cli-section">
       <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600;">Installation</label>
       <div class="cli-code">
-<span class="prompt">$</span> npm install -g security-scan-hub
 <span class="prompt">$</span> pip install security-scan-hub
-<span class="prompt">$</span> docker pull securityscanhub/scanner:latest
       </div>
     </div>
     
     <div class="cli-section">
       <label style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 600;">Basic Usage</label>
       <div class="cli-code">
-<span class="prompt">$</span> ssh-scan scan --repo https://github.com/user/repo
 <span class="prompt">$</span> ssh-scan scan --local ./my-project
 <span class="prompt">$</span> ssh-scan scan --hf username/model --output report.json
       </div>
@@ -700,8 +697,6 @@ body {
 <span class="prompt">#</span> GitHub Actions
 <span class="prompt">$</span> ssh-scan scan --ci --fail-on critical,high
 
-<span class="prompt">#</span> With webhook notification
-<span class="prompt">$</span> ssh-scan scan --webhook https://your-webhook.com
       </div>
     </div>
     
