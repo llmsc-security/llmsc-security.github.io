@@ -28,6 +28,8 @@ WORKSPACE_DIR = "/mnt/nvme/wj_code/dl_llmsc/SCA_workspace/lili_select_llm_app_10
 # --- CORS Configuration (New) ---
 # This allows the frontend at llmsc.wj2ai.com to talk to this API
 origins = [
+        "http://143.198.205.199:9001",
+        "http://143.198.205.199",
     "https://llmsc.wj2ai.com",
     "http://llmsc.wj2ai.com",
     "http://localhost:6007", # For local testing

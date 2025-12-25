@@ -48,9 +48,47 @@ tr.detail-row td { border-bottom: 1px solid var(--border); padding: 0; }
 .detail-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 16px; border: 1px solid rgba(255,255,255,0.05); }
 .detail-box h4 { font-size: 13px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; }
 .detail-box p { font-size: 14px; line-height: 1.6; color: var(--ink); margin-bottom: 8px; }
-.detail-links { display: flex; flex-direction: column; gap: 6px; }
-.detail-links a { display: inline-block; color: var(--primary); text-decoration: none; font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.detail-links a:hover { text-decoration: underline; }
+
+/* UPDATED LINK STYLES */
+.detail-links { display: flex; flex-direction: column; gap: 4px; }
+.detail-links a { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.03); 
+    border-radius: 6px; 
+    text-decoration: none; 
+    font-size: 13px; 
+    transition: all 0.2s;
+    color: var(--muted);
+    border: 1px solid transparent;
+}
+.detail-links a:hover { 
+    background: rgba(255,255,255,0.08); 
+    color: var(--primary);
+    border-color: rgba(255,255,255,0.1);
+}
+.detail-links .link-icon { flex-shrink: 0; }
+.detail-links .link-type { 
+    font-size: 11px; 
+    font-weight: 600; 
+    color: var(--ink); 
+    background: rgba(255,255,255,0.1); 
+    padding: 2px 6px; 
+    border-radius: 4px; 
+    min-width: 70px; 
+    text-align: center;
+    flex-shrink: 0;
+}
+.detail-links .link-url { 
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap; 
+    flex: 1; 
+    opacity: 0.8;
+}
+
 .cve-tag { background: #0d1117; border: 1px solid #30363d; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; margin-right: 4px; display:inline-block; margin-bottom:4px; }
 .chevron { transition: transform 0.3s; display: inline-block; }
 .expanded .chevron { transform: rotate(180deg); }
@@ -288,9 +326,16 @@ async function toggleRow(index, cveId) {
                 affectedHTML = "No affected version info.";
             }
 
+            // Updated References Rendering logic
             const refsHTML = (data.references || []).map(ref => {
                 const icon = ref.type === 'WEB' ? '🌐' : ref.type === 'ADVISORY' ? '🛡️' : '🔗';
-                return `<a href="${ref.url}" target="_blank">${icon} ${ref.type || 'LINK'}: ${ref.url}</a>`
+                const typeLabel = ref.type || 'LINK';
+                return `
+                <a href="${ref.url}" target="_blank" title="${ref.url}">
+                    <span class="link-icon">${icon}</span>
+                    <span class="link-type">${typeLabel}</span>
+                    <span class="link-url">${ref.url}</span>
+                </a>`
             }).join("");
 
             const aliasesHTML = (data.aliases || []).map(a => `<span class="cve-tag">${a}</span>`).join(" ");
@@ -321,8 +366,8 @@ async function toggleRow(index, cveId) {
                             <p><strong>Modified:</strong> ${data.modified ? new Date(data.modified).toLocaleDateString() : 'N/A'}</p>
                             <p><strong>Severity:</strong> ${sevHTML}</p>
                             
-                            <h4 style="margin-top:12px">References</h4>
-                            <div class="detail-links" style="max-height:150px; overflow-y:auto">
+                            <h4 style="margin-top:12px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:8px; margin-bottom:8px">References</h4>
+                            <div class="detail-links" style="max-height:200px; overflow-y:auto">
                                 ${refsHTML}
                             </div>
                         </div>
