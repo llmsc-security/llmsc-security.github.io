@@ -231,9 +231,10 @@ function renderTable(data) {
     const lookupId = item.lookup_id || item.id; 
 
     // Hide CVSS tag if Unknown
-    const cvssTag = (item.cvss_version && item.cvss_version !== 'Unknown') 
-        ? `<span class="cvss-tag">CVSS ${item.cvss_version}</span>` 
-        : '';
+    const cvssTag = "";
+    //(item.cvss_version && item.cvss_version !== 'Unknown') 
+    //    ? `<span class="cvss-tag">CVSS ${item.cvss_version}</span>` 
+    //    : '';
 
     return `
       <tr class="main-row" onclick="toggleRow(${index}, '${lookupId}')" id="row-${index}">
