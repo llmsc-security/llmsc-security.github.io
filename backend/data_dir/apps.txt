@@ -1,3 +1,4 @@
+https://github.com/reworkd/AgentGPT
 https://github.com/666ghj/BettaFish
 https://github.com/acon96/home-llm
 https://github.com/adithya-s-k/omniparse

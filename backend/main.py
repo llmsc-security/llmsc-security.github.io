@@ -2,10 +2,12 @@ import json
 import asyncio
 import os
 import time
+import math
+import re
 from typing import List, Optional, Dict, Any
 from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.middleware.cors import CORSMiddleware  # <--- Added Import
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 # gRPC Imports
@@ -25,14 +27,13 @@ GRPC_HOST = "localhost:6008"
 APPS_LIST_FILE = "data_dir/apps.txt"
 WORKSPACE_DIR = "/mnt/nvme/wj_code/dl_llmsc/SCA_workspace/lili_select_llm_app_100"
 
-# --- CORS Configuration (New) ---
-# This allows the frontend at llmsc.wj2ai.com to talk to this API
+# --- CORS Configuration ---
 origins = [
-        "http://143.198.205.199:9001",
-        "http://143.198.205.199",
+    "http://143.198.205.199:9001",
+    "http://143.198.205.199",
     "https://llmsc.wj2ai.com",
     "http://llmsc.wj2ai.com",
-    "http://localhost:6007", # For local testing
+    "http://localhost:6007", 
     "http://127.0.0.1:6007"
 ]
 
@@ -62,10 +63,89 @@ else:
     print(f"Warning: {APPS_LIST_FILE} not found. Candidate list will be empty.")
 
 
+# --- CVSS 3.1 Calculator Logic ---
+class CVSSCalculator:
+    # Metric Values
+    AV = {'N': 0.85, 'A': 0.62, 'L': 0.55, 'P': 0.2}
+    AC = {'L': 0.77, 'H': 0.44}
+    PR_U = {'N': 0.85, 'L': 0.62, 'H': 0.27} # Scope Unchanged
+    PR_C = {'N': 0.85, 'L': 0.68, 'H': 0.50} # Scope Changed
+    UI = {'N': 0.85, 'R': 0.62}
+    S =  {'U': 6.42, 'C': 7.52}
+    CIA = {'H': 0.56, 'L': 0.22, 'N': 0.0}
+
+    @staticmethod
+    def roundup(input_val):
+        int_input = int(input_val * 100000)
+        if (int_input % 10000) == 0:
+            return int_input / 100000.0
+        else:
+            return (math.floor(int_input / 10000) + 1) / 10.0
+
+    @staticmethod
+    def calculate_score(vector_str):
+        if not vector_str or "CVSS:3" not in vector_str:
+            return 0.0, "Medium" # Default fallback if no valid vector
+        
+        try:
+            # Parse Vector
+            metrics = {}
+            parts = vector_str.split('/')
+            for p in parts:
+                if ':' in p:
+                    k, v = p.split(':')
+                    metrics[k] = v
+
+            # Defaults
+            av = CVSSCalculator.AV.get(metrics.get('AV'), 0.85)
+            ac = CVSSCalculator.AC.get(metrics.get('AC'), 0.77)
+            ui = CVSSCalculator.UI.get(metrics.get('UI'), 0.85)
+            s_char = metrics.get('S', 'U')
+            
+            # PR depends on Scope
+            pr_val = metrics.get('PR', 'N')
+            if s_char == 'C':
+                pr = CVSSCalculator.PR_C.get(pr_val, 0.85)
+            else:
+                pr = CVSSCalculator.PR_U.get(pr_val, 0.85)
+
+            c = CVSSCalculator.CIA.get(metrics.get('C'), 0.0)
+            i = CVSSCalculator.CIA.get(metrics.get('I'), 0.0)
+            a = CVSSCalculator.CIA.get(metrics.get('A'), 0.0)
+
+            # Impact Sub-score (ISS)
+            iss = 1 - ((1 - c) * (1 - i) * (1 - a))
+
+            # Impact
+            if s_char == 'U':
+                impact = 6.42 * iss
+            else:
+                impact = 7.52 * (iss - 0.029) - 3.25 * pow(iss - 0.02, 15)
+
+            if impact <= 0:
+                base_score = 0.0
+            else:
+                # Exploitability
+                exploitability = 8.22 * av * ac * pr * ui
+                
+                if s_char == 'U':
+                    base_score = CVSSCalculator.roundup(min((impact + exploitability), 10))
+                else:
+                    base_score = CVSSCalculator.roundup(min(1.08 * (impact + exploitability), 10))
+
+            # Severity Rating
+            if base_score == 0: severity = "None"
+            elif 0.1 <= base_score <= 3.9: severity = "Low"
+            elif 4.0 <= base_score <= 6.9: severity = "Medium"
+            elif 7.0 <= base_score <= 8.9: severity = "High"
+            else: severity = "Critical"
+
+            return base_score, severity
+
+        except Exception:
+            return 0.0, "Medium" 
+
 # --- API Endpoints ---
-# Note: Since the HTML is hosted on a different subdomain, you likely don't need
-# the HTML serving endpoints here anymore, but I will keep them just in case
-# you want to test locally.
 
 @app.get("/api/select_url.json")
 async def get_select_urls():
@@ -77,6 +157,7 @@ async def get_select_urls():
 async def get_potential_results(url: Optional[str] = Query(None)):
     sca_data = {"results": [], "meta": {}}
 
+    # 1. Load Data Strategy (Disk + Cache)
     if url:
         try:
             clean_url = url.strip().rstrip('/')
@@ -115,21 +196,62 @@ async def get_potential_results(url: Optional[str] = Query(None)):
             print(f"Error loading SCA results for {url}: {e}")
             return JSONResponse({"error": str(e)}, status_code=500)
 
+    # 2. Process & Deduplicate Logic
     results = sca_data.get("results", [])
-    vulnerable_items = [item for item in results if item.get("vulnerable")]
-    
     formatted_data = []
-    for item in vulnerable_items:
+    seen_vulnerabilities = set() # Track unique (Component, CVE_ID) pairs
+
+    for item in results:
+        # Strict vulnerable check
+        if not item.get("vulnerable"):
+            continue
+
+        component_name = item.get("component")
+        ecosystem = item.get("ecosystem")
+        
+        # Clean Version (remove ^, ~, etc.)
+        raw_version = item.get("parsed_constraint", "")
+        clean_version = re.sub(r'[\^~>=<]', '', str(raw_version))
+
         for vuln in item.get("vulnerabilities", []):
+            # Prioritize CVE ID
+            cve_list = vuln.get("cves", [])
+            display_id = cve_list[0] if cve_list else vuln.get("id")
+
+            # Deduplication
+            unique_key = (component_name, display_id)
+            if unique_key in seen_vulnerabilities:
+                continue
+            seen_vulnerabilities.add(unique_key)
+
+            # --- SEVERITY CALCULATION ---
+            cvss_vector = vuln.get("cvss", "")
+            cvss_version = "Unknown"
+            
+            # Determine Version
+            if cvss_vector:
+                if "CVSS:3.1" in cvss_vector: cvss_version = "3.1"
+                elif "CVSS:3.0" in cvss_vector: cvss_version = "3.0"
+                elif "CVSS:2" in cvss_vector: cvss_version = "2.0"
+
+            # Calculate Score & Severity
+            if cvss_vector and "CVSS:3" in cvss_vector:
+                score, severity_label = CVSSCalculator.calculate_score(cvss_vector)
+            else:
+                score = 0
+                severity_label = "Medium" # Default if no vector
+
             formatted_data.append({
-                "component": item.get("component"),
-                "ecosystem": item.get("ecosystem"),
-                "version": item.get("parsed_constraint"),
-                "id": vuln.get("id"),
+                "component": component_name,
+                "ecosystem": ecosystem,
+                "version": clean_version,
+                "id": display_id, # This is the CVE if available, or GHSA otherwise
                 "summary": vuln.get("summary"),
-                "severity": "High" if "High" in str(vuln.get("cvss", "")) else "Medium",
-                "cves": vuln.get("cves", []),
-                "cvss": vuln.get("cvss")
+                "severity": severity_label, 
+                "score": score,
+                "cvss_version": cvss_version,
+                "cvss_vector": cvss_vector,
+                "lookup_id": vuln.get("id") # Keep original ID (GHSA) for API lookups
             })
             
     return JSONResponse({
