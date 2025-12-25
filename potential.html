@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SecurityScan Hub - Potential Vulnerabilities</title>
 <style>
-/* ... (Keep CSS from previous step) ... */
 :root {
   --bg: #0a0b14;
   --bg-soft: #13151f;
@@ -18,10 +17,9 @@
   --warning: #f59e0b;
   --danger: #ef4444;
   --info: #3b82f6;
-  --critical: #d946ef; /* New color for critical */
+  --critical: #d946ef;
 }
 
-/* ... existing styles ... */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink); display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
 .sidebar { background: var(--panel); border-right: 1px solid var(--border); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
@@ -66,15 +64,12 @@ tr.detail-row td { border-bottom: 1px solid var(--border); padding: 0; }
 .md-content h3 { color: var(--ink); margin-top: 16px; margin-bottom: 8px; font-size: 16px; }
 .md-content pre { background: #0d1117; padding: 12px; border-radius: 6px; overflow-x: auto; border: 1px solid var(--border); margin: 12px 0; }
 .md-content code { font-family: monospace; background: rgba(255,255,255,0.1); padding: 2px 4px; border-radius: 4px; font-size: 13px; color: var(--success); }
-.cve-tag { background: #0d1117; border: 1px solid #30363d; padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 12px; margin-right: 4px; display:inline-block; margin-bottom:4px; }
-.cvss-tag { background: rgba(99, 102, 241, 0.1); border: 1px solid var(--primary); color: var(--primary); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700; margin-left: 6px; vertical-align: middle; }
 .chevron { transition: transform 0.3s; display: inline-block; }
 .expanded .chevron { transform: rotate(180deg); }
 .badge { padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
 .badge.npm { background: rgba(203, 56, 55, 0.2); color: #cb3837; }
 .badge.pypi { background: rgba(55, 117, 169, 0.2); color: #3775a9; }
 
-/* Severity Badges */
 .severity { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 700; }
 .severity.critical { background: rgba(217, 70, 239, 0.15); color: var(--critical); border: 1px solid var(--critical); }
 .severity.high { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid var(--danger); }
@@ -169,7 +164,15 @@ let allData = [];
 
 async function fetchData() {
   try {
-    const repoUrl = sessionStorage.getItem('scanRepo') || "https://github.com/reworkd/AgentGPT";
+    // FIX: Read 'url' parameter from the address bar first
+    const urlParams = new URLSearchParams(window.location.search);
+    let repoUrl = urlParams.get('url');
+
+    // Fallback logic
+    if (!repoUrl) {
+        repoUrl = sessionStorage.getItem('scanRepo') || "https://github.com/reworkd/AgentGPT";
+    }
+    
     const encodedUrl = encodeURIComponent(repoUrl);
     
     const response = await fetch(`${API_BASE_URL}/api/results/potential?url=${encodedUrl}`);
@@ -230,12 +233,6 @@ function renderTable(data) {
     const displaySummary = item.summary || '<span style="opacity:0.6; font-style:italic">No summary provided</span>';
     const lookupId = item.lookup_id || item.id; 
 
-    // Hide CVSS tag if Unknown
-    const cvssTag = "";
-    //(item.cvss_version && item.cvss_version !== 'Unknown') 
-    //    ? `<span class="cvss-tag">CVSS ${item.cvss_version}</span>` 
-    //    : '';
-
     return `
       <tr class="main-row" onclick="toggleRow(${index}, '${lookupId}')" id="row-${index}">
         <td><span class="chevron" id="chevron-${index}">▼</span></td>
@@ -246,10 +243,9 @@ function renderTable(data) {
         <td><span class="badge ${ecoBadge}">${item.ecosystem || 'Unknown'}</span></td>
         <td>
           <span class="severity ${severityClass}">${severityLabel}</span>
-          ${cvssTag}
         </td>
         <td>
-          <div id="vid-${index}" style="font-weight:600; font-family:monospace; color:var(--key)">${item.id}</div>
+          <div id="vid-${index}" style="font-weight:600; font-family:monospace; color:var(--primary)">${item.id}</div>
         </td>
         <td style="color:var(--muted); font-size:13px">${displaySummary}</td>
       </tr>
@@ -279,7 +275,6 @@ async function toggleRow(index, cveId) {
             const cveAlias = (data.aliases || []).find(a => a.startsWith('CVE-'));
             const displayId = cveAlias || data.id;
             
-            // Backfill List Row
             const listIdElem = document.getElementById(`vid-${index}`);
             if (cveAlias && listIdElem) listIdElem.textContent = cveAlias;
 
