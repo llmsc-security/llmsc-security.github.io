@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SecurityScan Hub - Potential Vulnerabilities</title>
 <style>
+/* ... (Same CSS as before) ... */
 :root {
   --bg: #0a0b14;
   --bg-soft: #13151f;
@@ -256,7 +257,14 @@ let allData = [];
 
 async function fetchData() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/results/potential`);
+    // 1. Get Repo URL from session (set in index.html) or default
+    const repoUrl = sessionStorage.getItem('scanRepo') || "https://github.com/reworkd/AgentGPT";
+    
+    // 2. Encode URL
+    const encodedUrl = encodeURIComponent(repoUrl);
+    
+    // 3. Request with query param
+    const response = await fetch(`${API_BASE_URL}/api/results/potential?url=${encodedUrl}`);
     const result = await response.json();
     
     if (result.meta) {
