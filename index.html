@@ -17,13 +17,10 @@
   --success: #10b981;
   --accent: #8b5cf6;
   --glow: rgba(99, 102, 241, 0.15);
+  --danger: #ef4444;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -43,434 +40,213 @@ body {
   justify-content: space-between;
 }
 
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
+.logo { display: flex; align-items: center; gap: 12px; }
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 40px; height: 40px;
   background: linear-gradient(135deg, var(--primary), var(--accent));
   border-radius: 10px;
-  display: grid;
-  place-items: center;
-  font-size: 20px;
+  display: grid; place-items: center; font-size: 20px;
 }
-
 .logo-text h1 {
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 20px; font-weight: 700;
   background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
+.logo-text p { font-size: 12px; color: var(--muted); }
 
-.logo-text p {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.nav-links {
-  display: flex;
-  gap: 24px;
-}
-
+.nav-links { display: flex; gap: 24px; }
 .nav-links a {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-  transition: color 0.2s;
+  color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s;
 }
+.nav-links a:hover { color: var(--ink); }
 
-.nav-links a:hover {
-  color: var(--ink);
-}
+.container { max-width: 1400px; margin: 0 auto; padding: 60px 40px; flex: 1; }
 
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 60px 40px;
-  flex: 1;
-}
-
-.hero {
-  text-align: center;
-  margin-bottom: 60px;
-}
-
+.hero { text-align: center; margin-bottom: 60px; }
 .hero h2 {
-  font-size: 48px;
-  font-weight: 800;
-  margin-bottom: 16px;
+  font-size: 48px; font-weight: 800; margin-bottom: 16px;
   background: linear-gradient(135deg, var(--ink), var(--muted));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
+.hero p { font-size: 18px; color: var(--muted); max-width: 600px; margin: 0 auto; }
 
-.hero p {
-  font-size: 18px;
-  color: var(--muted);
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-top: 40px;
-}
-
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 40px; }
 .stat-card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center;
 }
+.stat-card .number { font-size: 32px; font-weight: 800; color: var(--primary); }
+.stat-card .label { font-size: 14px; color: var(--muted); margin-top: 8px; }
 
-.stat-card .number {
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--primary);
-}
-
-.stat-card .label {
-  font-size: 14px;
-  color: var(--muted);
-  margin-top: 8px;
-}
-
-.scan-modes {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 24px;
-  margin-top: 40px;
-}
-
+.scan-modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 24px; margin-top: 40px; }
 .mode-card {
-  background: var(--panel);
-  border: 2px solid var(--border);
-  border-radius: 16px;
-  padding: 32px;
-  transition: all 0.3s;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  background: var(--panel); border: 2px solid var(--border); border-radius: 16px; padding: 32px;
+  transition: all 0.3s; cursor: pointer; position: relative; overflow: hidden;
 }
-
 .mode-card:hover {
-  border-color: var(--primary);
-  box-shadow: 0 8px 32px var(--glow);
-  transform: translateY(-4px);
+  border-color: var(--primary); box-shadow: 0 8px 32px var(--glow); transform: translateY(-4px);
 }
-
 .mode-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  opacity: 0;
-  transition: opacity 0.3s;
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent)); opacity: 0; transition: opacity 0.3s;
 }
-
-.mode-card:hover::before {
-  opacity: 1;
-}
-
+.mode-card:hover::before { opacity: 1; }
 .mode-icon {
-  width: 60px;
-  height: 60px;
-  background: var(--glow);
-  border-radius: 12px;
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-  margin-bottom: 20px;
+  width: 60px; height: 60px; background: var(--glow); border-radius: 12px;
+  display: grid; place-items: center; font-size: 28px; margin-bottom: 20px;
 }
-
-.mode-card h3 {
-  font-size: 22px;
-  margin-bottom: 12px;
-}
-
-.mode-card p {
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.mode-card .features {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 20px;
-}
-
+.mode-card h3 { font-size: 22px; margin-bottom: 12px; }
+.mode-card p { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+.mode-card .features { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
 .feature-tag {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-size: 12px;
-  color: var(--muted);
+  background: var(--bg-soft); border: 1px solid var(--border); padding: 4px 12px; border-radius: 16px; font-size: 12px; color: var(--muted);
 }
-
 .mode-card .cta {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  width: 100%;
-  transition: background 0.2s;
+  background: var(--primary); color: white; border: none; padding: 12px 24px;
+  border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s;
 }
+.mode-card .cta:hover { background: var(--primary-hover); }
 
-.mode-card .cta:hover {
-  background: var(--primary-hover);
-}
-
+/* Modal Styles */
 .modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
-  z-index: 1000;
-  padding: 40px;
-  overflow-y: auto;
+  display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); z-index: 1000;
+  padding: 40px; overflow-y: auto;
 }
-
-.modal.active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
+.modal.active { display: flex; align-items: center; justify-content: center; }
 .modal-content {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 40px;
-  max-width: 600px;
-  width: 100%;
-  position: relative;
+  background: var(--panel); border: 1px solid var(--border); border-radius: 16px;
+  padding: 40px; max-width: 600px; width: 100%; position: relative;
 }
-
 .modal-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: var(--muted);
-  font-size: 24px;
-  cursor: pointer;
-  transition: color 0.2s;
+  position: absolute; top: 20px; right: 20px; background: none; border: none;
+  color: var(--muted); font-size: 24px; cursor: pointer; transition: color 0.2s;
 }
+.modal-close:hover { color: var(--ink); }
+.modal h3 { font-size: 24px; margin-bottom: 24px; }
 
-.modal-close:hover {
-  color: var(--ink);
-}
-
-.modal h3 {
-  font-size: 24px;
-  margin-bottom: 24px;
-}
-
-.form-group {
-  margin-bottom: 24px;
-}
-
+.form-group { margin-bottom: 24px; position: relative; } /* Added relative for autocomplete */
 .form-group label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--muted);
+  display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--muted);
 }
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  color: var(--ink);
-  padding: 12px 16px;
-  border-radius: 8px;
-  font-size: 14px;
+.form-group input, .form-group select {
+  width: 100%; background: var(--bg-soft); border: 1px solid var(--border);
+  color: var(--ink); padding: 12px 16px; border-radius: 8px; font-size: 14px;
   transition: border-color 0.2s;
 }
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--primary);
+.form-group input:focus, .form-group select:focus {
+  outline: none; border-color: var(--primary);
 }
+.form-group input::placeholder { color: var(--muted); }
 
-.form-group input::placeholder {
-  color: var(--muted);
+/* Autocomplete Styles */
+.autocomplete-items {
+  position: absolute;
+  border: 1px solid var(--border);
+  border-top: none;
+  z-index: 99;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: var(--bg-soft);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
-
-.checkbox-group {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.checkbox-group input[type="checkbox"] {
-  width: auto;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-  border: none;
-  padding: 14px 32px;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: 600;
+.autocomplete-items div {
+  padding: 10px 16px;
   cursor: pointer;
-  width: 100%;
-  transition: background 0.2s;
-}
-
-.btn-primary:hover {
-  background: var(--primary-hover);
-}
-
-.tools-section {
-  margin-top: 60px;
-}
-
-.tools-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-  margin-top: 24px;
-}
-
-.tool-badge {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  transition: all 0.2s;
-}
-
-.tool-badge:hover {
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
-
-.tool-badge .icon {
-  font-size: 32px;
-  margin-bottom: 12px;
-}
-
-.tool-badge .name {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.tool-badge .desc {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-.oauth-section {
-  background: var(--bg-soft);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 20px;
-  margin-top: 24px;
-}
-
-.oauth-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.oauth-btn {
-  flex: 1;
-  background: var(--panel);
-  border: 1px solid var(--border);
   color: var(--ink);
-  padding: 12px 20px;
-  border-radius: 8px;
   font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 0.2s;
+  border-bottom: 1px solid var(--border);
 }
-
-.oauth-btn:hover {
-  border-color: var(--primary);
-  background: var(--glow);
+.autocomplete-items div:last-child { border-bottom: none; }
+.autocomplete-items div:hover {
+  background-color: var(--panel);
+  color: var(--primary);
 }
-
-.cli-section {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 24px;
-  margin-top: 24px;
-}
-
-.cli-code {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 16px;
-  font-family: 'Courier New', monospace;
-  font-size: 13px;
-  color: var(--success);
-  margin-top: 16px;
-  overflow-x: auto;
-}
-
-.cli-code .prompt {
+.autocomplete-items div strong {
   color: var(--primary);
 }
 
+/* Button Styles */
+.btn-primary {
+  background: var(--primary); color: white; border: none; padding: 14px 32px;
+  border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer;
+  width: 100%; transition: all 0.2s;
+}
+.btn-primary:hover { background: var(--primary-hover); }
+/* Disabled style for non-Github buttons */
+.btn-primary.disabled-feature {
+    background: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+/* Disabled Button State */
+.btn-primary:disabled, .btn-primary.disabled {
+  background: var(--border);
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Checkbox & OAuth */
+.checkbox-group { display: flex; align-items: center; gap: 8px; }
+.checkbox-group input[type="checkbox"] { width: auto; }
+.oauth-section {
+  background: var(--bg-soft); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; margin-top: 24px;
+}
+.oauth-buttons { display: flex; gap: 12px; margin-top: 16px; }
+.oauth-btn {
+  flex: 1; background: var(--panel); border: 1px solid var(--border); color: var(--ink);
+  padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 600;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  gap: 8px; transition: all 0.2s;
+}
+.oauth-btn:hover { border-color: var(--primary); background: var(--glow); }
+
+/* Error Message */
+.validation-msg {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 6px;
+  display: none;
+}
+
+/* Tools Grid */
+.tools-section { margin-top: 60px; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+.tool-badge {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; text-align: center; transition: all 0.2s;
+}
+.tool-badge:hover { border-color: var(--primary); transform: translateY(-2px); }
+.tool-badge .icon { font-size: 32px; margin-bottom: 12px; }
+.tool-badge .name { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.tool-badge .desc { font-size: 12px; color: var(--muted); }
+
+/* CLI Section */
+.cli-section {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: 24px; margin-top: 24px;
+}
+.cli-code {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  padding: 16px; font-family: 'Courier New', monospace; font-size: 13px;
+  color: var(--success); margin-top: 16px; overflow-x: auto;
+}
+.cli-code .prompt { color: var(--primary); }
+
 @media (max-width: 768px) {
-  .header {
-    padding: 16px 20px;
-  }
-  
-  .container {
-    padding: 40px 20px;
-  }
-  
-  .hero h2 {
-    font-size: 32px;
-  }
-  
-  .scan-modes {
-    grid-template-columns: 1fr;
-  }
+  .header { padding: 16px 20px; }
+  .container { padding: 40px 20px; }
+  .hero h2 { font-size: 32px; }
+  .scan-modes { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -592,15 +368,16 @@ body {
   </div>
 </div>
 
-<!-- GitHub Modal -->
 <div id="modal-github" class="modal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('github')">×</button>
     <h3>Scan GitHub Repository</h3>
     
-    <div class="form-group">
+    <div class="form-group autocomplete">
       <label>Repository URL</label>
-      <input type="text" placeholder="https://github.com/username/repo" id="github-url">
+      <input type="text" id="github-url" placeholder="Start typing to select a repository..." autocomplete="off">
+      <div id="repo-autocomplete-list" class="autocomplete-items"></div>
+      <div id="validation-msg" class="validation-msg">Please select a valid repository from the list.</div>
     </div>
     
     <div class="form-group">
@@ -630,11 +407,10 @@ body {
       </div>
     </div>
     
-    <button class="btn-primary" onclick="startScan('github')">Start Scan</button>
+    <button id="btn-scan-github" class="btn-primary" onclick="startScan('github')" disabled>Start Scan</button>
   </div>
 </div>
 
-<!-- HuggingFace Modal -->
 <div id="modal-huggingface" class="modal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('huggingface')">×</button>
@@ -666,11 +442,10 @@ body {
       </div>
     </div>
     
-    <button class="btn-primary" onclick="startScan('huggingface')">Start Scan</button>
+    <button class="btn-primary disabled-feature" onclick="alert('This feature is currently disabled for demo purposes.')">Start Scan (Disabled)</button>
   </div>
 </div>
 
-<!-- CLI Modal -->
 <div id="modal-cli" class="modal">
   <div class="modal-content">
     <button class="modal-close" onclick="closeModal('cli')">×</button>
@@ -705,13 +480,140 @@ body {
       <input type="text" placeholder="Enter your API key to enable CLI access" value="sk_test_4eC39HqLyjWDarjtT1zdp7dc">
     </div>
     
-    <button class="btn-primary" onclick="window.open('scan-progress.html', '_blank')">View Full Documentation</button>
+    <button class="btn-primary disabled-feature" onclick="alert('This feature is currently disabled for demo purposes.')">View Full Documentation (Disabled)</button>
   </div>
 </div>
 
 <script>
+let validCandidates = [];
+
+// Fetch candidate URLs when page loads
+async function fetchCandidates() {
+  try {
+    const response = await fetch('/api/select_url.json');
+    const data = await response.json();
+    validCandidates = data.candidates || [];
+  } catch (error) {
+    console.error("Failed to fetch repository candidates:", error);
+    validCandidates = [];
+  }
+}
+
+// Autocomplete Logic
+function autocomplete(inp) {
+  let currentFocus;
+  
+  inp.addEventListener("input", function(e) {
+      const val = this.value;
+      closeAllLists();
+      validateInput(val); // Check valid state on every keystroke
+      
+      if (!val) return false;
+      
+      currentFocus = -1;
+      const listDiv = document.createElement("DIV");
+      listDiv.setAttribute("id", this.id + "autocomplete-list");
+      listDiv.setAttribute("class", "autocomplete-items");
+      this.parentNode.appendChild(listDiv);
+      
+      // Filter candidates
+      for (let i = 0; i < validCandidates.length; i++) {
+        const candidate = validCandidates[i];
+        if (candidate.toLowerCase().includes(val.toLowerCase())) {
+          const itemDiv = document.createElement("DIV");
+          // Highlight match
+          const regex = new RegExp("(" + val + ")", "gi");
+          itemDiv.innerHTML = candidate.replace(regex, "<strong>$1</strong>");
+          itemDiv.innerHTML += "<input type='hidden' value='" + candidate + "'>";
+          
+          itemDiv.addEventListener("click", function(e) {
+              inp.value = this.getElementsByTagName("input")[0].value;
+              closeAllLists();
+              validateInput(inp.value); // Re-validate after selection
+          });
+          listDiv.appendChild(itemDiv);
+        }
+      }
+  });
+  
+  // Keyboard navigation
+  inp.addEventListener("keydown", function(e) {
+      let x = document.getElementById(this.id + "autocomplete-list");
+      if (x) x = x.getElementsByTagName("div");
+      if (e.keyCode == 40) { // Down
+        currentFocus++;
+        addActive(x);
+      } else if (e.keyCode == 38) { // Up
+        currentFocus--;
+        addActive(x);
+      } else if (e.keyCode == 13) { // Enter
+        e.preventDefault();
+        if (currentFocus > -1) {
+          if (x) x[currentFocus].click();
+        }
+      }
+  });
+
+  function addActive(x) {
+    if (!x) return false;
+    removeActive(x);
+    if (currentFocus >= x.length) currentFocus = 0;
+    if (currentFocus < 0) currentFocus = (x.length - 1);
+    x[currentFocus].classList.add("autocomplete-active");
+    x[currentFocus].style.backgroundColor = "var(--panel)"; // Visual feedback
+    x[currentFocus].style.color = "var(--primary)";
+  }
+
+  function removeActive(x) {
+    for (let i = 0; i < x.length; i++) {
+      x[i].classList.remove("autocomplete-active");
+      x[i].style.backgroundColor = ""; 
+      x[i].style.color = "";
+    }
+  }
+
+  function closeAllLists(elmnt) {
+    var x = document.getElementsByClassName("autocomplete-items");
+    for (var i = 0; i < x.length; i++) {
+      if (elmnt != x[i] && elmnt != inp) {
+        x[i].parentNode.removeChild(x[i]);
+      }
+    }
+  }
+  
+  document.addEventListener("click", function (e) {
+      closeAllLists(e.target);
+  });
+}
+
+function validateInput(val) {
+  const btn = document.getElementById('btn-scan-github');
+  const msg = document.getElementById('validation-msg');
+  
+  if (validCandidates.includes(val)) {
+    btn.disabled = false;
+    btn.classList.remove('disabled');
+    msg.style.display = 'none';
+  } else {
+    btn.disabled = true;
+    btn.classList.add('disabled');
+    if (val.length > 0) {
+      msg.style.display = 'block';
+    } else {
+      msg.style.display = 'none';
+    }
+  }
+}
+
 function openModal(type) {
   document.getElementById('modal-' + type).classList.add('active');
+  if (type === 'github') {
+    // Reset state when opening modal
+    const input = document.getElementById('github-url');
+    input.value = '';
+    validateInput('');
+    input.focus();
+  }
 }
 
 function closeModal(type) {
@@ -719,25 +621,19 @@ function closeModal(type) {
 }
 
 function startScan(type) {
-  let repoUrl;
   if (type === 'github') {
-    repoUrl = document.getElementById('github-url').value;
-    if (!repoUrl) {
-      alert('Please enter a repository URL');
+    const repoUrl = document.getElementById('github-url').value;
+    
+    // Double check validation before submitting
+    if (!validCandidates.includes(repoUrl)) {
+      alert('Please select a valid repository from the list.');
       return;
     }
-  } else if (type === 'huggingface') {
-    repoUrl = document.getElementById('hf-url').value;
-    if (!repoUrl) {
-      alert('Please enter a model name');
-      return;
-    }
+    
+    // Store logic removed, directly redirecting to potential.html with URL param
+    // Encode the URL to ensure special characters don't break the query string
+    window.location.href = 'potential.html?url=' + encodeURIComponent(repoUrl);
   }
-  
-  // Store scan info and redirect to progress page
-  sessionStorage.setItem('scanRepo', repoUrl);
-  sessionStorage.setItem('scanType', type);
-  window.location.href = 'scan-progress.html';
 }
 
 // Close modal when clicking outside
@@ -748,6 +644,11 @@ document.querySelectorAll('.modal').forEach(modal => {
     }
   });
 });
+
+// Initialize logic
+fetchCandidates();
+autocomplete(document.getElementById("github-url"));
+
 </script>
 
 </body>

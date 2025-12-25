@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SecurityScan Hub - Data Structure</title>
+<style>
+:root {
+  --bg: #0a0b14;
+  --bg-soft: #13151f;
+  --panel: #1a1d2e;
+  --ink: #e6e8f5;
+  --muted: #9ca3c9;
+  --border: #2a2d42;
+  --primary: #6366f1;
+  --accent: #8b5cf6;
+  --string: #a5d6ff;
+  --number: #7ee787;
+  --boolean: #ff7b72;
+  --key: #79c0ff;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo { display: flex; align-items: center; gap: 12px; font-weight: 700; }
+.nav-link { color: var(--muted); text-decoration: none; font-size: 14px; }
+.nav-link:hover { color: var(--ink); }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  width: 100%;
+}
+
+.intro { margin-bottom: 40px; text-align: center; }
+.intro h1 { font-size: 32px; margin-bottom: 12px; }
+.intro p { color: var(--muted); }
+
+.schema-viewer {
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 300px 1fr;
+}
+
+.sidebar {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  padding: 20px;
+}
+
+.tree-item {
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tree-item:hover, .tree-item.active {
+  background: var(--bg-soft);
+  color: var(--ink);
+}
+
+.tree-item.active { border-left: 2px solid var(--primary); }
+
+.icon-obj { color: var(--primary); }
+.icon-arr { color: var(--accent); }
+
+.content-area {
+  padding: 32px;
+  background: var(--bg-soft);
+}
+
+.field-block {
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.field-block:last-child { border-bottom: none; }
+
+.field-name {
+  font-family: 'Courier New', monospace;
+  font-size: 18px;
+  color: var(--key);
+  margin-bottom: 8px;
+}
+
+.field-type {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.field-desc {
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.code-preview {
+  background: #0d1117;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--ink);
+  overflow-x: auto;
+}
+
+.json-key { color: var(--key); }
+.json-string { color: var(--string); }
+.json-number { color: var(--number); }
+.json-bool { color: var(--boolean); }
+
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo">
+    <span>🛡️</span>
+    <span>SecurityScan Hub</span>
+  </div>
+  <a href="index.html" class="nav-link">← Back to Dashboard</a>
+</header>
+
+<div class="container">
+  <div class="intro">
+    <h1>Result Schema Structure</h1>
+    <p>Understanding the OpenSCA JSON output format</p>
+  </div>
+
+  <div class="schema-viewer">
+    <div class="sidebar">
+      <div class="tree-item active" onclick="scrollToId('root')">
+        <span class="icon-obj">{}</span> Root Object
+      </div>
+      <div class="tree-item" onclick="scrollToId('meta')">
+        <span class="icon-obj">{}</span> meta
+      </div>
+      <div class="tree-item" onclick="scrollToId('results')">
+        <span class="icon-arr">[]</span> results
+      </div>
+      <div class="tree-item" style="padding-left: 32px" onclick="scrollToId('component')">
+        <span class="icon-obj">{}</span> component object
+      </div>
+      <div class="tree-item" style="padding-left: 32px" onclick="scrollToId('vulnerabilities')">
+        <span class="icon-arr">[]</span> vulnerabilities
+      </div>
+    </div>
+
+    <div class="content-area">
+      
+      <div class="field-block" id="root">
+        <div class="field-name">Root</div>
+        <div class="field-type">Object</div>
+        <div class="field-desc">The top-level container for the scan results. Contains metadata about the scan execution and the array of findings.</div>
+        <div class="code-preview">
+{
+  <span class="json-key">"meta"</span>: { ... },
+  <span class="json-key">"results"</span>: [ ... ]
+}
+        </div>
+      </div>
+
+      <div class="field-block" id="meta">
+        <div class="field-name">meta</div>
+        <div class="field-type">Object</div>
+        <div class="field-desc">Contains information about the scanner execution, including timestamp, tool name, and any global warnings.</div>
+        <div class="code-preview">
+<span class="json-key">"meta"</span>: {
+  <span class="json-key">"generated_at"</span>: <span class="json-string">"2025-12-22T06:01:39Z"</span>,
+  <span class="json-key">"scanner"</span>: <span class="json-string">"custom-sca-osv-baseline"</span>,
+  <span class="json-key">"source"</span>: <span class="json-string">"sca_result.json"</span>
+}
+        </div>
+      </div>
+
+      <div class="field-block" id="results">
+        <div class="field-name">results</div>
+        <div class="field-type">Array&lt;Object&gt;</div>
+        <div class="field-desc">A list of all scanned components (dependencies). This includes both safe and vulnerable components.</div>
+        <div class="code-preview">
+<span class="json-key">"results"</span>: [
+  {
+    <span class="json-key">"component"</span>: <span class="json-string">"axios"</span>,
+    <span class="json-key">"vulnerable"</span>: <span class="json-bool">true</span>,
+    ...
+  }
+]
+        </div>
+      </div>
+
+      <div class="field-block" id="component">
+        <div class="field-name">component (Item)</div>
+        <div class="field-type">Object</div>
+        <div class="field-desc">Represents a single dependency found in the project.</div>
+        <div class="code-preview">
+{
+  <span class="json-key">"component"</span>: <span class="json-string">"axios"</span>,
+  <span class="json-key">"ecosystem"</span>: <span class="json-string">"npm"</span>,
+  <span class="json-key">"version_constraints"</span>: [<span class="json-string">"^0.26.0"</span>],
+  <span class="json-key">"vulnerable"</span>: <span class="json-bool">true</span>,
+  <span class="json-key">"vulnerabilities"</span>: [ ... ]
+}
+        </div>
+      </div>
+
+      <div class="field-block" id="vulnerabilities">
+        <div class="field-name">vulnerabilities</div>
+        <div class="field-type">Array&lt;Object&gt;</div>
+        <div class="field-desc">Detailed list of security flaws associated with a specific component. If the component is safe, this array is empty.</div>
+        <div class="code-preview">
+<span class="json-key">"vulnerabilities"</span>: [
+  {
+    <span class="json-key">"id"</span>: <span class="json-string">"GHSA-42xw-2xvc-qx8m"</span>,
+    <span class="json-key">"summary"</span>: <span class="json-string">"Denial of Service in axios"</span>,
+    <span class="json-key">"cves"</span>: [<span class="json-string">"CVE-2019-10742"</span>],
+    <span class="json-key">"cvss"</span>: <span class="json-string">"CVSS:3.0/AV:N/AC:L..."</span>,
+    <span class="json-key">"cwes"</span>: [
+      { <span class="json-key">"id"</span>: <span class="json-string">"CWE-20"</span>, <span class="json-key">"name"</span>: <span class="json-string">"Improper Input..."</span> }
+    ]
+  }
+]
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+function scrollToId(id) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  document.querySelectorAll('.tree-item').forEach(el => el.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+</script>
+
+</body>
+</html>
+

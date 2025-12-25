@@ -1,0 +1,3506 @@
+{
+  "meta": {
+    "generated_at": "2025-12-24T16:00:58.483493Z",
+    "source": "input",
+    "scanner": "custom-sca-osv-offline",
+    "mode": "offline",
+    "warnings": []
+  },
+  "results": [
+    {
+      "component": "@headlessui/react",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.7.14"
+      ],
+      "parsed_constraint": "^1.7.14",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@next-auth/prisma-adapter",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.0.5"
+      ],
+      "parsed_constraint": "^1.0.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@prisma/client",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.9.0"
+      ],
+      "parsed_constraint": "^4.9.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@radix-ui/react-switch",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.0.2"
+      ],
+      "parsed_constraint": "^1.0.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@radix-ui/react-toast",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.1.4"
+      ],
+      "parsed_constraint": "^1.1.4",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@radix-ui/react-tooltip",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.0.5"
+      ],
+      "parsed_constraint": "^1.0.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@react-pdf/renderer",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.1.9"
+      ],
+      "parsed_constraint": "^3.1.9",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@sid-hq/sid",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.1.0"
+      ],
+      "parsed_constraint": "^3.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@splinetool/react-spline",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^2.2.6"
+      ],
+      "parsed_constraint": "^2.2.6",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@tailwindcss/forms",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.5.3"
+      ],
+      "parsed_constraint": "^0.5.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@tanstack/react-query",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.29.14"
+      ],
+      "parsed_constraint": "^4.29.14",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@trpc/client",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^10.21.1"
+      ],
+      "parsed_constraint": "^10.21.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@trpc/next",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^10.21.1"
+      ],
+      "parsed_constraint": "^10.21.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@trpc/react-query",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^10.21.1"
+      ],
+      "parsed_constraint": "^10.21.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@trpc/server",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^10.9.0"
+      ],
+      "parsed_constraint": "^10.9.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@types/lodash",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.14.194"
+      ],
+      "parsed_constraint": "^4.14.194",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@uiball/loaders",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.3.0"
+      ],
+      "parsed_constraint": "^1.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@vercel/analytics",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.0.1"
+      ],
+      "parsed_constraint": "^1.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@vercel/edge",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.3.4"
+      ],
+      "parsed_constraint": "^0.3.4",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "axios",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.26.0"
+      ],
+      "parsed_constraint": "^0.26.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "cheerio",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.0.0-rc.12"
+      ],
+      "parsed_constraint": "^1.0.0-rc.12",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "clsx",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.2.1"
+      ],
+      "parsed_constraint": "^1.2.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "cobe",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.6.3"
+      ],
+      "parsed_constraint": "^0.6.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "cookies-next",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^2.1.2"
+      ],
+      "parsed_constraint": "^2.1.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "framer-motion",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^10.12.8"
+      ],
+      "parsed_constraint": "^10.12.8",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "gray-matter",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.0.3"
+      ],
+      "parsed_constraint": "^4.0.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "html-to-image",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.11.11"
+      ],
+      "parsed_constraint": "^1.11.11",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "i18next",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^22.4.15"
+      ],
+      "parsed_constraint": "^22.4.15",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "lodash",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.17.21"
+      ],
+      "parsed_constraint": "^4.17.21",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "next",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^13.5.6"
+      ],
+      "parsed_constraint": "^13.5.6",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "next-auth",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "4.20.1"
+      ],
+      "parsed_constraint": "4.20.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "next-i18next",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^13.2.2"
+      ],
+      "parsed_constraint": "^13.2.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "nextjs-google-analytics",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^2.3.3"
+      ],
+      "parsed_constraint": "^2.3.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "openai",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.14.2"
+      ],
+      "parsed_constraint": "^4.14.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "react",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "18.2.0"
+      ],
+      "parsed_constraint": "18.2.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "react-dom",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "18.2.0"
+      ],
+      "parsed_constraint": "18.2.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "react-i18next",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^12.3.1"
+      ],
+      "parsed_constraint": "^12.3.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "react-icons",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.11.0"
+      ],
+      "parsed_constraint": "^4.11.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "react-markdown",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^8.0.7"
+      ],
+      "parsed_constraint": "^8.0.7",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "react-type-animation",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.1.0"
+      ],
+      "parsed_constraint": "^3.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "rehype-highlight",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^6.0.0"
+      ],
+      "parsed_constraint": "^6.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "remark-gfm",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.0.1"
+      ],
+      "parsed_constraint": "^3.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "superjson",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "1.9.1"
+      ],
+      "parsed_constraint": "1.9.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "tailwindcss-radix",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^2.8.0"
+      ],
+      "parsed_constraint": "^2.8.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "uuid",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^9.0.1"
+      ],
+      "parsed_constraint": "^9.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "zod",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.22.2"
+      ],
+      "parsed_constraint": "^3.22.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "zustand",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.3.7"
+      ],
+      "parsed_constraint": "^4.3.7",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@svgr/webpack",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^8.0.1"
+      ],
+      "parsed_constraint": "^8.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@tailwindcss/typography",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.5.9"
+      ],
+      "parsed_constraint": "^0.5.9",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@testing-library/jest-dom",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^5.16.5"
+      ],
+      "parsed_constraint": "^5.16.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@testing-library/react",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^14.0.0"
+      ],
+      "parsed_constraint": "^14.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@types/node",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^18.11.18"
+      ],
+      "parsed_constraint": "^18.11.18",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@types/prettier",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^2.7.3"
+      ],
+      "parsed_constraint": "^2.7.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@types/react",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^18.0.26"
+      ],
+      "parsed_constraint": "^18.0.26",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@types/react-dom",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^18.2.7"
+      ],
+      "parsed_constraint": "^18.2.7",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@types/uuid",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^9.0.5"
+      ],
+      "parsed_constraint": "^9.0.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@typescript-eslint/eslint-plugin",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^5.59.8"
+      ],
+      "parsed_constraint": "^5.59.8",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@typescript-eslint/parser",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^5.59.1"
+      ],
+      "parsed_constraint": "^5.59.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "autoprefixer",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^10.4.7"
+      ],
+      "parsed_constraint": "^10.4.7",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "cross-env",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^7.0.3"
+      ],
+      "parsed_constraint": "^7.0.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "eslint",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^8.43.0"
+      ],
+      "parsed_constraint": "^8.43.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "eslint-config-next",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "13.4.1"
+      ],
+      "parsed_constraint": "13.4.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "eslint-plugin-import",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^2.27.5"
+      ],
+      "parsed_constraint": "^2.27.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "husky",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^8.0.3"
+      ],
+      "parsed_constraint": "^8.0.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "jest",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^29.3.1"
+      ],
+      "parsed_constraint": "^29.3.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "jest-environment-jsdom",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^29.7.0"
+      ],
+      "parsed_constraint": "^29.7.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "lint-staged",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^13.2.1"
+      ],
+      "parsed_constraint": "^13.2.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "postcss",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^8.4.24"
+      ],
+      "parsed_constraint": "^8.4.24",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "prettier",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^2.8.8"
+      ],
+      "parsed_constraint": "^2.8.8",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "prettier-plugin-tailwindcss",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.2.8"
+      ],
+      "parsed_constraint": "^0.2.8",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "prisma",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^4.9.0"
+      ],
+      "parsed_constraint": "^4.9.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "tailwindcss",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.3.2"
+      ],
+      "parsed_constraint": "^3.3.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "typescript",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^5.1.3"
+      ],
+      "parsed_constraint": "^5.1.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "aiohttp",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.8.6"
+      ],
+      "parsed_constraint": "3.8.6",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2022-43059",
+          "cves": [],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+        },
+        {
+          "id": "GHSA-5m98-qgg9-wh84",
+          "cves": [
+            "CVE-2024-30251"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-835",
+              "name": "Loop with Unreachable Exit Condition ('Infinite Loop')"
+            }
+          ],
+          "summary": "aiohttp vulnerable to Denial of Service when trying to parse malformed POST requests",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "id": "PYSEC-2023-251",
+          "cves": [
+            "CVE-2023-49082"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        {
+          "id": "GHSA-qvrw-v9rv-5rjx",
+          "cves": [
+            "CVE-2023-49082"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-20",
+              "name": "Improper Input Validation"
+            }
+          ],
+          "summary": "aiohttp's ClientSession is vulnerable to CRLF injection via method",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        {
+          "id": "GHSA-8495-4g3g-x7pr",
+          "cves": [
+            "CVE-2024-52304"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-444",
+              "name": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+            }
+          ],
+          "summary": "aiohttp allows request smuggling due to incorrect parsing of chunk extensions",
+          "cvss": null
+        },
+        {
+          "id": "GHSA-5h86-8mv2-jq9f",
+          "cves": [
+            "CVE-2024-23334"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-22",
+              "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+            }
+          ],
+          "summary": "aiohttp is vulnerable to directory traversal",
+          "cvss": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
+        {
+          "id": "PYSEC-2024-24",
+          "cves": [
+            "CVE-2024-23334"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
+        {
+          "id": "GHSA-8qpw-xqxj-h4r2",
+          "cves": [
+            "CVE-2024-23829"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-444",
+              "name": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+            }
+          ],
+          "summary": "aiohttp's HTTP parser (the python one, not llhttp) still overly lenient about separators",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+        },
+        {
+          "id": "PYSEC-2023-250",
+          "cves": [
+            "CVE-2023-49081"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N"
+        },
+        {
+          "id": "GHSA-7gpw-8wmc-pm8g",
+          "cves": [
+            "CVE-2024-27306"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-79",
+              "name": "Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')"
+            }
+          ],
+          "summary": "aiohttp Cross-site Scripting vulnerability on index pages for static file handling",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+        },
+        {
+          "id": "GHSA-9548-qrrj-x5pj",
+          "cves": [
+            "CVE-2025-53643"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-444",
+              "name": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+            }
+          ],
+          "summary": " AIOHTTP is vulnerable to HTTP Request/Response Smuggling through incorrect parsing of chunked trailer sections",
+          "cvss": null
+        },
+        {
+          "id": "GHSA-q3qx-c6g2-7pw2",
+          "cves": [
+            "CVE-2023-49081"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-20",
+              "name": "Improper Input Validation"
+            }
+          ],
+          "summary": "aiohttp's ClientSession is vulnerable to CRLF injection via version",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N"
+        },
+        {
+          "id": "PYSEC-2024-26",
+          "cves": [
+            "CVE-2024-23829"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:L"
+        },
+        {
+          "id": "GHSA-rwqr-c348-m5wr",
+          "cves": [],
+          "cwes": [],
+          "summary": "Withdrawn: Denial of Service in aiohttp",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+        }
+      ]
+    },
+    {
+      "component": "aiokafka",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.8.1"
+      ],
+      "parsed_constraint": "^0.8.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "aiomysql",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.1.1"
+      ],
+      "parsed_constraint": "^0.1.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "aiosignal",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.3.1"
+      ],
+      "parsed_constraint": "1.3.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "anyio",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^3.7.1"
+      ],
+      "parsed_constraint": "^3.7.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "astor",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.8.1"
+      ],
+      "parsed_constraint": "0.8.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "async-timeout",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "4.0.3"
+      ],
+      "parsed_constraint": "4.0.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "attrs",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "23.1.0"
+      ],
+      "parsed_constraint": "23.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "autoflake",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^2.2.1"
+      ],
+      "parsed_constraint": "^2.2.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "autopep8",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^2.0.4"
+      ],
+      "parsed_constraint": "^2.0.4",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "aws-secretsmanager-caching",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^1.1.1.5"
+      ],
+      "parsed_constraint": "^1.1.1.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "bandit",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.7.5"
+      ],
+      "parsed_constraint": "1.7.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "beautifulsoup4",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "4.12.2"
+      ],
+      "parsed_constraint": "4.12.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "black",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^23.9.1"
+      ],
+      "parsed_constraint": "^23.9.1",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2024-48",
+          "cves": [
+            "CVE-2024-21503"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-fj7x-q9j7-g6q6",
+          "cves": [
+            "CVE-2024-21503"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-1333",
+              "name": "Inefficient Regular Expression Complexity"
+            },
+            {
+              "id": "CWE-75",
+              "name": "Failure to Sanitize Special Elements into a Different Plane (Special Element Injection)"
+            }
+          ],
+          "summary": "Black vulnerable to Regular Expression Denial of Service (ReDoS)",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+      ]
+    },
+    {
+      "component": "boto3",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^1.28.51"
+      ],
+      "parsed_constraint": "^1.28.51",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "botocore",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^1.31.51"
+      ],
+      "parsed_constraint": "^1.31.51",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "certifi",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2023.7.22"
+      ],
+      "parsed_constraint": "2023.7.22",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-248v-346w-9cwc",
+          "cves": [
+            "CVE-2024-39689"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-345",
+              "name": "Insufficient Verification of Data Authenticity"
+            }
+          ],
+          "summary": "Certifi removes GLOBALTRUST root certificate",
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2024-230",
+          "cves": [
+            "CVE-2024-39689"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+        }
+      ]
+    },
+    {
+      "component": "cffi",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.16.0"
+      ],
+      "parsed_constraint": "1.16.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "cfgv",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.4.0"
+      ],
+      "parsed_constraint": "3.4.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "charset-normalizer",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.3.2"
+      ],
+      "parsed_constraint": "3.3.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "click",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "8.1.7"
+      ],
+      "parsed_constraint": "8.1.7",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "colorama",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.4.6"
+      ],
+      "parsed_constraint": "0.4.6",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "coverage",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "7.3.2"
+      ],
+      "parsed_constraint": "7.3.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "cryptography",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^41.0.4"
+      ],
+      "parsed_constraint": "^41.0.4",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2017-8",
+          "cves": [
+            "CVE-2016-9243"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-hggm-jpg3-v476",
+          "cves": [
+            "CVE-2020-25659"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-385",
+              "name": "Covert Timing Channel"
+            }
+          ],
+          "summary": "RSA decryption vulnerable to Bleichenbacher timing vulnerability",
+          "cvss": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
+        {
+          "id": "GHSA-q3cj-2r34-2cwc",
+          "cves": [
+            "CVE-2016-9243"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-20",
+              "name": "Improper Input Validation"
+            }
+          ],
+          "summary": "Improper input validation in cryptography",
+          "cvss": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+        },
+        {
+          "id": "GHSA-3ww4-gg4f-jr7f",
+          "cves": [
+            "CVE-2023-50782"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-203",
+              "name": "Observable Discrepancy"
+            },
+            {
+              "id": "CWE-208",
+              "name": "Observable Timing Discrepancy"
+            }
+          ],
+          "summary": "Python Cryptography package vulnerable to Bleichenbacher timing oracle attack",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
+        {
+          "id": "PYSEC-2021-62",
+          "cves": [
+            "CVE-2020-25659"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-9v9h-cgj8-h64p",
+          "cves": [
+            "CVE-2024-0727"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-476",
+              "name": "NULL Pointer Dereference"
+            }
+          ],
+          "summary": "Null pointer dereference in PKCS12 parsing",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:H"
+        }
+      ]
+    },
+    {
+      "component": "darglint",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.8.1"
+      ],
+      "parsed_constraint": "1.8.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "dataclasses-json",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.5.9"
+      ],
+      "parsed_constraint": "0.5.9",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "distlib",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.3.7"
+      ],
+      "parsed_constraint": "0.3.7",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "dnspython",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.4.2"
+      ],
+      "parsed_constraint": "2.4.2",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-3rq5-2g8h-59hc",
+          "cves": [
+            "CVE-2023-29483"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-696",
+              "name": "Incorrect Behavior Order"
+            }
+          ],
+          "summary": "Potential DoS via the Tudoor mechanism in eventlet and dnspython",
+          "cvss": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ]
+    },
+    {
+      "component": "docutils",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.20.1"
+      ],
+      "parsed_constraint": "0.20.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "dotmap",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.3.30"
+      ],
+      "parsed_constraint": "1.3.30",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "eradicate",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.3.0"
+      ],
+      "parsed_constraint": "2.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "fastapi",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.98.0"
+      ],
+      "parsed_constraint": "^0.98.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2021-100",
+          "cves": [
+            "CVE-2021-32677"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-8h2j-cgx8-6xv7",
+          "cves": [
+            "CVE-2021-32677"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-352",
+              "name": "Cross-Site Request Forgery (CSRF)"
+            }
+          ],
+          "summary": "Cross-Site Request Forgery (CSRF) in FastAPI",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:H/A:N"
+        }
+      ]
+    },
+    {
+      "component": "filelock",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.13.1"
+      ],
+      "parsed_constraint": "3.13.1",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-w853-jp5j-5j7f",
+          "cves": [
+            "CVE-2025-68146"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-362",
+              "name": "Concurrent Execution using Shared Resource with Improper Synchronization ('Race Condition')"
+            },
+            {
+              "id": "CWE-367",
+              "name": "Time-of-check Time-of-use (TOCTOU) Race Condition"
+            },
+            {
+              "id": "CWE-59",
+              "name": "Improper Link Resolution Before File Access ('Link Following')"
+            }
+          ],
+          "summary": "filelock has a TOCTOU race condition which allows symlink attacks during lock file creation",
+          "cvss": "CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:H"
+        }
+      ]
+    },
+    {
+      "component": "flake8",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "~6.0.0"
+      ],
+      "parsed_constraint": "~6.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-bandit",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "4.1.1"
+      ],
+      "parsed_constraint": "4.1.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-broken-line",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.0.0"
+      ],
+      "parsed_constraint": "1.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-bugbear",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "23.9.16"
+      ],
+      "parsed_constraint": "23.9.16",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-commas",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.1.0"
+      ],
+      "parsed_constraint": "2.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-comprehensions",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.14.0"
+      ],
+      "parsed_constraint": "3.14.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-debugger",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "4.1.2"
+      ],
+      "parsed_constraint": "4.1.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-docstrings",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.7.0"
+      ],
+      "parsed_constraint": "1.7.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-eradicate",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.5.0"
+      ],
+      "parsed_constraint": "1.5.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-isort",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "6.1.0"
+      ],
+      "parsed_constraint": "6.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-quotes",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.3.2"
+      ],
+      "parsed_constraint": "3.3.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-rst-docstrings",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.3.0"
+      ],
+      "parsed_constraint": "0.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "flake8-string-format",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.3.0"
+      ],
+      "parsed_constraint": "0.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "frozenlist",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.4.0"
+      ],
+      "parsed_constraint": "1.4.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "gitdb",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "4.0.11"
+      ],
+      "parsed_constraint": "4.0.11",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "gitpython",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.1.40"
+      ],
+      "parsed_constraint": "3.1.40",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-2mqj-m65w-jghx",
+          "cves": [
+            "CVE-2024-22190"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-426",
+              "name": "Untrusted Search Path"
+            }
+          ],
+          "summary": "Untrusted search path under some conditions on Windows allows arbitrary code execution",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2024-4",
+          "cves": [
+            "CVE-2024-22190"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+      ]
+    },
+    {
+      "component": "greenlet",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.0.1"
+      ],
+      "parsed_constraint": "3.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "grpcio",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^1.58.0"
+      ],
+      "parsed_constraint": "^1.58.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2017-101",
+          "cves": [
+            "CVE-2017-8359"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-496j-2rq6-j6cc",
+          "cves": [
+            "CVE-2023-33953"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-770",
+              "name": "Allocation of Resources Without Limits or Throttling"
+            },
+            {
+              "id": "CWE-789",
+              "name": "Memory Allocation with Excessive Size Value"
+            }
+          ],
+          "summary": "Excessive Iteration in gRPC",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ]
+    },
+    {
+      "component": "h11",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.14.0"
+      ],
+      "parsed_constraint": "0.14.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-vqfr-h8mv-ghfj",
+          "cves": [
+            "CVE-2025-43859"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-444",
+              "name": "Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+            }
+          ],
+          "summary": "h11 accepts some malformed Chunked-Encoding bodies",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+        }
+      ]
+    },
+    {
+      "component": "httpcore",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.18.0"
+      ],
+      "parsed_constraint": "0.18.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "httptools",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.6.1"
+      ],
+      "parsed_constraint": "0.6.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "httpx",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.25.0"
+      ],
+      "parsed_constraint": "^0.25.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2022-183",
+          "cves": [
+            "CVE-2021-41945"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-h8pj-cxx2-jfg2",
+          "cves": [
+            "CVE-2021-41945"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-20",
+              "name": "Improper Input Validation"
+            }
+          ],
+          "summary": "Improper Input Validation in httpx",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+        }
+      ]
+    },
+    {
+      "component": "identify",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.5.31"
+      ],
+      "parsed_constraint": "2.5.31",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "idna",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.4"
+      ],
+      "parsed_constraint": "3.4",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2024-60",
+          "cves": [
+            "CVE-2024-3651"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "id": "GHSA-jjg7-2v4v-x38h",
+          "cves": [
+            "CVE-2024-3651"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-1333",
+              "name": "Inefficient Regular Expression Complexity"
+            },
+            {
+              "id": "CWE-400",
+              "name": "Uncontrolled Resource Consumption"
+            }
+          ],
+          "summary": "Internationalized Domain Names in Applications (IDNA) vulnerable to denial of service from specially crafted inputs to idna.encode",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ]
+    },
+    {
+      "component": "iniconfig",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.0.0"
+      ],
+      "parsed_constraint": "2.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "isort",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^5.12.0"
+      ],
+      "parsed_constraint": "^5.12.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "jmespath",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.0.1"
+      ],
+      "parsed_constraint": "1.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "kafka-python",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.0.2"
+      ],
+      "parsed_constraint": "2.0.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "lanarky",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.7.15"
+      ],
+      "parsed_constraint": "^0.7.15",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "langchain",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.0.295"
+      ],
+      "parsed_constraint": "^0.0.295",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-x32c-59v5-h7fg",
+          "cves": [
+            "CVE-2023-34540"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-78",
+              "name": "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+            }
+          ],
+          "summary": "Langchain OS Command Injection vulnerability",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-7q94-qpjr-xpgm",
+          "cves": [
+            "CVE-2023-36189"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-89",
+              "name": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            }
+          ],
+          "summary": "langchain SQL Injection vulnerability",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
+        {
+          "id": "PYSEC-2023-147",
+          "cves": [
+            "CVE-2023-39659"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-91",
+          "cves": [
+            "CVE-2023-34540"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2024-111",
+          "cves": [],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N"
+        },
+        {
+          "id": "PYSEC-2023-92",
+          "cves": [
+            "CVE-2023-34541"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-6643-h7h5-x9wh",
+          "cves": [
+            "CVE-2023-34541"
+          ],
+          "cwes": [],
+          "summary": "Langchain vulnerable to arbitrary code execution",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-57fc-8q82-gfp3",
+          "cves": [
+            "CVE-2023-36188"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-74",
+              "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+            }
+          ],
+          "summary": "langchain vulnerable to arbitrary code execution",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-138",
+          "cves": [
+            "CVE-2023-36095"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-18",
+          "cves": [
+            "CVE-2023-29374"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-8h5w-f6q9-wg35",
+          "cves": [
+            "CVE-2023-32785"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-74",
+              "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+            },
+            {
+              "id": "CWE-89",
+              "name": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            }
+          ],
+          "summary": "Langchain SQL Injection vulnerability",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-109",
+          "cves": [
+            "CVE-2023-36188"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-gwqq-6vq7-5j86",
+          "cves": [
+            "CVE-2023-36095"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "langchain Code Injection vulnerability",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-92j5-3459-qgp4",
+          "cves": [
+            "CVE-2023-38896"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-74",
+              "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+            },
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "LangChain vulnerable to arbitrary code execution",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-fprp-p869-w6q2",
+          "cves": [
+            "CVE-2023-29374"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-74",
+              "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+            },
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "LangChain vulnerable to code injection",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-151",
+          "cves": [
+            "CVE-2023-36281"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-110",
+          "cves": [
+            "CVE-2023-36189"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2023-145",
+          "cves": [
+            "CVE-2023-38860"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-146",
+          "cves": [
+            "CVE-2023-38896"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-2qmj-7962-cjq8",
+          "cves": [
+            "CVE-2023-36258"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "langchain arbitrary code execution vulnerability",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-fj32-q626-pjjc",
+          "cves": [
+            "CVE-2023-38860"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "LangChain vulnerable to arbitrary code execution",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2023-98",
+          "cves": [
+            "CVE-2023-36258"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        }
+      ]
+    },
+    {
+      "component": "langsmith",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.0.55"
+      ],
+      "parsed_constraint": "0.0.55",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "loguru",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.7.2"
+      ],
+      "parsed_constraint": "^0.7.2",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-39ph-wr67-j4xq",
+          "cves": [
+            "CVE-2022-0338"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-269",
+              "name": "Improper Privilege Management"
+            },
+            {
+              "id": "CWE-532",
+              "name": "Insertion of Sensitive Information into Log File"
+            }
+          ],
+          "summary": "loguru vulnerable to improper privilege management ",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:L/I:N/A:N"
+        },
+        {
+          "id": "PYSEC-2022-14",
+          "cves": [
+            "CVE-2022-0338"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-cvp7-c586-cmf4",
+          "cves": [],
+          "cwes": [
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "Withdrawn: Code Injection in loguru",
+          "cvss": null
+        }
+      ]
+    },
+    {
+      "component": "markdown-it-py",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.0.0"
+      ],
+      "parsed_constraint": "3.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "marshmallow",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.20.1"
+      ],
+      "parsed_constraint": "3.20.1",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-428g-f7cq-pgp5",
+          "cves": [
+            "CVE-2025-68480"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-405",
+              "name": "Asymmetric Resource Consumption (Amplification)"
+            }
+          ],
+          "summary": "Marshmallow has DoS in Schema.load(many)",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+      ]
+    },
+    {
+      "component": "marshmallow-enum",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.5.1"
+      ],
+      "parsed_constraint": "1.5.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "mccabe",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.7.0"
+      ],
+      "parsed_constraint": "0.7.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "mdurl",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.1.2"
+      ],
+      "parsed_constraint": "0.1.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "multidict",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "6.0.4"
+      ],
+      "parsed_constraint": "6.0.4",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "mypy",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^1.5.1"
+      ],
+      "parsed_constraint": "^1.5.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "mypy-extensions",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.0.0"
+      ],
+      "parsed_constraint": "1.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "mysqlclient",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^2.2.0"
+      ],
+      "parsed_constraint": "^2.2.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "nodeenv",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.8.0"
+      ],
+      "parsed_constraint": "1.8.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "numexpr",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.8.7"
+      ],
+      "parsed_constraint": "2.8.7",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "numpy",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.25.2"
+      ],
+      "parsed_constraint": "1.25.2",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-9fq2-x9r6-wfmf",
+          "cves": [
+            "CVE-2019-6446"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-502",
+              "name": "Deserialization of Untrusted Data"
+            }
+          ],
+          "summary": "Numpy Deserialization of Untrusted Data",
+          "cvss": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        }
+      ]
+    },
+    {
+      "component": "openai",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.28.0"
+      ],
+      "parsed_constraint": "^0.28.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "packaging",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "23.2"
+      ],
+      "parsed_constraint": "23.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pathspec",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.11.2"
+      ],
+      "parsed_constraint": "0.11.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pbr",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "5.11.1"
+      ],
+      "parsed_constraint": "5.11.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pep8-naming",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.13.3"
+      ],
+      "parsed_constraint": "0.13.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pinecone-client",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^2.2.4"
+      ],
+      "parsed_constraint": "^2.2.4",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "platformdirs",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.11.0"
+      ],
+      "parsed_constraint": "3.11.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pluggy",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.3.0"
+      ],
+      "parsed_constraint": "1.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pre-commit",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^3.4.0"
+      ],
+      "parsed_constraint": "^3.4.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pycodestyle",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.10.0"
+      ],
+      "parsed_constraint": "2.10.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pycparser",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.21"
+      ],
+      "parsed_constraint": "2.21",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pydantic",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "{'version': '<2.0', 'extras': ['dotenv']}"
+      ],
+      "parsed_constraint": "{'version': '<2.0', 'extras': ['dotenv']}",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-5jqp-qgf6-3pvh",
+          "cves": [
+            "CVE-2021-29510"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-835",
+              "name": "Loop with Unreachable Exit Condition ('Infinite Loop')"
+            }
+          ],
+          "summary": "Use of \"infinity\" as an input to datetime and date fields causes infinite loop in pydantic",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:U/C:N/I:N/A:L"
+        },
+        {
+          "id": "PYSEC-2021-47",
+          "cves": [
+            "CVE-2021-29510"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-mr82-8j83-vxmv",
+          "cves": [
+            "CVE-2024-3772"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-1333",
+              "name": "Inefficient Regular Expression Complexity"
+            }
+          ],
+          "summary": "Pydantic regular expression denial of service",
+          "cvss": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ]
+    },
+    {
+      "component": "pydocstyle",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "6.3.0"
+      ],
+      "parsed_constraint": "6.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pyflakes",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.0.1"
+      ],
+      "parsed_constraint": "3.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pygments",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.16.1"
+      ],
+      "parsed_constraint": "2.16.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pymysql",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.1.1"
+      ],
+      "parsed_constraint": "1.1.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pytest",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^7.4.2"
+      ],
+      "parsed_constraint": "^7.4.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pytest-asyncio",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.21.1"
+      ],
+      "parsed_constraint": "0.21.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pytest-cov",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^4.1.0"
+      ],
+      "parsed_constraint": "^4.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pytest-env",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.8.2"
+      ],
+      "parsed_constraint": "^0.8.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pytest-mock",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "3.12.0"
+      ],
+      "parsed_constraint": "3.12.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "python-dateutil",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.8.2"
+      ],
+      "parsed_constraint": "2.8.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "python-dotenv",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.0.0"
+      ],
+      "parsed_constraint": "1.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "python-multipart",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.0.6"
+      ],
+      "parsed_constraint": "^0.0.6",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "pyyaml",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "6.0.1"
+      ],
+      "parsed_constraint": "6.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "regex",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2023.10.3"
+      ],
+      "parsed_constraint": "2023.10.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "replicate",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.8.4"
+      ],
+      "parsed_constraint": "^0.8.4",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "requests",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^2.31.0"
+      ],
+      "parsed_constraint": "^2.31.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2018-28",
+          "cves": [
+            "CVE-2018-18074"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-x84v-xcm2-53pg",
+          "cves": [
+            "CVE-2018-18074"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-522",
+              "name": "Insufficiently Protected Credentials"
+            }
+          ],
+          "summary": "Insufficiently Protected Credentials in Requests",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+        },
+        {
+          "id": "PYSEC-2014-14",
+          "cves": [
+            "CVE-2014-1830"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-cfj3-7x9c-4p3h",
+          "cves": [
+            "CVE-2014-1829"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-200",
+              "name": "Exposure of Sensitive Information to an Unauthorized Actor"
+            }
+          ],
+          "summary": "Exposure of Sensitive Information to an Unauthorized Actor in Requests",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+        },
+        {
+          "id": "GHSA-652x-xj99-gmcc",
+          "cves": [
+            "CVE-2014-1830"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-200",
+              "name": "Exposure of Sensitive Information to an Unauthorized Actor"
+            }
+          ],
+          "summary": "Exposure of Sensitive Information to an Unauthorized Actor in Requests",
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2014-13",
+          "cves": [
+            "CVE-2014-1829"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        }
+      ]
+    },
+    {
+      "component": "restructuredtext-lint",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.4.0"
+      ],
+      "parsed_constraint": "1.4.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "rich",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "13.6.0"
+      ],
+      "parsed_constraint": "13.6.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "s3transfer",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.7.0"
+      ],
+      "parsed_constraint": "0.7.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "sentry-sdk",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^1.31.0"
+      ],
+      "parsed_constraint": "^1.31.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-29pr-6jr8-q5jm",
+          "cves": [
+            "CVE-2023-28117"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-201",
+              "name": "Insertion of Sensitive Information Into Sent Data"
+            },
+            {
+              "id": "CWE-209",
+              "name": "Generation of Error Message Containing Sensitive Information"
+            }
+          ],
+          "summary": "Sentry SDK leaks sensitive session information when `sendDefaultPII` is set to `True`",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:C/C:H/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "component": "setuptools",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "68.2.2"
+      ],
+      "parsed_constraint": "68.2.2",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2025-49",
+          "cves": [
+            "CVE-2025-47273"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-5rjg-fvgr-3xxf",
+          "cves": [
+            "CVE-2025-47273"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-22",
+              "name": "Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal')"
+            }
+          ],
+          "summary": "setuptools has a path traversal vulnerability in PackageIndex.download that leads to Arbitrary File Write",
+          "cvss": null
+        },
+        {
+          "id": "GHSA-cx63-2mw6-8hw5",
+          "cves": [
+            "CVE-2024-6345"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "setuptools vulnerable to Command Injection via package URL",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        }
+      ]
+    },
+    {
+      "component": "six",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.16.0"
+      ],
+      "parsed_constraint": "1.16.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "smmap",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "5.0.1"
+      ],
+      "parsed_constraint": "5.0.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "sniffio",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.3.0"
+      ],
+      "parsed_constraint": "1.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "snowballstemmer",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.2.0"
+      ],
+      "parsed_constraint": "2.2.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "soupsieve",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.5"
+      ],
+      "parsed_constraint": "2.5",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "sqlalchemy",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "{'version': '^2.0.21', 'extras': ['mypy', 'asyncio']}"
+      ],
+      "parsed_constraint": "{'version': '^2.0.21', 'extras': ['mypy', 'asyncio']}",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-887w-45rq-vxgf",
+          "cves": [
+            "CVE-2019-7164"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-89",
+              "name": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            }
+          ],
+          "summary": "SQLAlchemy vulnerable to SQL Injection via order_by parameter",
+          "cvss": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-hfg2-wf6j-x53p",
+          "cves": [
+            "CVE-2012-0805"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-89",
+              "name": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            }
+          ],
+          "summary": "SQLAlchemy vulnerable to SQL injection",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2019-54",
+          "cves": [],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2012-9",
+          "cves": [
+            "CVE-2012-0805"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2019-123",
+          "cves": [
+            "CVE-2019-7164"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2019-53",
+          "cves": [],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-38fc-9xqv-7f7q",
+          "cves": [
+            "CVE-2019-7548"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-89",
+              "name": "Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')"
+            }
+          ],
+          "summary": "SQLAlchemy is vulnerable to SQL Injection via group_by parameter ",
+          "cvss": "CVSS:3.0/AV:L/AC:L/PR:N/UI:R/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "PYSEC-2019-124",
+          "cves": [
+            "CVE-2019-7548"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        }
+      ]
+    },
+    {
+      "component": "starlette",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.27.0"
+      ],
+      "parsed_constraint": "0.27.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-f96h-pmfr-66vw",
+          "cves": [
+            "CVE-2024-47874"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-770",
+              "name": "Allocation of Resources Without Limits or Throttling"
+            }
+          ],
+          "summary": "Starlette Denial of service (DoS) via multipart/form-data",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N"
+        },
+        {
+          "id": "GHSA-93gm-qmq6-w238",
+          "cves": [],
+          "cwes": [
+            {
+              "id": "CWE-400",
+              "name": "Uncontrolled Resource Consumption"
+            }
+          ],
+          "summary": "Duplicate Advisory: Starlette Content-Type Header ReDoS",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "id": "GHSA-2c2j-9gv5-cj73",
+          "cves": [
+            "CVE-2025-54121"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-770",
+              "name": "Allocation of Resources Without Limits or Throttling"
+            }
+          ],
+          "summary": "Starlette has possible denial-of-service vector when parsing large files in multipart forms",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+        }
+      ]
+    },
+    {
+      "component": "stevedore",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "5.1.0"
+      ],
+      "parsed_constraint": "5.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "stripe",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^5.5.0"
+      ],
+      "parsed_constraint": "^5.5.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "tenacity",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "8.2.3"
+      ],
+      "parsed_constraint": "8.2.3",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "tiktoken",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.5.1"
+      ],
+      "parsed_constraint": "^0.5.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "tqdm",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "4.66.1"
+      ],
+      "parsed_constraint": "4.66.1",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-g7vv-2v7x-gj9p",
+          "cves": [
+            "CVE-2024-34062"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-74",
+              "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+            }
+          ],
+          "summary": "tqdm CLI arguments injection attack",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:L/UI:R/S:U/C:L/I:L/A:N"
+        }
+      ]
+    },
+    {
+      "component": "types-pytz",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2023.3.1.1"
+      ],
+      "parsed_constraint": "2023.3.1.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "types-requests",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.31.0.10"
+      ],
+      "parsed_constraint": "2.31.0.10",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "typing-extensions",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "4.8.0"
+      ],
+      "parsed_constraint": "4.8.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "typing-inspect",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.9.0"
+      ],
+      "parsed_constraint": "0.9.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "ujson",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^5.8.0"
+      ],
+      "parsed_constraint": "^5.8.0",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-wpqr-jcpx-745r",
+          "cves": [
+            "CVE-2022-31116"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-670",
+              "name": "Always-Incorrect Control Flow Implementation"
+            }
+          ],
+          "summary": "Incorrect handling of invalid surrogate pair characters",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        },
+        {
+          "id": "GHSA-fm67-cv37-96ff",
+          "cves": [
+            "CVE-2022-31117"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-415",
+              "name": "Double Free"
+            }
+          ],
+          "summary": "Potential double free of buffer during string decoding",
+          "cvss": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+        }
+      ]
+    },
+    {
+      "component": "urllib3",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "2.0.7"
+      ],
+      "parsed_constraint": "2.0.7",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-gm62-xv2j-4w53",
+          "cves": [
+            "CVE-2025-66418"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-770",
+              "name": "Allocation of Resources Without Limits or Throttling"
+            }
+          ],
+          "summary": "urllib3 allows an unbounded number of links in the decompression chain",
+          "cvss": null
+        },
+        {
+          "id": "GHSA-2xpw-w6gg-jr37",
+          "cves": [
+            "CVE-2025-66471"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-409",
+              "name": "Improper Handling of Highly Compressed Data (Data Amplification)"
+            }
+          ],
+          "summary": "urllib3 streaming API improperly handles highly compressed data",
+          "cvss": null
+        },
+        {
+          "id": "GHSA-pq67-6m6q-mj2v",
+          "cves": [
+            "CVE-2025-50181"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-601",
+              "name": "URL Redirection to Untrusted Site ('Open Redirect')"
+            }
+          ],
+          "summary": "urllib3 redirects are not disabled when retries are disabled on PoolManager instantiation",
+          "cvss": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:N/A:N"
+        }
+      ]
+    },
+    {
+      "component": "uvicorn",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "{'version': '^0.22.0', 'extras': ['standard']}"
+      ],
+      "parsed_constraint": "{'version': '^0.22.0', 'extras': ['standard']}",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "GHSA-f97h-2pfx-f59f",
+          "cves": [
+            "CVE-2020-7695"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-74",
+              "name": "Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')"
+            }
+          ],
+          "summary": "HTTP response splitting in uvicorn",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+        },
+        {
+          "id": "PYSEC-2020-151",
+          "cves": [
+            "CVE-2020-7695"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "PYSEC-2020-150",
+          "cves": [
+            "CVE-2020-7694"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": null
+        },
+        {
+          "id": "GHSA-33c7-2mpw-hg34",
+          "cves": [
+            "CVE-2020-7694"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-116",
+              "name": "Improper Encoding or Escaping of Output"
+            },
+            {
+              "id": "CWE-94",
+              "name": "Improper Control of Generation of Code ('Code Injection')"
+            }
+          ],
+          "summary": "Log injection in uvicorn",
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:H/A:N"
+        }
+      ]
+    },
+    {
+      "component": "uvloop",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.19.0"
+      ],
+      "parsed_constraint": "0.19.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "virtualenv",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "20.24.6"
+      ],
+      "parsed_constraint": "20.24.6",
+      "vulnerable": true,
+      "vulnerabilities": [
+        {
+          "id": "PYSEC-2024-187",
+          "cves": [
+            "CVE-2024-53899"
+          ],
+          "cwes": [],
+          "summary": null,
+          "cvss": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        },
+        {
+          "id": "GHSA-rqc4-2hc7-8c8v",
+          "cves": [
+            "CVE-2024-53899"
+          ],
+          "cwes": [
+            {
+              "id": "CWE-77",
+              "name": "Improper Neutralization of Special Elements used in a Command ('Command Injection')"
+            },
+            {
+              "id": "CWE-78",
+              "name": "Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection')"
+            }
+          ],
+          "summary": "virtualenv allows command injection through activation scripts for a virtual environment",
+          "cvss": "CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+        }
+      ]
+    },
+    {
+      "component": "watchfiles",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "0.21.0"
+      ],
+      "parsed_constraint": "0.21.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "websockets",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "12.0"
+      ],
+      "parsed_constraint": "12.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "wemake-python-styleguide",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^0.18.0"
+      ],
+      "parsed_constraint": "^0.18.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "wikipedia",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "^1.4.0"
+      ],
+      "parsed_constraint": "^1.4.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "win32-setctime",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.1.0"
+      ],
+      "parsed_constraint": "1.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "yarl",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "1.9.2"
+      ],
+      "parsed_constraint": "1.9.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "dev",
+      "ecosystem": "PyPI",
+      "version_constraints": [
+        "{'dependencies': {'dotmap': '^1.3.30', 'pytest-mock': '^3.10.0', 'pytest-asyncio': '^0.21.0', 'mypy': '^1.4.1', 'types-requests': '^2.31.0.1', 'types-pytz': '^2023.3.0.0'}}"
+      ],
+      "parsed_constraint": "{'dependencies': {'dotmap': '^1.3.30', 'pytest-mock': '^3.10.0', 'pytest-asyncio': '^0.21.0', 'mypy': '^1.4.1', 'types-requests': '^2.31.0.1', 'types-pytz': '^2023.3.0.0'}}",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@octokit/auth-basic",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.4.8"
+      ],
+      "parsed_constraint": "^1.4.8",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "@octokit/rest",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^20.0.2"
+      ],
+      "parsed_constraint": "^20.0.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "chalk",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^5.3.0"
+      ],
+      "parsed_constraint": "^5.3.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "clear",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.1.0"
+      ],
+      "parsed_constraint": "^0.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "clui",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^0.3.6"
+      ],
+      "parsed_constraint": "^0.3.6",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "configstore",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^6.0.0"
+      ],
+      "parsed_constraint": "^6.0.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "dotenv",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^16.3.1"
+      ],
+      "parsed_constraint": "^16.3.1",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "figlet",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.7.0"
+      ],
+      "parsed_constraint": "^1.7.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "inquirer",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^9.2.12"
+      ],
+      "parsed_constraint": "^9.2.12",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "minimist",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^1.2.8"
+      ],
+      "parsed_constraint": "^1.2.8",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "node-fetch",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.3.2"
+      ],
+      "parsed_constraint": "^3.3.2",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "simple-git",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.20.0"
+      ],
+      "parsed_constraint": "^3.20.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    },
+    {
+      "component": "touch",
+      "ecosystem": "npm",
+      "version_constraints": [
+        "^3.1.0"
+      ],
+      "parsed_constraint": "^3.1.0",
+      "vulnerable": false,
+      "vulnerabilities": []
+    }
+  ]
+}
