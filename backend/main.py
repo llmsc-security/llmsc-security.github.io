@@ -4,9 +4,10 @@ import os
 import time
 import math
 import re
+import urllib.parse
 from typing import List, Optional, Dict, Any
 from fastapi import FastAPI, Request, HTTPException, Query
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -26,6 +27,7 @@ app = FastAPI()
 GRPC_HOST = "localhost:6008"
 APPS_LIST_FILE = "data_dir/apps.txt"
 WORKSPACE_DIR = "/mnt/nvme/wj_code/dl_llmsc/SCA_workspace/lili_select_llm_app_100"
+VIDEO_MAP_FILENAME = "cve_video_map.json" 
 
 # --- CORS Configuration ---
 origins = [
@@ -145,6 +147,58 @@ class CVSSCalculator:
         except Exception:
             return 0.0, "Medium" 
 
+
+# --- Helper: Get Repo Path ---
+def get_repo_folder_path(url: str) -> Optional[str]:
+    """Converts a GitHub URL to the local filesystem path."""
+    if not url: return None
+    try:
+        clean_url = url.strip().rstrip('/')
+        if "github.com" in clean_url:
+            path_part = clean_url.split("github.com/")[-1]
+            parts = path_part.split('/')
+            
+            if len(parts) >= 2:
+                owner = parts[0]
+                repo_name = parts[1]
+                folder_name = f"{owner}__{repo_name}"
+                return os.path.join(WORKSPACE_DIR, folder_name)
+    except Exception:
+        pass
+    return None
+
+# --- Helper: Load Video Map (Combined) ---
+def load_combined_video_map(repo_path: Optional[str]) -> Dict[str, str]:
+    """
+    Loads video mappings from:
+    1. The 'backend' directory (global map)
+    2. The specific repo directory (repo-specific map)
+    Repo specific map overrides global map.
+    """
+    combined_map = {}
+    
+    # 1. Global Map (Relative to this main.py file)
+    global_map_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), VIDEO_MAP_FILENAME)
+    if os.path.exists(global_map_path):
+        try:
+            with open(global_map_path, "r", encoding="utf-8") as f:
+                combined_map.update(json.load(f))
+        except Exception as e:
+            print(f"Warning: Failed to load global video map: {e}")
+
+    # 2. Repo Specific Map
+    if repo_path:
+        repo_map_path = os.path.join(repo_path, VIDEO_MAP_FILENAME)
+        if os.path.exists(repo_map_path):
+            try:
+                with open(repo_map_path, "r", encoding="utf-8") as f:
+                    combined_map.update(json.load(f))
+            except Exception as e:
+                print(f"Warning: Failed to load repo video map: {e}")
+                
+    return combined_map
+
+
 # --- API Endpoints ---
 
 @app.get("/api/select_url.json")
@@ -153,56 +207,75 @@ async def get_select_urls():
         "candidates": APPS_CANDIDATES
     })
 
+@app.get("/api/result/video")
+async def get_poc_video(github_url: str = Query(...), cve_id: str = Query(...)):
+    """
+    Returns the PoC video content or Redirect.
+    """
+    repo_path = get_repo_folder_path(github_url)
+    # Note: We continue even if repo_path is None, to check global map
+    
+    video_map = load_combined_video_map(repo_path)
+    
+    # Check if CVE exists in map
+    mapped_value = video_map.get(cve_id)
+    if not mapped_value:
+        raise HTTPException(status_code=404, detail="No video mapped for this CVE")
+        
+    # CASE 1: External URL (Google Drive, etc.)
+    if mapped_value.startswith("http"):
+        return RedirectResponse(mapped_value)
+
+    # CASE 2: Local File
+    # Logic: If repo_path exists and file is there, use it.
+    # If not, check if it's relative to main.py (Global fallback)
+    
+    # Try Repo Path first
+    if repo_path:
+        video_full_path = os.path.join(repo_path, mapped_value)
+        if os.path.exists(video_full_path):
+            return FileResponse(video_full_path, media_type="video/mp4")
+
+    # Try Global Path (backend dir)
+    global_dir = os.path.dirname(os.path.abspath(__file__))
+    global_video_path = os.path.join(global_dir, mapped_value)
+    
+    if os.path.exists(global_video_path):
+        return FileResponse(global_video_path, media_type="video/mp4")
+        
+    raise HTTPException(status_code=404, detail="Video file mapped but not found on disk")
+
+
 @app.get("/api/results/architecture")
 async def get_architecture_results(url: Optional[str] = Query(None)):
-    """
-    Fetches architecture diagrams and layer information for a specific repository.
-    Reads from:
-    1. architecture_diagram.json
-    2. architecture_layers.json
-    """
     response_data = {}
+    repo_path = get_repo_folder_path(url)
     
-    if url:
+    if repo_path:
         try:
-            clean_url = url.strip().rstrip('/')
-            if "github.com" in clean_url:
-                path_part = clean_url.split("github.com/")[-1]
-                parts = path_part.split('/')
-                
-                if len(parts) >= 2:
-                    owner = parts[0]
-                    repo_name = parts[1]
-                    folder_name = f"{owner}__{repo_name}"
-                    
-                    # Define paths
-                    diagram_path = os.path.join(WORKSPACE_DIR, folder_name, "architecture_diagram.json")
-                    layers_path = os.path.join(WORKSPACE_DIR, folder_name, "architecture_layers.json")
-                    
-                    # 1. Load Architecture Diagram
-                    if os.path.exists(diagram_path):
-                        with open(diagram_path, "r", encoding="utf-8") as f:
-                            # architecture_diagram.json contains {"diagram": ...}
-                            response_data.update(json.load(f))
-                    else:
-                        response_data["diagram"] = None
-
-                    # 2. Load Architecture Layers
-                    if os.path.exists(layers_path):
-                        with open(layers_path, "r", encoding="utf-8") as f:
-                            # architecture_layers.json contains {"layers": ...}
-                            response_data.update(json.load(f))
-                    else:
-                        response_data["layers"] = None
-                        
-                else:
-                    print(f"Invalid GitHub URL structure: {url}")
+            # Define paths
+            diagram_path = os.path.join(repo_path, "architecture_diagram.json")
+            layers_path = os.path.join(repo_path, "architecture_layers.json")
+            
+            # 1. Load Architecture Diagram
+            if os.path.exists(diagram_path):
+                with open(diagram_path, "r", encoding="utf-8") as f:
+                    response_data.update(json.load(f))
             else:
-                 print(f"URL provided is not a GitHub URL: {url}")
+                response_data["diagram"] = None
 
+            # 2. Load Architecture Layers
+            if os.path.exists(layers_path):
+                with open(layers_path, "r", encoding="utf-8") as f:
+                    response_data.update(json.load(f))
+            else:
+                response_data["layers"] = None
+                
         except Exception as e:
             print(f"Error loading architecture results for {url}: {e}")
             return JSONResponse({"error": str(e)}, status_code=500)
+    else:
+        print(f"Invalid or missing URL: {url}")
 
     return JSONResponse(response_data)
 
@@ -210,45 +283,40 @@ async def get_architecture_results(url: Optional[str] = Query(None)):
 @app.get("/api/results/potential")
 async def get_potential_results(url: Optional[str] = Query(None)):
     sca_data = {"results": [], "meta": {}}
+    
+    repo_path = get_repo_folder_path(url)
+    
+    # Load Combined Map (Global + Repo)
+    video_map = load_combined_video_map(repo_path)
 
     # 1. Load Data Strategy (Disk + Cache)
-    if url:
+    if repo_path:
         try:
-            clean_url = url.strip().rstrip('/')
-            if "github.com" in clean_url:
-                path_part = clean_url.split("github.com/")[-1]
-                parts = path_part.split('/')
-                
-                if len(parts) >= 2:
-                    owner = parts[0]
-                    repo_name = parts[1]
-                    folder_name = f"{owner}__{repo_name}"
-                    json_path = os.path.join(WORKSPACE_DIR, folder_name, "sca_result_enriched.json")
-                    
-                    # Check Cache
-                    current_time = time.time()
-                    cached_entry = SCA_CACHE.get(json_path)
-                    
-                    if 1==2 and cached_entry and (current_time - cached_entry["timestamp"] < CACHE_TTL_SECONDS):
-                        print(f"Cache HIT for {folder_name}")
-                        sca_data = cached_entry["data"]
-                    else:
-                        if os.path.exists(json_path):
-                            print(f"Cache MISS (Loading disk) for {folder_name}")
-                            with open(json_path, "r", encoding="utf-8") as f:
-                                sca_data = json.load(f)
-                            SCA_CACHE[json_path] = {
-                                "data": sca_data,
-                                "timestamp": current_time
-                            }
-                        else:
-                            print(f"SCA Result File not found: {json_path}")
-            else:
-                print(f"Invalid GitHub URL format provided: {url}")
+            json_path = os.path.join(repo_path, "sca_result_enriched.json")
+
+            # Check Cache
+            current_time = time.time()
+            cached_entry = SCA_CACHE.get(json_path)
             
+            if 1==2 and cached_entry and (current_time - cached_entry["timestamp"] < CACHE_TTL_SECONDS):
+                print(f"Cache HIT for {json_path}")
+                sca_data = cached_entry["data"]
+            else:
+                if os.path.exists(json_path):
+                    with open(json_path, "r", encoding="utf-8") as f:
+                        sca_data = json.load(f)
+                    SCA_CACHE[json_path] = {
+                        "data": sca_data,
+                        "timestamp": current_time
+                    }
+                else:
+                    print(f"SCA Result File not found: {json_path}")
+        
         except Exception as e:
             print(f"Error loading SCA results for {url}: {e}")
             return JSONResponse({"error": str(e)}, status_code=500)
+    else:
+         print(f"Invalid GitHub URL format provided: {url}")
 
     # 2. Process & Deduplicate Logic
     results = sca_data.get("results", [])
@@ -282,30 +350,45 @@ async def get_potential_results(url: Optional[str] = Query(None)):
             cvss_vector = vuln.get("cvss", "")
             cvss_version = "Unknown"
             
-            # Determine Version
             if cvss_vector:
                 if "CVSS:3.1" in cvss_vector: cvss_version = "3.1"
                 elif "CVSS:3.0" in cvss_vector: cvss_version = "3.0"
                 elif "CVSS:2" in cvss_vector: cvss_version = "2.0"
 
-            # Calculate Score & Severity
             if cvss_vector and "CVSS:3" in cvss_vector:
                 score, severity_label = CVSSCalculator.calculate_score(cvss_vector)
             else:
                 score = 0
-                severity_label = "Medium" # Default if no vector
+                severity_label = "Medium"
+
+            # --- VIDEO MAPPING LOGIC ---
+            # Check for direct ID or Lookup ID in the combined map
+            mapped_val = video_map.get(display_id) or video_map.get(vuln.get("id"))
+            
+            poc_video_url = None
+            if mapped_val:
+                if mapped_val.startswith("http"):
+                    # Use external URL directly
+                    poc_video_url = mapped_val
+                else:
+                    # Construct API URL for local file
+                    if url and display_id:
+                        safe_gh = urllib.parse.quote(url)
+                        safe_cve = urllib.parse.quote(display_id)
+                        poc_video_url = f"/api/result/video?github_url={safe_gh}&cve_id={safe_cve}"
 
             formatted_data.append({
                 "component": component_name,
                 "ecosystem": ecosystem,
                 "version": clean_version,
-                "id": display_id, # This is the CVE if available, or GHSA otherwise
+                "id": display_id,
                 "summary": vuln.get("summary"),
                 "severity": severity_label, 
                 "score": score,
                 "cvss_version": cvss_version,
                 "cvss_vector": cvss_vector,
-                "lookup_id": vuln.get("id") # Keep original ID (GHSA) for API lookups
+                "lookup_id": vuln.get("id"),
+                "poc_video_url": poc_video_url 
             })
             
     return JSONResponse({

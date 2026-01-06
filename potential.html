@@ -42,13 +42,15 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink
 .main-content { display: flex; flex-direction: column; height: 100vh; overflow: hidden; position: relative; }
 
 /* HEADER */
-/* Fixed: Ensure header doesn't shrink */
 .header-wrapper { flex-shrink: 0; padding: 32px 32px 0 32px; background: var(--bg); z-index: 5; }
 .header { margin-bottom: 20px; }
 .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); margin-bottom: 16px; }
 .breadcrumb a { color: var(--primary); text-decoration: none; }
-.title-section { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-.title-section h1 { font-size: 32px; display: flex; align-items: center; gap: 12px; }
+.title-section { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 16px; }
+.title-left { display: flex; flex-direction: column; gap: 4px; }
+.title-left h1 { font-size: 32px; display: flex; align-items: center; gap: 12px; margin: 0; }
+.repo-label { color: var(--muted); font-family: monospace; font-size: 13px; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 5px; border: 1px solid var(--border); }
+
 .meta-info { display: flex; gap: 24px; flex-wrap: wrap; padding: 16px; background: var(--panel); border: 1px solid var(--border); border-radius: 12px; font-size: 14px; }
 .meta-item { display: flex; align-items: center; gap: 8px; }
 
@@ -65,13 +67,12 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink
 .tab-btn:hover { color: var(--ink); background: rgba(255,255,255,0.02); }
 .tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(99, 102, 241, 0.05); }
 
-/* CONTENT VIEWS & SCROLLING FIX */
+/* CONTENT VIEWS */
 .view-panel { 
     display: none; 
     flex-direction: column; 
-    /* FIX: Removed height: 100% which caused overflow */
     flex: 1; 
-    min-height: 0; /* Critical for nested flex scrolling */
+    min-height: 0; 
     width: 100%;
 }
 .view-panel.active { display: flex; }
@@ -79,7 +80,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink
 .scrollable-area { 
     flex: 1; 
     overflow-y: auto; 
-    padding: 0 32px 32px 32px; /* moved padding here */
+    padding: 0 32px 32px 32px; 
 }
 
 /* --- STATS & VULN TABLE STYLES --- */
@@ -91,7 +92,7 @@ body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--ink
 .table-container { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 40px; }
 .table-header-control { padding: 24px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
 table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 16px 24px; background: var(--bg-soft); color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; }
+th { text-align: left; padding: 16px 24px; background: var(--bg-soft); color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; position: sticky; top: 0; z-index: 2; }
 td { padding: 16px 24px; border-bottom: 1px solid var(--border); font-size: 14px; vertical-align: middle; }
 tr.main-row { cursor: pointer; transition: background 0.2s; }
 tr.main-row:hover { background: var(--bg-soft); }
@@ -120,6 +121,67 @@ tr.detail-row.visible { display: table-row; }
 .expanded .chevron { transform: rotate(180deg); }
 .loading-spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: var(--primary); animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* --- VIDEO MODAL STYLES --- */
+.video-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.2s ease;
+}
+.video-content {
+    position: relative;
+    width: 80%;
+    max-width: 960px;
+    background: #000;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    display: flex; flex-direction: column;
+}
+.video-header {
+    padding: 12px 16px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.video-title { font-weight: 600; color: var(--ink); font-size: 14px; }
+.close-video-btn {
+    background: transparent; border: none;
+    color: var(--muted); cursor: pointer;
+    font-size: 20px; line-height: 1;
+    padding: 4px; border-radius: 4px;
+    transition: all 0.2s;
+}
+.close-video-btn:hover { color: var(--danger); background: rgba(239, 68, 68, 0.1); }
+
+/* Unified Media Styles */
+.media-viewport { width: 100%; height: 60vh; max-height: 70vh; background: black; display: flex; align-items: center; justify-content: center; }
+video { width: 100%; height: 100%; display: none; }
+iframe { width: 100%; height: 100%; border: none; display: none; }
+
+/* The conditional button style */
+.poc-btn {
+    background: rgba(99, 102, 241, 0.1);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex; align-items: center; gap: 6px;
+    margin-right: 10px;
+}
+.poc-btn:hover { background: var(--primary); color: white; transform: translateY(-1px); }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 /* --- ARCHITECTURE VIEW STYLES --- */
 .arch-container { display: flex; height: 100%; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0d1117; }
@@ -170,7 +232,10 @@ tr.detail-row.visible { display: table-row; }
             <a href="index.html">Home</a><span>/</span><span>Scan Results</span>
         </div>
         <div class="title-section">
-            <h1><span style="font-size:32px">🛡️</span><span>Repository Analysis</span></h1>
+            <div class="title-left">
+                <h1><span style="font-size:32px">🛡️</span><span>Repository Analysis</span></h1>
+                <div id="repoLabel" class="repo-label">Loading...</div>
+            </div>
             <button class="btn" style="background:var(--primary); color:white; border:none; padding:10px 16px; border-radius:8px; cursor:pointer" onclick="refreshAll()">Refresh Data</button>
         </div>
         <div class="meta-info">
@@ -181,11 +246,11 @@ tr.detail-row.visible { display: table-row; }
     </div>
 
     <div class="tabs-container">
-        <button class="tab-btn active" id="btn-tab-vuln" onclick="switchTab('vuln')">
-            <span>🛡️</span> Vulnerabilities
-        </button>
         <button class="tab-btn" id="btn-tab-arch" onclick="switchTab('arch')">
             <span>🏗️</span> Architecture Map
+        </button>
+        <button class="tab-btn active" id="btn-tab-vuln" onclick="switchTab('vuln')">
+            <span>🛡️</span> Vulnerabilities
         </button>
     </div>
   </div>
@@ -224,11 +289,12 @@ tr.detail-row.visible { display: table-row; }
                 <th>Ecosystem</th>
                 <th>Severity / CVSS</th>
                 <th>Vulnerability ID</th>
+                <th>Proof of Concept</th>
                 <th>Summary</th>
             </tr>
             </thead>
             <tbody id="tableBody">
-            <tr><td colspan="6" style="text-align:center; padding: 40px; color: var(--muted)">Loading scan results...</td></tr>
+            <tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--muted)">Loading scan results...</td></tr>
             </tbody>
         </table>
         </div>
@@ -257,6 +323,22 @@ tr.detail-row.visible { display: table-row; }
 
 </main>
 
+<div id="videoModal" class="video-modal" onclick="closeVideo()">
+    <div class="video-content" onclick="event.stopPropagation()">
+        <div class="video-header">
+            <span class="video-title" id="videoTitle">Vulnerability PoC</span>
+            <button class="close-video-btn" onclick="closeVideo()">✕</button>
+        </div>
+        <div class="media-viewport">
+            <video id="pocVideoPlayer" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support video.
+            </video>
+            <iframe id="pocIframe" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
+
 <script>
 // --- GLOBAL CONFIGURATION ---
 const API_BASE_URL = "https://llmscapi.wj2ai.com";
@@ -271,6 +353,9 @@ window.addEventListener('DOMContentLoaded', () => {
     if (!url) url = sessionStorage.getItem('scanRepo') || "https://github.com/reworkd/AgentGPT";
     currentRepoUrl = url;
     
+    // Update Header
+    document.getElementById('repoLabel').textContent = currentRepoUrl;
+    
     // Initial Fetch for Vulnerabilities
     fetchVulnData();
 });
@@ -281,6 +366,61 @@ function refreshAll() {
         fetchArchitecture();
     }
 }
+
+// --- VIDEO MODAL LOGIC ---
+window.openVideo = (cveId, pocUrl, event) => {
+    if(event) event.stopPropagation();
+
+    const modal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('pocVideoPlayer');
+    const iframePlayer = document.getElementById('pocIframe');
+    const title = document.getElementById('videoTitle');
+
+    title.textContent = `Proof of Concept: ${cveId}`;
+    modal.style.display = 'flex';
+
+    let finalUrl = pocUrl;
+    
+    // Check if external (http/https)
+    const isExternal = finalUrl.startsWith("http://") || finalUrl.startsWith("https://");
+    
+    if (isExternal) {
+        // Use Iframe
+        videoPlayer.style.display = 'none';
+        iframePlayer.style.display = 'block';
+        iframePlayer.src = finalUrl;
+    } else {
+        // Use Native Video Player (Local MP4 via API)
+        iframePlayer.style.display = 'none';
+        videoPlayer.style.display = 'block';
+        
+        // Add API Base if needed
+        if (!finalUrl.startsWith("http")) {
+            finalUrl = `${API_BASE_URL}${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
+        }
+        
+        videoPlayer.src = finalUrl;
+        videoPlayer.play().catch(e => console.log("Auto-play prevented:", e));
+    }
+};
+
+window.closeVideo = () => {
+    const modal = document.getElementById('videoModal');
+    const videoPlayer = document.getElementById('pocVideoPlayer');
+    const iframePlayer = document.getElementById('pocIframe');
+    
+    videoPlayer.pause();
+    videoPlayer.src = "";
+    iframePlayer.src = "";
+    modal.style.display = 'none';
+};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === "Escape" && document.getElementById('videoModal').style.display === 'flex') {
+        closeVideo();
+    }
+});
+
 
 // --- TAB LOGIC ---
 window.switchTab = (tabId) => {
@@ -295,13 +435,12 @@ window.switchTab = (tabId) => {
     if (tabId === 'arch') {
         const output = document.getElementById('mermaid-output');
         if (!output.innerHTML) fetchArchitecture();
-        // Resize check for mermaid
         setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
     }
 };
 
 // ==========================================
-// PART 1: VULNERABILITY FUNCTIONS (Original)
+// PART 1: VULNERABILITY FUNCTIONS
 // ==========================================
 async function fetchVulnData() {
   try {
@@ -319,7 +458,7 @@ async function fetchVulnData() {
     renderTable(allData);
     updateStats(allData);
   } catch (error) {
-    document.getElementById('tableBody').innerHTML = `<tr><td colspan="6" style="text-align:center; padding: 40px; color: var(--danger)">Error loading data: ${error}</td></tr>`;
+    document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" style="text-align:center; padding: 40px; color: var(--danger)">Error loading data: ${error}</td></tr>`;
   }
 }
 
@@ -341,7 +480,7 @@ function updateStats(data) {
 function renderTable(data) {
   const tbody = document.getElementById('tableBody');
   if (!data || data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 40px">No vulnerabilities found!</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 40px">No vulnerabilities found!</td></tr>';
     return;
   }
 
@@ -351,6 +490,15 @@ function renderTable(data) {
     const ecoBadge = (item.ecosystem || "").toLowerCase() === 'npm' ? 'npm' : 'pypi';
     const displaySummary = item.summary || '<span style="opacity:0.6; font-style:italic">No summary provided</span>';
     const lookupId = item.lookup_id || item.id; 
+
+    // --- CHECK FOR VIDEO AVAILABILITY (UPDATED) ---
+    // Now checks for 'poc_video_url' string, not 'has_poc_video' boolean
+    const pocUrl = item.poc_video_url;
+
+    // Build Button
+    const pocButton = pocUrl
+        ? `<button class="poc-btn" onclick="openVideo('${item.id}', '${pocUrl}', event)"><span>▶</span> Watch PoC</button>`
+        : `<span style="opacity:0.3; font-size:12px; font-style:italic">—</span>`;
 
     return `
       <tr class="main-row" onclick="toggleRow(${index}, '${lookupId}')" id="row-${index}">
@@ -366,10 +514,13 @@ function renderTable(data) {
         <td>
           <div id="vid-${index}" style="font-weight:600; font-family:monospace; color:var(--primary)">${item.id}</div>
         </td>
+        <td>
+            ${pocButton}
+        </td>
         <td style="color:var(--muted); font-size:13px">${displaySummary}</td>
       </tr>
       <tr class="detail-row" id="detail-row-${index}">
-        <td colspan="6">
+        <td colspan="7">
           <div class="detail-content" id="detail-content-${index}"></div>
         </td>
       </tr>
@@ -414,14 +565,13 @@ async function toggleRow(index, cveId) {
                 affectedHTML = data.affected.map(aff => {
                     const pkg = aff.package ? aff.package.name : "Unknown";
                     let rangesStr = (aff.ranges || []).map(r => {
-                         const events = r.events.map(e => e.introduced ? `Intro: ${e.introduced}` : `Fixed: ${e.fixed}`).join(", ");
-                         return `<div><small style="color:var(--muted)">${r.type}:</small> ${events}</div>`;
+                          const events = r.events.map(e => e.introduced ? `Intro: ${e.introduced}` : `Fixed: ${e.fixed}`).join(", ");
+                          return `<div><small style="color:var(--muted)">${r.type}:</small> ${events}</div>`;
                     }).join("");
                     return `<div style="background:rgba(255,255,255,0.05); padding:8px; border-radius:4px; margin-bottom:8px"><strong>${pkg}</strong>${rangesStr}</div>`;
                 }).join("");
             } else affectedHTML = "No affected version info.";
 
-            // Build References
             const refsHTML = (data.references || []).map(ref => `<a href="${ref.url}" target="_blank">🔗 ${ref.url}</a>`).join("");
 
             contentDiv.innerHTML = `
@@ -466,7 +616,7 @@ function filterTable(query) {
 }
 
 // ==========================================
-// PART 2: ARCHITECTURE FUNCTIONS (New)
+// PART 2: ARCHITECTURE FUNCTIONS
 // ==========================================
 async function fetchArchitecture() {
     const encodedUrl = encodeURIComponent(currentRepoUrl);
@@ -478,16 +628,12 @@ async function fetchArchitecture() {
         if (!response.ok) throw new Error("Architecture API failed");
         const json = await response.json();
         
-        // 1. Render Graph
         const mmd = buildMermaidSyntax(json);
         window.mermaid.initialize({ startOnLoad: false, theme: 'dark', flowchart: { curve: 'basis' } });
         const { svg } = await window.mermaid.render('graphDiv', mmd);
         output.innerHTML = svg;
         
-        // 2. Render Details Side Panel
         renderArchDetails(json);
-        
-        // 3. Reset Zoom
         setTimeout(zoomReset, 100);
         
     } catch (e) {
@@ -501,7 +647,6 @@ function buildMermaidSyntax(data) {
     if (!data.diagram || !data.diagram.nodes) return 'graph TD\nError[Invalid Data]';
     let mmd = 'graph LR\n';
     
-    // Draw Nodes
     data.diagram.nodes.forEach(node => {
         const safeId = node.id.replace(/-/g, '_'); 
         const label = node.label || node.id;
@@ -515,7 +660,6 @@ function buildMermaidSyntax(data) {
         mmd += `  style ${safeId} fill:${fill},stroke:${stroke},color:#fff\n`;
     });
     
-    // Draw Edges
     if (data.diagram.edges) {
         data.diagram.edges.forEach(edge => {
             const src = edge.from.replace(/-/g, '_');
