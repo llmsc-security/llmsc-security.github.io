@@ -453,8 +453,12 @@ function startScan(type) {
       alert('Please select a valid repository from the list.');
       return;
     }
-    // Redirect to potential.html with URL param
-    window.location.href = 'potential.html?url=' + encodeURIComponent(repoUrl);
+    
+    // Generate timestamp for cache busting
+    const timestamp = Date.now();
+    
+    // Redirect to potential.html with URL param and timestamp
+    window.location.href = 'potential.html?url=' + encodeURIComponent(repoUrl) + '&r=' + timestamp;
   }
 }
 
