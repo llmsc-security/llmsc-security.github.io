@@ -153,6 +153,60 @@ async def get_select_urls():
         "candidates": APPS_CANDIDATES
     })
 
+@app.get("/api/results/architecture")
+async def get_architecture_results(url: Optional[str] = Query(None)):
+    """
+    Fetches architecture diagrams and layer information for a specific repository.
+    Reads from:
+    1. architecture_diagram.json
+    2. architecture_layers.json
+    """
+    response_data = {}
+    
+    if url:
+        try:
+            clean_url = url.strip().rstrip('/')
+            if "github.com" in clean_url:
+                path_part = clean_url.split("github.com/")[-1]
+                parts = path_part.split('/')
+                
+                if len(parts) >= 2:
+                    owner = parts[0]
+                    repo_name = parts[1]
+                    folder_name = f"{owner}__{repo_name}"
+                    
+                    # Define paths
+                    diagram_path = os.path.join(WORKSPACE_DIR, folder_name, "architecture_diagram.json")
+                    layers_path = os.path.join(WORKSPACE_DIR, folder_name, "architecture_layers.json")
+                    
+                    # 1. Load Architecture Diagram
+                    if os.path.exists(diagram_path):
+                        with open(diagram_path, "r", encoding="utf-8") as f:
+                            # architecture_diagram.json contains {"diagram": ...}
+                            response_data.update(json.load(f))
+                    else:
+                        response_data["diagram"] = None
+
+                    # 2. Load Architecture Layers
+                    if os.path.exists(layers_path):
+                        with open(layers_path, "r", encoding="utf-8") as f:
+                            # architecture_layers.json contains {"layers": ...}
+                            response_data.update(json.load(f))
+                    else:
+                        response_data["layers"] = None
+                        
+                else:
+                    print(f"Invalid GitHub URL structure: {url}")
+            else:
+                 print(f"URL provided is not a GitHub URL: {url}")
+
+        except Exception as e:
+            print(f"Error loading architecture results for {url}: {e}")
+            return JSONResponse({"error": str(e)}, status_code=500)
+
+    return JSONResponse(response_data)
+
+
 @app.get("/api/results/potential")
 async def get_potential_results(url: Optional[str] = Query(None)):
     sca_data = {"results": [], "meta": {}}
@@ -175,7 +229,7 @@ async def get_potential_results(url: Optional[str] = Query(None)):
                     current_time = time.time()
                     cached_entry = SCA_CACHE.get(json_path)
                     
-                    if cached_entry and (current_time - cached_entry["timestamp"] < CACHE_TTL_SECONDS):
+                    if 1==2 and cached_entry and (current_time - cached_entry["timestamp"] < CACHE_TTL_SECONDS):
                         print(f"Cache HIT for {folder_name}")
                         sca_data = cached_entry["data"]
                     else:
