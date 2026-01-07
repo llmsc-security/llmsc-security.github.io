@@ -185,24 +185,124 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
 
 /* --- ARCHITECTURE VIEW STYLES --- */
 .arch-container { display: flex; height: 100%; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0d1117; }
-.graph-pane { flex: 7; position: relative; border-right: 1px solid var(--border); overflow: hidden; cursor: grab; background: #0d1117; }
+.graph-pane { flex: 6; position: relative; border-right: 1px solid var(--border); overflow: hidden; cursor: grab; background: #0d1117; }
 .graph-pane:active { cursor: grabbing; }
 #zoom-layer { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; transform-origin: center center; transition: transform 0.1s ease-out; }
-.details-pane { flex: 3; background: var(--panel); overflow-y: auto; padding: 20px; min-width: 300px; border-left: 1px solid var(--border); }
+.details-pane { flex: 4; background: var(--panel); overflow-y: auto; padding: 0; min-width: 300px; border-left: 1px solid var(--border); display: flex; flex-direction: column; }
+.details-header { padding: 20px; background: var(--bg-soft); border-bottom: 1px solid var(--border); position: sticky; top:0; z-index: 10; }
+.details-body { padding: 20px; flex: 1; overflow-y: auto; }
 
-/* Arch Details */
-.layer-card { background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 15px; }
-.card-header { padding: 10px; background: #21262d; border-bottom: 1px solid var(--border); font-weight: 700; font-size: 13px; color: white; display: flex; justify-content: space-between; }
-.card-body { padding: 12px; }
-.tag { display: inline-block; background: #238636; color: white; padding: 2px 6px; border-radius: 4px; font-size: 11px; margin: 0 4px 4px 0; border: 1px solid rgba(255,255,255,0.1); }
-.file-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #2a2d42; font-family: monospace; font-size: 11px; color: #8b949e; }
-.file-path { color: #d2a8ff; margin-right: 8px; word-break: break-all; }
-.file-lines { color: #79c0ff; white-space: nowrap; }
+/* Arch Details Cards */
+.dep-card { 
+    background: rgba(255,255,255,0.03); 
+    border: 1px solid var(--border); 
+    border-radius: 8px; 
+    margin-bottom: 12px; 
+    padding: 12px; 
+    transition: all 0.2s;
+    position: relative;
+}
+
+/* INTERACTIVE (HAS TRACE) */
+.dep-card.has-trace {
+    cursor: pointer;
+}
+.dep-card.has-trace:hover { 
+    background: rgba(255,255,255,0.08); 
+    transform: translateX(4px);
+    border-color: var(--primary);
+}
+.dep-card.has-trace::after {
+    content: '›';
+    position: absolute;
+    right: 15px; top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px; color: var(--muted);
+    opacity: 0; transition: opacity 0.2s;
+}
+.dep-card.has-trace:hover::after { opacity: 1; }
+
+/* NON-INTERACTIVE (NO TRACE) */
+.dep-card.no-trace {
+    cursor: default;
+    opacity: 0.8;
+}
+
+.dep-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.dep-name { font-weight: 700; color: #e6e8f5; font-size: 13px; font-family: monospace; }
+.dep-ver { color: #9ca3c9; font-size: 11px; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
+.dep-meta { font-size: 11px; color: #6b7280; margin-top: 4px; display: flex; gap: 10px; }
 
 /* Arch Zoom Controls */
 .zoom-controls { position: absolute; bottom: 20px; left: 20px; display: flex; gap: 5px; z-index: 10; }
 .zoom-btn { width: 32px; height: 32px; background: var(--panel); border: 1px solid var(--border); color: white; border-radius: 4px; cursor: pointer; display: grid; place-items: center; font-size: 16px; }
 .zoom-btn:hover { background: var(--primary); border-color: var(--primary); }
+
+.load-more-btn {
+    width: 100%; padding: 10px;
+    background: var(--bg-soft); border: 1px dashed var(--muted);
+    color: var(--muted); cursor: pointer; border-radius: 8px;
+    margin-top: 15px; font-size: 12px;
+}
+.load-more-btn:hover { border-color: var(--primary); color: var(--primary); background: rgba(99,102,241,0.05); }
+
+/* --- TRACE MODAL STYLES --- */
+.trace-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 2100;
+    justify-content: center; align-items: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.2s ease;
+}
+.trace-content {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    width: 90%; max-width: 800px;
+    height: 80vh;
+    display: flex; flex-direction: column;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+}
+.trace-header {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    background: var(--panel);
+    border-radius: 12px 12px 0 0;
+}
+.trace-title { font-size: 16px; font-weight: 700; display:flex; gap:10px; align-items:center; }
+.trace-body { flex: 1; overflow-y: auto; padding: 20px; }
+.trace-item { margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 20px; }
+.trace-item:last-child { border:none; margin-bottom:0; padding-bottom:0; }
+
+.trace-file-path {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: #d2a8ff;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+}
+.trace-func-badge {
+    background: #238636; color: white;
+    padding: 2px 6px; border-radius: 4px;
+    font-size: 10px; font-weight: 600;
+}
+.trace-code-block {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    overflow-x: auto;
+    color: #e6e8f5;
+    position: relative;
+    border-left: 3px solid var(--primary);
+}
+.line-num { color: #6e7681; margin-right: 12px; user-select: none; }
+.code-text { color: #a5d6ff; }
 
 </style>
 </head>
@@ -315,7 +415,16 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
               </div>
           </div>
           <div class="details-pane" id="details-pane">
-              <div style="text-align:center; color:#666; margin-top:50px">Loading architecture data...</div>
+              <div class="details-header">
+                  <h3 id="detail-pane-title">Architecture Details</h3>
+                  <div style="font-size:12px; color:var(--muted); margin-top:5px">Select a component to view dependencies</div>
+              </div>
+              <div class="details-body" id="detail-list-container">
+                  <div style="text-align:center; color:#666; margin-top:50px">← Click a node in the graph</div>
+              </div>
+              <div style="padding: 10px 20px 20px 20px; display:none" id="load-more-container">
+                  <button class="load-more-btn" onclick="loadMoreDependencies()">Load More Dependencies...</button>
+              </div>
           </div>
       </div>
     </div>
@@ -339,10 +448,32 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
     </div>
 </div>
 
+<div id="traceModal" class="trace-modal" onclick="closeTraceModal()">
+    <div class="trace-content" onclick="event.stopPropagation()">
+        <div class="trace-header">
+            <div class="trace-title">
+                <span id="traceDepName">Dependency</span>
+                <span style="font-weight:400; color:var(--muted); font-size:13px" id="traceDepVersion"></span>
+            </div>
+            <button class="close-video-btn" onclick="closeTraceModal()">✕</button>
+        </div>
+        <div class="trace-body" id="traceBody">
+            </div>
+    </div>
+</div>
+
 <script>
 // --- GLOBAL CONFIGURATION ---
 const API_BASE_URL = "https://llmscapi.wj2ai.com";
 let currentRepoUrl = "";
+
+// Architecture Pagination State
+let currentActiveLayer = null;
+let currentDepPage = 1;
+const ITEMS_PER_PAGE = 20;
+
+// Store fetched dependencies to enable clicking for trace details
+window.currentLayerDeps = [];
 
 // Initialize on Load
 window.addEventListener('DOMContentLoaded', () => {
@@ -390,7 +521,7 @@ window.openVideo = (cveId, pocUrl, event) => {
         iframePlayer.style.display = 'block';
         iframePlayer.src = finalUrl;
     } else {
-        // Use Native Video Player (Local MP4 via API)
+        // Use Native Video Player
         iframePlayer.style.display = 'none';
         videoPlayer.style.display = 'block';
         
@@ -415,9 +546,55 @@ window.closeVideo = () => {
     modal.style.display = 'none';
 };
 
+
+// --- TRACE MODAL LOGIC ---
+window.openTraceModal = (depIndex) => {
+    const dep = window.currentLayerDeps[depIndex];
+    if (!dep) return;
+
+    const modal = document.getElementById('traceModal');
+    const titleName = document.getElementById('traceDepName');
+    const titleVer = document.getElementById('traceDepVersion');
+    const body = document.getElementById('traceBody');
+
+    titleName.textContent = dep.name;
+    titleVer.textContent = dep.version_constraints?.[0] || '';
+    modal.style.display = 'flex';
+    
+    body.innerHTML = ''; // Clear previous
+
+    if (!dep.used_in || dep.used_in.length === 0) {
+        body.innerHTML = `<div style="text-align:center; color:var(--muted); padding:40px">
+            <div style="font-size:24px; margin-bottom:10px">🔍</div>
+            No explicit code usage traces found for this dependency.
+        </div>`;
+        return;
+    }
+
+    dep.used_in.forEach(trace => {
+        const div = document.createElement('div');
+        div.className = 'trace-item';
+        div.innerHTML = `
+            <div class="trace-file-path">
+                <span>📄 ${trace.file}</span>
+                ${trace.function ? `<span class="trace-func-badge">${trace.function}()</span>` : ''}
+            </div>
+            <div class="trace-code-block">
+                <div><span class="line-num">${trace.call_line}</span><span class="code-text">${trace.call_expr}</span></div>
+            </div>
+        `;
+        body.appendChild(div);
+    });
+};
+
+window.closeTraceModal = () => {
+    document.getElementById('traceModal').style.display = 'none';
+};
+
 document.addEventListener('keydown', (e) => {
-    if (e.key === "Escape" && document.getElementById('videoModal').style.display === 'flex') {
-        closeVideo();
+    if (e.key === "Escape") {
+        if(document.getElementById('videoModal').style.display === 'flex') closeVideo();
+        if(document.getElementById('traceModal').style.display === 'flex') closeTraceModal();
     }
 });
 
@@ -491,8 +668,7 @@ function renderTable(data) {
     const displaySummary = item.summary || '<span style="opacity:0.6; font-style:italic">No summary provided</span>';
     const lookupId = item.lookup_id || item.id; 
 
-    // --- CHECK FOR VIDEO AVAILABILITY (UPDATED) ---
-    // Now checks for 'poc_video_url' string, not 'has_poc_video' boolean
+    // Checks for 'poc_video_url' string
     const pocUrl = item.poc_video_url;
 
     // Build Button
@@ -621,25 +797,36 @@ function filterTable(query) {
 async function fetchArchitecture() {
     const encodedUrl = encodeURIComponent(currentRepoUrl);
     const output = document.getElementById('mermaid-output');
-    const details = document.getElementById('details-pane');
     
     try {
         const response = await fetch(`${API_BASE_URL}/api/results/architecture?url=${encodedUrl}`);
         if (!response.ok) throw new Error("Architecture API failed");
         const json = await response.json();
         
+        // 1. Build & Render Graph
         const mmd = buildMermaidSyntax(json);
-        window.mermaid.initialize({ startOnLoad: false, theme: 'dark', flowchart: { curve: 'basis' } });
-        const { svg } = await window.mermaid.render('graphDiv', mmd);
+        window.mermaid.initialize({ 
+            startOnLoad: false, 
+            theme: 'dark', 
+            flowchart: { curve: 'basis' },
+            securityLevel: 'loose' 
+        });
+        
+        // Destructure bindFunctions from render result
+        const { svg, bindFunctions } = await window.mermaid.render('graphDiv', mmd);
         output.innerHTML = svg;
         
-        renderArchDetails(json);
-        setTimeout(zoomReset, 100);
+        // IMPORTANT: Bind click events after inserting SVG
+        if (bindFunctions) {
+            bindFunctions(output);
+        }
         
+        // 2. Initialize Zoom & Pan
+        setTimeout(zoomReset, 100);
+
     } catch (e) {
         console.error(e);
         output.innerHTML = `<div style="color:var(--danger); padding:20px">Failed to load architecture graph</div>`;
-        details.innerHTML = `<div style="color:#666; text-align:center; margin-top:50px">No data available</div>`;
     }
 }
 
@@ -647,19 +834,26 @@ function buildMermaidSyntax(data) {
     if (!data.diagram || !data.diagram.nodes) return 'graph TD\nError[Invalid Data]';
     let mmd = 'graph LR\n';
     
+    // Add Nodes
     data.diagram.nodes.forEach(node => {
         const safeId = node.id.replace(/-/g, '_'); 
         const label = node.label || node.id;
         mmd += `  ${safeId}(["${label}"])\n`;
         
+        // Styling
         let fill = "#161b22"; let stroke = "#30363d";
         if (node.id.toLowerCase().includes('user')) { fill = "#1f2937"; stroke = "#3b82f6"; }
         else if (node.id.toLowerCase().includes('llm')) { fill = "#360412"; stroke = "#ff5555"; }
         else if (node.id.toLowerCase().includes('orchestration')) { fill = "#362800"; stroke = "#d29922"; }
         
         mmd += `  style ${safeId} fill:${fill},stroke:${stroke},color:#fff\n`;
+        
+        // ** Click Event **
+        // Calls the window-scoped function 'onNodeClick' with the original ID
+        mmd += `  click ${safeId} call onNodeClick("${node.id}")\n`;
     });
     
+    // Add Edges
     if (data.diagram.edges) {
         data.diagram.edges.forEach(edge => {
             const src = edge.from.replace(/-/g, '_');
@@ -670,51 +864,119 @@ function buildMermaidSyntax(data) {
     return mmd;
 }
 
-function renderArchDetails(data) {
-    const pane = document.getElementById('details-pane');
-    pane.innerHTML = "";
+// --- NODE CLICK HANDLER ---
+window.onNodeClick = (layerId) => {
+    // 1. Reset State
+    currentActiveLayer = layerId;
+    currentDepPage = 1;
+    window.currentLayerDeps = []; // Reset stored dependencies
     
-    const layers = data.layers || {};
-    const order = data.diagram && data.diagram.nodes ? data.diagram.nodes.map(n => n.id) : Object.keys(layers);
+    // 2. Update Header
+    document.getElementById('detail-pane-title').textContent = `Layer: ${layerId}`;
     
-    order.forEach(layerId => {
-        const layer = layers[layerId];
-        if (!layer || layer.exists === false) return;
+    // 3. Clear List
+    const container = document.getElementById('detail-list-container');
+    container.innerHTML = `<div style="text-align:center; padding:20px"><div class="loading-spinner"></div> Loading dependencies...</div>`;
+    document.getElementById('load-more-container').style.display = 'none';
+
+    // 4. Fetch First Page
+    fetchLayerDependencies(layerId, 1);
+};
+
+// --- FETCH DEPENDENCIES (PAGINATED) ---
+async function fetchLayerDependencies(layerId, page) {
+    const encodedUrl = encodeURIComponent(currentRepoUrl);
+    const encodedLayer = encodeURIComponent(layerId);
+    
+    try {
+        const url = `${API_BASE_URL}/api/results/dependencies?url=${encodedUrl}&layer=${encodedLayer}&page=${page}&limit=${ITEMS_PER_PAGE}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch dependencies");
         
-        const files = layer.files || [];
-        const topFiles = files.slice(0, 8);
-        const remaining = files.length - 8;
+        const data = await response.json();
         
-        let fileListHtml = "";
-        if (files.length > 0) {
-            fileListHtml = `<ul class="file-list">` + topFiles.map(f => {
-                const parts = f.split(':');
-                const line = parts.length > 1 ? parts.pop() : '';
-                const path = parts.join(':');
-                return `<li class="file-item"><span class="file-path">${path}</span><span class="file-lines">${line}</span></li>`;
-            }).join('') + `</ul>`;
-            if (remaining > 0) fileListHtml += `<div style="text-align:center; font-size:10px; color:var(--primary); margin-top:5px">+ ${remaining} more files</div>`;
+        // Store data globally for the trace modal
+        if (page === 1) {
+            window.currentLayerDeps = data.items;
         } else {
-            fileListHtml = `<div style="font-style:italic; font-size:11px; color:#555">No specific files mapped</div>`;
+            window.currentLayerDeps = window.currentLayerDeps.concat(data.items);
         }
         
-        const comps = layer.components ? layer.components.map(c => `<span class="tag">${c}</span>`).join('') : '';
+        renderDependencyList(data.items, page === 1, page);
+        
+        // Handle Load More Button Visibility
+        const btnContainer = document.getElementById('load-more-container');
+        if (data.has_more) {
+            btnContainer.style.display = 'block';
+        } else {
+            btnContainer.style.display = 'none';
+        }
+
+    } catch (e) {
+        console.error(e);
+        const container = document.getElementById('detail-list-container');
+        container.innerHTML = `<div style="color:var(--danger); padding:20px; text-align:center">Error loading dependencies.<br>${e.message}</div>`;
+    }
+}
+
+function renderDependencyList(items, clearPrevious, page) {
+    const container = document.getElementById('detail-list-container');
+    
+    if (clearPrevious) {
+        container.innerHTML = "";
+    }
+    
+    if (!items || items.length === 0) {
+        if (clearPrevious) container.innerHTML = `<div style="text-align:center; color:var(--muted); padding:20px">No dependencies mapped to this layer.</div>`;
+        return;
+    }
+
+    items.forEach((dep, index) => {
+        // Calculate strict global index for the click handler
+        const globalIndex = (page - 1) * ITEMS_PER_PAGE + index;
+        
+        const ecoClass = (dep.type || "unknown").toLowerCase();
+        let reason = "Direct mapping";
+        if (dep.architecture_mapping && dep.architecture_mapping.mapped_layers && dep.architecture_mapping.mapped_layers.length > 0) {
+             reason = dep.architecture_mapping.mapped_layers[0].reason || reason;
+        }
+
+        // Determine if trace is available
+        const hasTrace = dep.used_in && dep.used_in.length > 0;
 
         const card = document.createElement('div');
-        card.className = 'layer-card';
+        
+        // Apply classes conditionally
+        if (hasTrace) {
+            card.className = 'dep-card has-trace';
+            card.setAttribute('onclick', `openTraceModal(${globalIndex})`);
+        } else {
+            card.className = 'dep-card no-trace';
+        }
+        
         card.innerHTML = `
-            <div class="card-header">
-                <span>${layerId}</span>
-                <span style="font-weight:400; color:#888; font-size:11px">${files.length} Files</span>
+            <div class="dep-header">
+                <span class="dep-name">${dep.name}</span>
+                <span class="dep-ver">${dep.version_constraints?.[0] || 'N/A'}</span>
             </div>
-            <div class="card-body">
-                <div style="margin-bottom:10px">${comps}</div>
-                ${fileListHtml}
+            <div style="font-size:12px; color:#c7cbe1; margin-bottom:6px">
+                Type: <span style="color:var(--primary)">${ecoClass}</span>
+            </div>
+            <div class="dep-meta">
+                <span>↳ ${reason}</span>
             </div>
         `;
-        pane.appendChild(card);
+        container.appendChild(card);
     });
 }
+
+// --- LOAD MORE HANDLER ---
+window.loadMoreDependencies = () => {
+    if (!currentActiveLayer) return;
+    currentDepPage += 1;
+    fetchLayerDependencies(currentActiveLayer, currentDepPage);
+}
+
 
 // --- ARCHITECTURE ZOOM ---
 let scale = 1, pX = 0, pY = 0;
@@ -728,7 +990,15 @@ window.zoomOut = () => { scale /= 1.2; setTransform(); };
 window.zoomReset = () => { scale = 0.9; pX = 0; pY = 0; setTransform(); };
 
 pane.addEventListener('wheel', e => { e.preventDefault(); scale *= (e.deltaY > 0 ? 0.9 : 1.1); setTransform(); });
-pane.addEventListener('mousedown', e => { isDrag = true; startX = e.clientX - pX; startY = e.clientY - pY; pane.style.cursor = 'grabbing'; });
+pane.addEventListener('mousedown', e => { 
+    // Prevent drag if clicking a node (SVG element)
+    if(e.target.closest('.node')) return; 
+    
+    isDrag = true; 
+    startX = e.clientX - pX; 
+    startY = e.clientY - pY; 
+    pane.style.cursor = 'grabbing'; 
+});
 window.addEventListener('mousemove', e => { if(!isDrag)return; pX = e.clientX - startX; pY = e.clientY - startY; setTransform(); });
 window.addEventListener('mouseup', () => { isDrag = false; pane.style.cursor = 'grab'; });
 

@@ -5,7 +5,7 @@ import time
 import math
 import re
 import urllib.parse
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from fastapi import FastAPI, Request, HTTPException, Query
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
@@ -48,8 +48,40 @@ app.add_middleware(
 )
 
 # --- Cache Configuration ---
-SCA_CACHE: Dict[str, Dict[str, Any]] = {}
+# Stores: { file_path: (timestamp, data) }
+SCA_CACHE: Dict[str, Tuple[float, Any]] = {}
 CACHE_TTL_SECONDS = 24 * 60 * 60  # 24 Hours
+
+def load_json_cached(file_path: str) -> Optional[Any]:
+    """
+    Helper to load JSON with in-memory caching.
+    1. Checks if file is in memory and valid (TTL).
+    2. If not, loads from disk, saves to memory, and returns.
+    """
+    if not file_path:
+        return None
+
+    current_time = time.time()
+    
+    # 1. Check Cache
+    if file_path in SCA_CACHE:
+        cached_time, cached_data = SCA_CACHE[file_path]
+        if current_time - cached_time < CACHE_TTL_SECONDS:
+            return cached_data
+
+    # 2. Load from Disk (Cache Miss)
+    if os.path.exists(file_path):
+        try:
+            with open(file_path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                # Store in Cache
+                SCA_CACHE[file_path] = (current_time, data)
+                return data
+        except Exception as e:
+            print(f"Error loading {file_path}: {e}")
+            return None
+            
+    return None
 
 # --- Startup Data Loading ---
 APPS_CANDIDATES = []
@@ -167,34 +199,27 @@ def get_repo_folder_path(url: str) -> Optional[str]:
         pass
     return None
 
-# --- Helper: Load Video Map (Combined) ---
+# --- Helper: Load Video Map (Combined & Cached) ---
 def load_combined_video_map(repo_path: Optional[str]) -> Dict[str, str]:
     """
-    Loads video mappings from:
-    1. The 'backend' directory (global map)
-    2. The specific repo directory (repo-specific map)
-    Repo specific map overrides global map.
+    Loads video mappings using the cached loader.
     """
     combined_map = {}
     
     # 1. Global Map (Relative to this main.py file)
     global_map_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), VIDEO_MAP_FILENAME)
-    if os.path.exists(global_map_path):
-        try:
-            with open(global_map_path, "r", encoding="utf-8") as f:
-                combined_map.update(json.load(f))
-        except Exception as e:
-            print(f"Warning: Failed to load global video map: {e}")
+    # Using Cache
+    global_data = load_json_cached(global_map_path)
+    if global_data:
+        combined_map.update(global_data)
 
     # 2. Repo Specific Map
     if repo_path:
         repo_map_path = os.path.join(repo_path, VIDEO_MAP_FILENAME)
-        if os.path.exists(repo_map_path):
-            try:
-                with open(repo_map_path, "r", encoding="utf-8") as f:
-                    combined_map.update(json.load(f))
-            except Exception as e:
-                print(f"Warning: Failed to load repo video map: {e}")
+        # Using Cache
+        repo_data = load_json_cached(repo_map_path)
+        if repo_data:
+            combined_map.update(repo_data)
                 
     return combined_map
 
@@ -213,7 +238,6 @@ async def get_poc_video(github_url: str = Query(...), cve_id: str = Query(...)):
     Returns the PoC video content or Redirect.
     """
     repo_path = get_repo_folder_path(github_url)
-    # Note: We continue even if repo_path is None, to check global map
     
     video_map = load_combined_video_map(repo_path)
     
@@ -227,10 +251,6 @@ async def get_poc_video(github_url: str = Query(...), cve_id: str = Query(...)):
         return RedirectResponse(mapped_value)
 
     # CASE 2: Local File
-    # Logic: If repo_path exists and file is there, use it.
-    # If not, check if it's relative to main.py (Global fallback)
-    
-    # Try Repo Path first
     if repo_path:
         video_full_path = os.path.join(repo_path, mapped_value)
         if os.path.exists(video_full_path):
@@ -248,26 +268,28 @@ async def get_poc_video(github_url: str = Query(...), cve_id: str = Query(...)):
 
 @app.get("/api/results/architecture")
 async def get_architecture_results(url: Optional[str] = Query(None)):
+    """
+    Returns the diagram structure and layer definitions.
+    Uses memory cache to avoid disk reads.
+    """
     response_data = {}
     repo_path = get_repo_folder_path(url)
     
     if repo_path:
         try:
-            # Define paths
+            # Load Diagram (Cached)
             diagram_path = os.path.join(repo_path, "architecture_diagram.json")
-            layers_path = os.path.join(repo_path, "architecture_layers.json")
-            
-            # 1. Load Architecture Diagram
-            if os.path.exists(diagram_path):
-                with open(diagram_path, "r", encoding="utf-8") as f:
-                    response_data.update(json.load(f))
+            diagram_data = load_json_cached(diagram_path)
+            if diagram_data:
+                response_data.update(diagram_data)
             else:
                 response_data["diagram"] = None
 
-            # 2. Load Architecture Layers
-            if os.path.exists(layers_path):
-                with open(layers_path, "r", encoding="utf-8") as f:
-                    response_data.update(json.load(f))
+            # Load Layer Definitions (Cached)
+            layers_path = os.path.join(repo_path, "architecture_layers.json")
+            layers_data = load_json_cached(layers_path)
+            if layers_data:
+                response_data.update(layers_data)
             else:
                 response_data["layers"] = None
                 
@@ -275,9 +297,67 @@ async def get_architecture_results(url: Optional[str] = Query(None)):
             print(f"Error loading architecture results for {url}: {e}")
             return JSONResponse({"error": str(e)}, status_code=500)
     else:
-        print(f"Invalid or missing URL: {url}")
+        return JSONResponse({"error": "Invalid URL or path not found"}, status_code=400)
 
     return JSONResponse(response_data)
+
+
+@app.get("/api/results/dependencies")
+async def get_dependencies(
+    url: Optional[str] = Query(None), 
+    layer: Optional[str] = Query(None),
+    page: int = Query(1, ge=1),
+    limit: int = Query(20, ge=1, le=100)
+):
+    """
+    Returns a paginated list of dependencies.
+    Optionally filters by 'layer'.
+    Uses memory cache.
+    """
+    repo_path = get_repo_folder_path(url)
+    all_dependencies = []
+
+    if repo_path:
+        try:
+            dep_path = os.path.join(repo_path, "dependency_architecture_mapping.json")
+            
+            # Load from Cache
+            cached_deps = load_json_cached(dep_path)
+            if cached_deps:
+                all_dependencies = cached_deps
+                
+        except Exception as e:
+             return JSONResponse({"error": f"Failed to load dependencies: {str(e)}"}, status_code=500)
+    
+    # 1. Filter by Layer (if provided)
+    filtered_items = []
+    if layer:
+        for dep in all_dependencies:
+            # Access nested mapping
+            arch_map = dep.get("architecture_mapping", {})
+            primary_layer = arch_map.get("mapped_primary_layer", "")
+            
+            # Case-insensitive check might be safer
+            if primary_layer.lower() == layer.lower():
+                filtered_items.append(dep)
+    else:
+        filtered_items = all_dependencies
+
+    # 2. Pagination Logic
+    total_items = len(filtered_items)
+    start_index = (page - 1) * limit
+    end_index = start_index + limit
+    
+    paginated_items = filtered_items[start_index:end_index]
+    has_more = end_index < total_items
+
+    return JSONResponse({
+        "page": page,
+        "limit": limit,
+        "total": total_items,
+        "has_more": has_more,
+        "items": paginated_items
+    })
 
 
 @app.get("/api/results/potential")
@@ -285,93 +365,62 @@ async def get_potential_results(url: Optional[str] = Query(None)):
     sca_data = {"results": [], "meta": {}}
     
     repo_path = get_repo_folder_path(url)
-    
-    # Load Combined Map (Global + Repo)
     video_map = load_combined_video_map(repo_path)
 
-    # 1. Load Data Strategy (Disk + Cache)
     if repo_path:
         try:
             json_path = os.path.join(repo_path, "sca_result_enriched.json")
-
-            # Check Cache
-            current_time = time.time()
-            cached_entry = SCA_CACHE.get(json_path)
-            
-            if 1==2 and cached_entry and (current_time - cached_entry["timestamp"] < CACHE_TTL_SECONDS):
-                print(f"Cache HIT for {json_path}")
-                sca_data = cached_entry["data"]
+            # Load from Cache
+            cached_sca = load_json_cached(json_path)
+            if cached_sca:
+                sca_data = cached_sca
             else:
-                if os.path.exists(json_path):
-                    with open(json_path, "r", encoding="utf-8") as f:
-                        sca_data = json.load(f)
-                    SCA_CACHE[json_path] = {
-                        "data": sca_data,
-                        "timestamp": current_time
-                    }
-                else:
+                if not os.path.exists(json_path):
                     print(f"SCA Result File not found: {json_path}")
-        
         except Exception as e:
-            print(f"Error loading SCA results for {url}: {e}")
             return JSONResponse({"error": str(e)}, status_code=500)
-    else:
-         print(f"Invalid GitHub URL format provided: {url}")
-
-    # 2. Process & Deduplicate Logic
+    
+    # Process Results
     results = sca_data.get("results", [])
     formatted_data = []
-    seen_vulnerabilities = set() # Track unique (Component, CVE_ID) pairs
+    seen_vulnerabilities = set()
 
     for item in results:
-        # Strict vulnerable check
         if not item.get("vulnerable"):
             continue
 
         component_name = item.get("component")
         ecosystem = item.get("ecosystem")
-        
-        # Clean Version (remove ^, ~, etc.)
         raw_version = item.get("parsed_constraint", "")
         clean_version = re.sub(r'[\^~>=<]', '', str(raw_version))
 
         for vuln in item.get("vulnerabilities", []):
-            # Prioritize CVE ID
             cve_list = vuln.get("cves", [])
             display_id = cve_list[0] if cve_list else vuln.get("id")
 
-            # Deduplication
             unique_key = (component_name, display_id)
             if unique_key in seen_vulnerabilities:
                 continue
             seen_vulnerabilities.add(unique_key)
 
-            # --- SEVERITY CALCULATION ---
+            # Severity
             cvss_vector = vuln.get("cvss", "")
             cvss_version = "Unknown"
-            
-            if cvss_vector:
-                if "CVSS:3.1" in cvss_vector: cvss_version = "3.1"
-                elif "CVSS:3.0" in cvss_vector: cvss_version = "3.0"
-                elif "CVSS:2" in cvss_vector: cvss_version = "2.0"
-
             if cvss_vector and "CVSS:3" in cvss_vector:
                 score, severity_label = CVSSCalculator.calculate_score(cvss_vector)
+                if "CVSS:3.1" in cvss_vector: cvss_version = "3.1"
+                elif "CVSS:3.0" in cvss_vector: cvss_version = "3.0"
             else:
                 score = 0
                 severity_label = "Medium"
 
-            # --- VIDEO MAPPING LOGIC ---
-            # Check for direct ID or Lookup ID in the combined map
+            # Video Mapping
             mapped_val = video_map.get(display_id) or video_map.get(vuln.get("id"))
-            
             poc_video_url = None
             if mapped_val:
                 if mapped_val.startswith("http"):
-                    # Use external URL directly
                     poc_video_url = mapped_val
                 else:
-                    # Construct API URL for local file
                     if url and display_id:
                         safe_gh = urllib.parse.quote(url)
                         safe_cve = urllib.parse.quote(display_id)
