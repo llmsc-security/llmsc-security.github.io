@@ -194,7 +194,6 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
 
 /* Arch Details Cards */
 .dep-card { 
-    background: rgba(255,255,255,0.03); 
     border: 1px solid var(--border); 
     border-radius: 8px; 
     margin-bottom: 12px; 
@@ -205,6 +204,7 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
 
 /* INTERACTIVE (HAS TRACE) */
 .dep-card.has-trace {
+    background: rgba(255,255,255,0.03); 
     cursor: pointer;
 }
 .dep-card.has-trace:hover { 
@@ -224,9 +224,13 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
 
 /* NON-INTERACTIVE (NO TRACE) */
 .dep-card.no-trace {
-    cursor: default;
-    opacity: 0.8;
+    cursor: not-allowed;
+    background: rgba(0, 0, 0, 0.2); /* Darker background */
+    border-color: transparent;
+    opacity: 0.7;
 }
+.dep-card.no-trace .dep-name { color: #6b7280; } /* Dimmed text */
+.dep-card.no-trace .dep-ver { opacity: 0.5; }
 
 .dep-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .dep-name { font-weight: 700; color: #e6e8f5; font-size: 13px; font-family: monospace; }
@@ -420,7 +424,7 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
                   <div style="font-size:12px; color:var(--muted); margin-top:5px">Select a component to view dependencies</div>
               </div>
               <div class="details-body" id="detail-list-container">
-                  <div style="text-align:center; color:#666; margin-top:50px">← Click a node in the graph</div>
+                  <div style="text-align:center; color:#666; margin-top:50px">← Click a component in the graph</div>
               </div>
               <div style="padding: 10px 20px 20px 20px; display:none" id="load-more-container">
                   <button class="load-more-btn" onclick="loadMoreDependencies()">Load More Dependencies...</button>
@@ -834,26 +838,47 @@ function buildMermaidSyntax(data) {
     if (!data.diagram || !data.diagram.nodes) return 'graph TD\nError[Invalid Data]';
     let mmd = 'graph LR\n';
     
-    // Add Nodes
+    // 1. Generate Subgraphs for Nodes
     data.diagram.nodes.forEach(node => {
-        const safeId = node.id.replace(/-/g, '_'); 
-        const label = node.label || node.id;
-        mmd += `  ${safeId}(["${label}"])\n`;
-        
-        // Styling
-        let fill = "#161b22"; let stroke = "#30363d";
-        if (node.id.toLowerCase().includes('user')) { fill = "#1f2937"; stroke = "#3b82f6"; }
-        else if (node.id.toLowerCase().includes('llm')) { fill = "#360412"; stroke = "#ff5555"; }
-        else if (node.id.toLowerCase().includes('orchestration')) { fill = "#362800"; stroke = "#d29922"; }
-        
-        mmd += `  style ${safeId} fill:${fill},stroke:${stroke},color:#fff\n`;
-        
-        // ** Click Event **
-        // Calls the window-scoped function 'onNodeClick' with the original ID
-        mmd += `  click ${safeId} call onNodeClick("${node.id}")\n`;
+        const layerId = node.id;
+        const safeLayerId = layerId.replace(/-/g, '_');
+
+        // Start Subgraph for the Layer
+        mmd += `  subgraph ${safeLayerId} ["${node.label || node.id}"]\n`;
+        mmd += `    direction TB\n`;
+
+        // Render components inside
+        if (node.components && node.components.length > 0) {
+            node.components.forEach((comp, idx) => {
+                const subNodeId = `${safeLayerId}_sub_${idx}`;
+                const label = comp.replace(/"/g, "'");
+                // Render node
+                mmd += `    ${subNodeId}(["${label}"])\n`;
+                // Style sub-node (darker background)
+                mmd += `    style ${subNodeId} fill:#1f2937,stroke:#374151,color:#fff\n`;
+                // Click event connects to the PARENT Layer ID
+                mmd += `    click ${subNodeId} call onNodeClick("${layerId}")\n`;
+            });
+        } else {
+            // Fallback if no components
+            const fallbackId = `${safeLayerId}_main`;
+            mmd += `    ${fallbackId}(["(No Components)"])\n`;
+            mmd += `    click ${fallbackId} call onNodeClick("${layerId}")\n`;
+        }
+
+        mmd += `  end\n`; // End Subgraph
+
+        // Style the Subgraph Border
+        let stroke = "#30363d";
+        if (layerId.toLowerCase().includes('user')) { stroke = "#3b82f6"; }
+        else if (layerId.toLowerCase().includes('llm')) { stroke = "#ff5555"; }
+        else if (layerId.toLowerCase().includes('orchestration')) { stroke = "#d29922"; }
+
+        // Use standard styling for the subgraph container
+        mmd += `  style ${safeLayerId} fill:#0d1117,stroke:${stroke},stroke-width:2px,color:#fff\n`;
     });
     
-    // Add Edges
+    // 2. Generate Edges (Connect Subgraphs)
     if (data.diagram.edges) {
         data.diagram.edges.forEach(edge => {
             const src = edge.from.replace(/-/g, '_');
