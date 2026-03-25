@@ -312,19 +312,20 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans
 </div>
 
 <script>
-// --- CONFIGURATION ---
-const API_BASE_URL = "https://llmscapi.wj2ai.com"; 
+// --- CONFIGURATION (OFFLINE MODE) ---
+// All data is served from local cache/ directory — no API calls needed.
+const CACHE_BASE = "cache";
 
 let validCandidates = [];
 
-// Fetch candidate URLs when page loads
+// Load candidate URLs from local cache
 async function fetchCandidates() {
   try {
-    const response = await fetch(`${API_BASE_URL}/api/select_url.json`);
+    const response = await fetch(`${CACHE_BASE}/select_url.json`);
     const data = await response.json();
     validCandidates = data.candidates || [];
   } catch (error) {
-    console.error("Failed to fetch repository candidates:", error);
+    console.error("Failed to load cached repository candidates:", error);
     validCandidates = [];
   }
 }

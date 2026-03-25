@@ -467,14 +467,35 @@ iframe { width: 100%; height: 100%; border: none; display: none; }
 </div>
 
 <script>
-// --- GLOBAL CONFIGURATION ---
-const API_BASE_URL = "https://llmscapi.wj2ai.com";
+// --- GLOBAL CONFIGURATION (OFFLINE MODE) ---
+// All data is served from local cache/ directory — zero API calls.
+const CACHE_BASE = "cache";
 let currentRepoUrl = "";
+
+// Convert a GitHub URL to cache key: "owner__repo"
+function urlToKey(url) {
+    if (!url) return "";
+    const clean = url.trim().replace(/\/+$/, "");
+    if (clean.includes("github.com")) {
+        const pathPart = clean.split("github.com/").pop();
+        const parts = pathPart.split("/");
+        if (parts.length >= 2) return parts[0] + "__" + parts[1];
+    }
+    return clean.replace(/[^a-zA-Z0-9]/g, "_");
+}
+
+// Sanitize CVE ID for filename
+function safeCveFilename(cveId) {
+    return cveId.replace(/[^\w\-.]/g, '_');
+}
 
 // Architecture Pagination State
 let currentActiveLayer = null;
 let currentDepPage = 1;
 const ITEMS_PER_PAGE = 20;
+
+// Full dependency cache for current repo (loaded once, filtered client-side)
+let _allDependenciesCache = null;
 
 // Store fetched dependencies to enable clicking for trace details
 window.currentLayerDeps = [];
@@ -487,7 +508,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // Fallback
     if (!url) url = sessionStorage.getItem('scanRepo') || "https://github.com/reworkd/AgentGPT";
     currentRepoUrl = url;
-    
+    _allDependenciesCache = null; // Reset dependency cache for new repo
+
     // Update Header
     document.getElementById('repoLabel').textContent = currentRepoUrl;
     
@@ -496,6 +518,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function refreshAll() {
+    _allDependenciesCache = null; // Reset dependency cache
     fetchVulnData();
     if(document.getElementById('view-arch').classList.contains('active')) {
         fetchArchitecture();
@@ -525,15 +548,11 @@ window.openVideo = (cveId, pocUrl, event) => {
         iframePlayer.style.display = 'block';
         iframePlayer.src = finalUrl;
     } else {
-        // Use Native Video Player
+        // Offline mode: local or unavailable videos
         iframePlayer.style.display = 'none';
         videoPlayer.style.display = 'block';
         
-        // Add API Base if needed
-        if (!finalUrl.startsWith("http")) {
-            finalUrl = `${API_BASE_URL}${finalUrl.startsWith('/') ? '' : '/'}${finalUrl}`;
-        }
-        
+        // In offline mode, video files would need to be saved locally
         videoPlayer.src = finalUrl;
         videoPlayer.play().catch(e => console.log("Auto-play prevented:", e));
     }
@@ -625,8 +644,8 @@ window.switchTab = (tabId) => {
 // ==========================================
 async function fetchVulnData() {
   try {
-    const encodedUrl = encodeURIComponent(currentRepoUrl);
-    const response = await fetch(`${API_BASE_URL}/api/results/potential?url=${encodedUrl}`);
+    const key = urlToKey(currentRepoUrl);
+    const response = await fetch(`${CACHE_BASE}/potential/${key}.json`);
     const result = await response.json();
     
     if (result.meta) {
@@ -732,7 +751,8 @@ async function toggleRow(index, cveId) {
     if (detailRow.classList.contains('visible') && !contentDiv.hasAttribute('data-loaded')) {
         contentDiv.innerHTML = `<div style="text-align:center; padding:20px"><div class="loading-spinner"></div> Loading details...</div>`;
         try {
-            const response = await fetch(`${API_BASE_URL}/api/cve/details?cve_id=${cveId}`);
+            const safeCve = safeCveFilename(cveId);
+            const response = await fetch(`${CACHE_BASE}/cve/${safeCve}.json`);
             if (!response.ok) throw new Error('Not found');
             const data = await response.json();
             
@@ -799,12 +819,12 @@ function filterTable(query) {
 // PART 2: ARCHITECTURE FUNCTIONS
 // ==========================================
 async function fetchArchitecture() {
-    const encodedUrl = encodeURIComponent(currentRepoUrl);
+    const key = urlToKey(currentRepoUrl);
     const output = document.getElementById('mermaid-output');
     
     try {
-        const response = await fetch(`${API_BASE_URL}/api/results/architecture?url=${encodedUrl}`);
-        if (!response.ok) throw new Error("Architecture API failed");
+        const response = await fetch(`${CACHE_BASE}/architecture/${key}.json`);
+        if (!response.ok) throw new Error("Architecture cache not found");
         const json = await response.json();
         
         // 1. Build & Render Graph
@@ -908,30 +928,54 @@ window.onNodeClick = (layerId) => {
     fetchLayerDependencies(layerId, 1);
 };
 
-// --- FETCH DEPENDENCIES (PAGINATED) ---
-async function fetchLayerDependencies(layerId, page) {
-    const encodedUrl = encodeURIComponent(currentRepoUrl);
-    const encodedLayer = encodeURIComponent(layerId);
-    
+// --- FETCH DEPENDENCIES (OFFLINE: CLIENT-SIDE FILTER + PAGINATION) ---
+async function _ensureDependenciesLoaded() {
+    if (_allDependenciesCache !== null) return _allDependenciesCache;
     try {
-        const url = `${API_BASE_URL}/api/results/dependencies?url=${encodedUrl}&layer=${encodedLayer}&page=${page}&limit=${ITEMS_PER_PAGE}`;
-        const response = await fetch(url);
-        if (!response.ok) throw new Error("Failed to fetch dependencies");
-        
+        const key = urlToKey(currentRepoUrl);
+        const response = await fetch(`${CACHE_BASE}/dependencies/${key}.json`);
+        if (!response.ok) throw new Error("Dependencies cache not found");
         const data = await response.json();
-        
+        _allDependenciesCache = data.items || [];
+    } catch (e) {
+        console.error("Failed to load dependency cache:", e);
+        _allDependenciesCache = [];
+    }
+    return _allDependenciesCache;
+}
+
+async function fetchLayerDependencies(layerId, page) {
+    try {
+        const allDeps = await _ensureDependenciesLoaded();
+
+        // Client-side filter by layer
+        let filtered = allDeps;
+        if (layerId) {
+            filtered = allDeps.filter(dep => {
+                const archMap = dep.architecture_mapping || {};
+                const primary = (archMap.mapped_primary_layer || "").toLowerCase();
+                return primary === layerId.toLowerCase();
+            });
+        }
+
+        // Client-side pagination
+        const start = (page - 1) * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+        const pageItems = filtered.slice(start, end);
+        const hasMore = end < filtered.length;
+
         // Store data globally for the trace modal
         if (page === 1) {
-            window.currentLayerDeps = data.items;
+            window.currentLayerDeps = pageItems;
         } else {
-            window.currentLayerDeps = window.currentLayerDeps.concat(data.items);
+            window.currentLayerDeps = window.currentLayerDeps.concat(pageItems);
         }
         
-        renderDependencyList(data.items, page === 1, page);
+        renderDependencyList(pageItems, page === 1, page);
         
         // Handle Load More Button Visibility
         const btnContainer = document.getElementById('load-more-container');
-        if (data.has_more) {
+        if (hasMore) {
             btnContainer.style.display = 'block';
         } else {
             btnContainer.style.display = 'none';
